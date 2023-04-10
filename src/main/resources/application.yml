@@ -1,9 +1,11 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spm
-    username: root
-    password:
+    url: jdbc:mysql://localhost:3306/${MYSQLDB_DATABASE}
+    username: ${MYSQLDB_USER}
+    password: ${MYSQLDB_ROOT_PASSWORD}
   jpa:
     hibernate.ddl-auto: create
     generate-ddl: true
