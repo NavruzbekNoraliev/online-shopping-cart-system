@@ -10,8 +10,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User {
     @jakarta.persistence.Id
