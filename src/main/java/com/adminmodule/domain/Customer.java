@@ -1,30 +1,23 @@
 package com.adminmodule.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
-@Setter
-@Getter
-@NoArgsConstructor
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Entity
+@Builder
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 
-public class Customer {
+public class Customer extends User{
 
-    @Id
-    private int customerId;
-
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private Address address;
-    private String username;
-    private String password;
-    private Role role;
-
-
+    @OneToOne
+    private Address shippingAddress;
+    @OneToOne
+    private Address billingAddress;
 
 }
