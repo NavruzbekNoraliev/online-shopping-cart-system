@@ -29,13 +29,4 @@ public class Vendor {
     @JoinColumn(name = "billing_address_id")
     private BillingAddress billingAddress;
 
-    //one to many with product and cascade all
-//    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
-//    private List<Product> products;
-
-    //add bank account
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_details_id")
-    private AccountDetails accountDetails;
-
 }
