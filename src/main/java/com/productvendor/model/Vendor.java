@@ -1,10 +1,16 @@
 package com.productvendor.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vendor {
 
     @Id
@@ -18,59 +24,18 @@ public class Vendor {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    //add billing address
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_address_id")
+    private BillingAddress billingAddress;
+
     //one to many with product and cascade all
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
-    private List<Product> products;
+//    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+//    private List<Product> products;
 
-    public Vendor() {
-    }
-
-    public Vendor(int id, String name, String phoneNumber, String email, Address address) {
-        this.id = id;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    //add bank account
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_details_id")
+    private AccountDetails accountDetails;
 
 }

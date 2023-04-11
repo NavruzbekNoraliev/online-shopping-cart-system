@@ -31,12 +31,12 @@ public class VendorController {
         return vendorService.addVendor(vendor);
     }
     //update vendor
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public Vendor updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
         return vendorService.updateVendor(id, vendor);
     }
     //delete vendor
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteVendor(@PathVariable Long id) {
         vendorService.deleteVendor(id);
     }
