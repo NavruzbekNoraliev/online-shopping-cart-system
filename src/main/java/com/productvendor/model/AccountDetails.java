@@ -21,4 +21,8 @@ public class AccountDetails {
 //    @JoinColumn(name = "address_id")
 //    private Address bankAddress;
 
+    @OneToOne
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
+
 }
