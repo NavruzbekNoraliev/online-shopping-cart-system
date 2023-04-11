@@ -98,13 +98,13 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByNameAndCategoryAndPriceBetween(name, category, min, max, pageable);
     }
     public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
-        return productRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return productRepository.findAll(Sort.by("price").ascending(), pageable);
     }
 
     public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
-        return productRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return productRepository.findAll(Sort.by("price").descending(), pageable);
     }
 
 }
