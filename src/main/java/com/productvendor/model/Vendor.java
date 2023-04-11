@@ -2,6 +2,8 @@ package com.productvendor.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Vendor {
 
@@ -12,9 +14,13 @@ public class Vendor {
     private String phoneNumber;
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    //one to many with product and cascade all
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+    private List<Product> products;
 
     public Vendor() {
     }
