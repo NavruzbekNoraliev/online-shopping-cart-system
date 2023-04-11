@@ -35,6 +35,12 @@ public class VendorServiceImpl implements VendorService {
         Vendor existingVendor = vendorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor", "id", id));
         existingVendor.setName(vendor.getName());
+        existingVendor.setPhoneNumber(vendor.getPhoneNumber());
+        existingVendor.setEmail(vendor.getEmail());
+        existingVendor.setAddress(vendor.getAddress());
+        existingVendor.setAccountDetails(vendor.getAccountDetails());
+        existingVendor.setBillingAddress(vendor.getBillingAddress());
+
         return vendorRepository.save(existingVendor);
     }
 

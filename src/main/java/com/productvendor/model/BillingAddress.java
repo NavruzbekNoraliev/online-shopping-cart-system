@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
-
+public class BillingAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,5 +20,4 @@ public class Address {
     private String city;
     private String state;
     private String zip;
-
 }
