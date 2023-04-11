@@ -21,7 +21,7 @@ public interface ProductService {
     Page<Product> getProductsByNameAndCategory(String name, Category category, int pageNumber, int pageSize);
     Page<Product> getProductsByPriceAndCategory(Category category, double min, double max, int pageNumber, int pageSize);
     Page<Product> getProductsByNameAndPriceAndCategory(String name, Category category, double min, double max, int pageNumber, int pageSize);
-    List<Product> sortProductsByPriceAsc(List<Product> products);
-    List<Product> sortProductsByPriceDesc(List<Product> products);
+//    List<Product> sortProductsByPriceAsc(List<Product> products);
+//    List<Product> sortProductsByPriceDesc(List<Product> products);
 
 }

@@ -97,15 +97,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @Override
-    public List<Product> sortProductsByPriceAsc(List<Product> products) {
-        Comparator<Product> compAsc = (p, q)-> (int) (p.getPrice()- q.getPrice());
-        return products.stream().sorted(compAsc).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Product> sortProductsByPriceDesc(List<Product> products) {
-        Comparator<Product> compDesc = (p, q)-> (int) (q.getPrice() - p.getPrice());
-        return products.stream().sorted(compDesc).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Product> sortProductsByPriceAsc(List<Product> products) {
+//        Comparator<Product> compAsc = (p, q)-> (int) (p.getPrice()- q.getPrice());
+//        return products.stream().sorted(compAsc).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public List<Product> sortProductsByPriceDesc(List<Product> products) {
+//        Comparator<Product> compDesc = (p, q)-> (int) (q.getPrice() - p.getPrice());
+//        return products.stream().sorted(compDesc).collect(Collectors.toList());
+//    }
 }
