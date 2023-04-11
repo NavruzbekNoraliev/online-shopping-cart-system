@@ -29,18 +29,18 @@ public class ProductController {
         Page<Product> products = productService.getAllProducts(pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
-    @GetMapping("/all-asc")
-    public ResponseEntity<Page<Product>> getAllProductsPriceAsc(@RequestParam(defaultValue = "0") int pageNumber,
-                                                        @RequestParam(defaultValue = "10") int pageSize) {
-        Page<Product> products = productService.getAllProductsSortedByPriceAsc(pageNumber, pageSize);
-        return ResponseEntity.ok(products);
-    }
-    @GetMapping("/all-desc")
-    public ResponseEntity<Page<Product>> getAllProductsPriceDesc(@RequestParam(defaultValue = "0") int pageNumber,
-                                                        @RequestParam(defaultValue = "10") int pageSize) {
-        Page<Product> products = productService.getAllProductsSortedByPriceDesc(pageNumber, pageSize);
-        return ResponseEntity.ok(products);
-    }
+//    @GetMapping("/all-asc")
+//    public ResponseEntity<Page<Product>> getAllProductsPriceAsc(@RequestParam(defaultValue = "0") int pageNumber,
+//                                                        @RequestParam(defaultValue = "10") int pageSize) {
+//        Page<Product> products = productService.getAllProductsSortedByPriceAsc(pageNumber, pageSize);
+//        return ResponseEntity.ok(products);
+//    }
+//    @GetMapping("/all-desc")
+//    public ResponseEntity<Page<Product>> getAllProductsPriceDesc(@RequestParam(defaultValue = "0") int pageNumber,
+//                                                        @RequestParam(defaultValue = "10") int pageSize) {
+//        Page<Product> products = productService.getAllProductsSortedByPriceDesc(pageNumber, pageSize);
+//        return ResponseEntity.ok(products);
+//    }
 
     //get all products by vendor
     @GetMapping("/vendor/{id}")
@@ -89,7 +89,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/filter2")
     public ResponseEntity<Page<Product>> getProductsByNameAndPrice(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                                    @RequestParam(name = "size", defaultValue = "10") int pageSize,
                                                                    @RequestParam(name = "name") String name,
@@ -99,7 +99,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/filter3")
     public ResponseEntity<Page<Product>> getProductsByNameAndCategory(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                                       @RequestParam(name = "size", defaultValue = "10") int pageSize,
                                                                       @RequestParam(name = "name") String name,
@@ -108,7 +108,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/filter4")
     public ResponseEntity<Page<Product>> getProductsByCategoryAndPrice(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                                        @RequestParam(name = "size", defaultValue = "10") int pageSize,
                                                                        @RequestParam(name = "pmin") double min,
@@ -118,7 +118,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/filter5")
     public ResponseEntity<Page<Product>> getProductsByNameAndCategoryAndPrice(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                                               @RequestParam(name = "size", defaultValue = "10") int pageSize,
                                                                               @RequestParam(name = "pmin") double min,

@@ -38,7 +38,7 @@ public class VendorServiceImpl implements VendorService {
         existingVendor.setPhoneNumber(vendor.getPhoneNumber());
         existingVendor.setEmail(vendor.getEmail());
         existingVendor.setAddress(vendor.getAddress());
-        existingVendor.setAccountDetails(vendor.getAccountDetails());
+//        existingVendor.setAccountDetails(vendor.getAccountDetails());
         existingVendor.setBillingAddress(vendor.getBillingAddress());
 
         return vendorRepository.save(existingVendor);

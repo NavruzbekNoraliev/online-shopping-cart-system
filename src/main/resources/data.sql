@@ -14,10 +14,10 @@ INSERT INTO account_details (id, account_number, routing_number, bank_name) VALU
                                                                                 (3, '555555555', '444444444', 'Chase');
 
 
-INSERT INTO vendor (id, name, phone_number, email, address_id, account_details_id, billing_address_id) VALUES
-                                                       (1, 'John Doe', '1234567890', 'johndoe@example.com', 1, 2, 2),
-                                                       (2, 'Jane Smith', '0987654321', 'janesmith@example.com', 2, 1, 1),
-                                                       (3, 'Ab', '0933654321', 'ab@example.com', 3, 3, 3);
+INSERT INTO vendor (id, name, phone_number, email, address_id, billing_address_id) VALUES
+                                                       (1, 'John Doe', '1234567890', 'johndoe@example.com', 1, 2),
+                                                       (2, 'Jane Smith', '0987654321', 'janesmith@example.com', 2, 1),
+                                                       (3, 'Ab', '0933654321', 'ab@example.com', 3, 3);
 
 # INSERT INTO vendor (id, name, phone_number, email, address_id, account_details_id) VALUES
 #                                                        (1, 'John Doe', '1234567890', 'abc@text.com', 1, 1);

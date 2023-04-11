@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface ProductService {
     Page<Product> getAllProducts(int pageNumber, int pageSize);
-    Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize);
-    Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize);
+//    Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize);
+//    Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize);
     List<Product> getProductsByVendor(Vendor vendor);
     Product getProductById(Long id);
     Product addProduct(Product product);

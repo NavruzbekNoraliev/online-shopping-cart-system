@@ -33,5 +33,5 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
     Page<Product> findAll(Pageable page);
 
-    Page<Product> findAll(Sort sort, Pageable page);
+//    Page<Product> findAll(Sort sort, Pageable page);
 }
