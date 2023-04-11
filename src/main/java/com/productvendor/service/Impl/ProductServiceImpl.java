@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -22,8 +23,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -95,17 +97,14 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByNameAndCategoryAndPriceBetween(name, category, min, max, pageable);
     }
+    public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
+        return productRepository.findAll(pageable);
+    }
 
+    public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
+        return productRepository.findAll(pageable);
+    }
 
-//    @Override
-//    public List<Product> sortProductsByPriceAsc(List<Product> products) {
-//        Comparator<Product> compAsc = (p, q)-> (int) (p.getPrice()- q.getPrice());
-//        return products.stream().sorted(compAsc).collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<Product> sortProductsByPriceDesc(List<Product> products) {
-//        Comparator<Product> compDesc = (p, q)-> (int) (q.getPrice() - p.getPrice());
-//        return products.stream().sorted(compDesc).collect(Collectors.toList());
-//    }
 }

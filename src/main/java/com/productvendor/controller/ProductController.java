@@ -24,8 +24,22 @@ public class ProductController {
 
     //get all products
     @GetMapping("/all")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
+                                        @RequestParam(defaultValue = "10") int pageSize) {
+        Page<Product> products = productService.getAllProducts(pageNumber, pageSize);
+        return ResponseEntity.ok(products);
+    }
+    @GetMapping("/all-asc")
+    public ResponseEntity<Page<Product>> getAllProductsPriceAsc(@RequestParam(defaultValue = "0") int pageNumber,
+                                                        @RequestParam(defaultValue = "10") int pageSize) {
+        Page<Product> products = productService.getAllProductsSortedByPriceAsc(pageNumber, pageSize);
+        return ResponseEntity.ok(products);
+    }
+    @GetMapping("/all-desc")
+    public ResponseEntity<Page<Product>> getAllProductsPriceDesc(@RequestParam(defaultValue = "0") int pageNumber,
+                                                        @RequestParam(defaultValue = "10") int pageSize) {
+        Page<Product> products = productService.getAllProductsSortedByPriceDesc(pageNumber, pageSize);
+        return ResponseEntity.ok(products);
     }
 
     //get all products by vendor
