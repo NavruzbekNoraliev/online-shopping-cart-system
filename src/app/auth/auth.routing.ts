@@ -7,5 +7,5 @@ export const authRoutes: Routes = [
     { path: '', pathMatch:'full', redirectTo: 'login'},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: UserSignupComponent },
-    { path: 'vendor-registration', component: VendorSignupComponent}
+    { path: 'vendor-register', component: VendorSignupComponent}
 ]
