@@ -3,8 +3,10 @@ package com.productvendor.service.Impl;
 import com.productvendor.model.Category;
 import com.productvendor.model.Product;
 import com.productvendor.model.Vendor;
+import com.productvendor.repository.CategoryRepo;
 import com.productvendor.repository.ProductRepo;
 import com.productvendor.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,10 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepo productRepository;
+
+    private final ProductRepo productRepository;
+    private final CategoryRepo categoryRepo;
 
     @Override
     public Page<Product> getAllProducts(int pageNumber, int pageSize) {
@@ -63,7 +67,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductsByCategory(Category category, int pageNumber, int pageSize) {
+    public Page<Product> getProductsByCategory(long categoryId, int pageNumber, int pageSize) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByCategory(category, pageable);
     }
@@ -81,30 +87,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductsByNameAndCategory(String name, Category category, int pageNumber, int pageSize) {
+    public Page<Product> getProductsByNameAndCategory(String name, long categoryId,  int pageNumber, int pageSize) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByNameAndCategory(name, category, pageable);
     }
 
     @Override
-    public Page<Product> getProductsByPriceAndCategory(Category category, double min, double max, int pageNumber, int pageSize) {
+    public Page<Product> getProductsByPriceAndCategory(long categoryId,  double min, double max, int pageNumber, int pageSize) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByCategoryAndPriceBetween(category, min, max, pageable);
     }
 
     @Override
-    public Page<Product> getProductsByNameAndPriceAndCategory(String name, Category category, double min, double max, int pageNumber, int pageSize) {
+    public Page<Product> getProductsByNameAndPriceAndCategory(String name, long categoryId,  double min, double max, int pageNumber, int pageSize) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByNameAndCategoryAndPriceBetween(name, category, min, max, pageable);
     }
-//    public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
-//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-//        return productRepository.findAll(Sort.by("price").ascending(), pageable);
-//    }
+    public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
+        return productRepository.findAll(pageable);
+    }
 
-//    public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
-//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-//        return productRepository.findAll(Sort.by("price").descending(), pageable);
-//    }
+    public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
+        return productRepository.findAll(pageable);
+    }
 
 }
