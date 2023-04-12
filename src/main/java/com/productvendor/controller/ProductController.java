@@ -77,7 +77,7 @@ public class ProductController {
     public ResponseEntity<Page<Product>> getProductsByCategory(@RequestParam(defaultValue = "0") int pageNumber,
                                                                @RequestParam(defaultValue = "10") int pageSize,
                                                                @RequestBody Long categoryId) {
-        Page<Product> products = productService.getProductsByCategory(categoryId, pageNumber, pageSize);
+        Page<Product> products = productService.getProductsByCategory(categoryId.longValue(), pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
 //
@@ -148,15 +148,15 @@ public class ProductController {
             return ResponseEntity.ok(products);
         } else if (name != null && minPrice == null && maxPrice == null && categoryId != null) {
             // Call getProductsByNameAndCategory
-            Page<Product> products = productService.getProductsByNameAndCategory(name, categoryId, pageNumber, pageSize);
+            Page<Product> products = productService.getProductsByNameAndCategory(name, categoryId.longValue(), pageNumber, pageSize);
             return ResponseEntity.ok(products);
         } else if (name == null && minPrice != null && maxPrice != null && categoryId != null) {
             // Call getProductsByPriceAndCategory
-            Page<Product> products = productService.getProductsByPriceAndCategory(categoryId, minPrice, maxPrice, pageNumber, pageSize);
+            Page<Product> products = productService.getProductsByPriceAndCategory(categoryId.longValue(), minPrice, maxPrice, pageNumber, pageSize);
             return ResponseEntity.ok(products);
         } else if (name != null && minPrice != null && maxPrice != null && categoryId != null) {
             // Call getProductsByNameAndPriceAndCategory
-            Page<Product> products = productService.getProductsByNameAndPriceAndCategory(name, categoryId, minPrice, maxPrice, pageNumber, pageSize);
+            Page<Product> products = productService.getProductsByNameAndPriceAndCategory(name, categoryId.longValue(), minPrice, maxPrice, pageNumber, pageSize);
             return ResponseEntity.ok(products);
         } else {
             // Invalid combination of parameters
