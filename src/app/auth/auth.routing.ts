@@ -6,6 +6,6 @@ import { VendorSignupComponent } from "./register/vendor-signup/vendor-signup.co
 export const authRoutes: Routes = [
     { path: '', pathMatch:'full', redirectTo: 'login'},
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: UserSignupComponent },
-    { path: 'vendor-register', component: VendorSignupComponent}
+    { path: 'customer-register', component: UserSignupComponent },
+    { path: 'vendor-register', component: VendorSignupComponent},
 ]

@@ -1,0 +1,30 @@
+.user-register {
+    text-align: center;
+    padding: 4rem;
+    margin: 4rem;
+    color: #03412a;
+    font-family: 'lato';
+}
+
+p {
+    font-size: small;
+}
+
+.sign-in {
+    margin-bottom: 2rem;
+}
+
+.col-md-6 {
+    border: 2px solid #03412a;
+    padding: 3rem;
+}
+
+.form-group {
+    margin: 0.5rem;
+    display: inline-block;
+}
+
+.btn {
+    background-color: #03412a;
+    color: azure;
+}

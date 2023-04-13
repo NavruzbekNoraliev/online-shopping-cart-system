@@ -1,0 +1,31 @@
+.vendor-register {
+    text-align: center;
+    padding: 3rem;
+    margin: 5rem;
+    color: #03412a;
+    font-family: 'lato';
+    
+}
+
+.col-md-6 {
+    border: 2px solid #03412a;
+    padding: 3rem;
+}
+
+p {
+    font-size: small;
+}
+
+.sign-in {
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    background-color: #03412a;
+    color: azure;
+}

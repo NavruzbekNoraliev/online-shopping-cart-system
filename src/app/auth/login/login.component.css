@@ -1,0 +1,48 @@
+.login {
+    text-align: center;
+    padding: 50px;
+    color: #03412a;
+    font-family: 'lato';
+}
+
+p {
+    font-size: small;
+}
+
+.welcome {
+    margin-bottom: 2rem;
+}
+
+.whole-form {
+    border: 1px solid #03412a;
+    margin-top: 4rem;
+    padding: 2rem;
+}
+
+.login-form {
+    float: left;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    color: azure;
+    background-color: #03412a;
+}
+
+.btn-sm {
+    margin-right: 1rem;
+}
+
+img {
+    width: 60%;
+    float: right;
+}
+
+.register {
+    margin-top: 3rem;
+}

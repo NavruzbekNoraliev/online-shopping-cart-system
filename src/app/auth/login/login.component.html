@@ -1,3 +1,41 @@
-<p>
-  login works!
-</p>
+<div class="login container">
+
+    <div class="row">
+        <div class="whole-form col-md-12 mx-auto">
+            <div class="login-form col-sm-4">
+                <div class="welcome">
+                    <h2>Welcome! ＾－＾
+                    </h2>
+                    <p> Please enter your details to login. </p>
+                 </div>
+                <form >
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" placeholder = "Enter email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" placeholder="Enter password">
+                    </div>
+
+                    <div class="mt-4">
+                        <button  type="submit" class="btn">Login</button>
+                    </div>
+                    <div class="register">
+                        <p>Don't have an account?</p>
+                        <div class="mt-4">
+                            <button (click)="navigateToCustomerSignIn()" type="submit" class="btn btn-sm">Customer Register</button>
+                            <button (click)="navigateToVendorSignIn()" type="submit" class="btn btn-sm">Vendor Register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-xs-6">
+                <img src="assets/online-sell.jpg" alt="onlinesell-image">
+            </div>
+        </div>
+    </div>
+
+</div>
