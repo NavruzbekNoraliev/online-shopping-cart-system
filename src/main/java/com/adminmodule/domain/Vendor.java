@@ -12,11 +12,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Vendor {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vendorId", nullable = false)
-    private Long id;
-    private String vendorName;
+    private int id;
+    private String name;
+    private String phoneNumber;
+    private String email;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    //add billing address
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_address_id")
+    private Address billingAddress;
+
+    @OneToOne
+    @JoinColumn(name = "account_detail_id")
+    private AccountDetails accountDetails;
 
 }

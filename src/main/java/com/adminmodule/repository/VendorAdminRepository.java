@@ -1,6 +1,13 @@
 package com.adminmodule.repository;
 
+import com.adminmodule.domain.VendorAdmin;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VendorAdminRepository {
+import java.util.Optional;
 
+@Repository
+public interface VendorAdminRepository extends JpaRepository<VendorAdmin, Long> {
+
+    Optional<VendorAdmin> findByEmail(String email);
 }

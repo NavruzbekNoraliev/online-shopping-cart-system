@@ -1,5 +1,5 @@
 package com.adminmodule.domain.Enum;
 
 public enum RoleType {
-    ADMIN, CUSTOMER, VENDOR
+    ADMIN, CUSTOMER, VENDOR_ADMIN
 }

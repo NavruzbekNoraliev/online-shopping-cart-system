@@ -22,7 +22,7 @@ public class RoleSeed implements CommandLineRunner {
         if (roleRepository.count() == 0) {
             Role data1 = new Role(ADMIN);
             Role data2 = new Role(CUSTOMER);
-            Role data3 = new Role(VENDOR);
+            Role data3 = new Role(VENDOR_ADMIN);
 
             roleRepository.save(data1);
             roleRepository.save(data2);

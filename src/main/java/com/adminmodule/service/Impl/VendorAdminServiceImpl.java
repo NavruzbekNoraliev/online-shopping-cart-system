@@ -1,45 +1,106 @@
-//package com.adminmodule.service.Impl;
-//
-//import com.adminmodule.domain.User;
-//import com.adminmodule.repository.UserRepo;
-//import com.adminmodule.service.VendorAdminService;
-//import com.adminmodule.service.dto.UserDTO;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//
-//@Service
-//public class VendorAdminServiceImpl implements VendorAdminService {
-//
-//   private final UserRepo userRepo;
-//
-//   @Autowired
-//    public VendorAdminServiceImpl(UserRepo userRepo) {
-//       this.userRepo = userRepo;
-//   }
-//    @Override
-//    public List<User> getAllVendorAdmins() {
-//        return null;
-//    }
-//
-//    @Override
-//    public User getVendorAdminById(Long id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public UserDTO addVendorAdmin(UserDTO userDTO) {
-//        return null;
-//    }
-//
-//    @Override
-//    public UserDTO updateVendorAdmin(UserDTO userDTO) {
-//        return null;
-//    }
-//
-//    @Override
-//    public void deleteVendorAdmin(Long id) {
-//
-//    }
-//}
+package com.adminmodule.service.Impl;
+
+import com.adminmodule.domain.Account;
+import com.adminmodule.domain.Enum.RoleType;
+import com.adminmodule.domain.Role;
+import com.adminmodule.domain.VendorAdmin;
+import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
+import com.adminmodule.repository.AccountRepository;
+import com.adminmodule.repository.RoleRepository;
+import com.adminmodule.repository.VendorAdminRepository;
+import com.adminmodule.service.VendorAdminService;
+import com.adminmodule.service.dto.VendorAdminAdapter;
+import com.adminmodule.service.dto.VendorAdminDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+@Service
+public class VendorAdminServiceImpl implements VendorAdminService {
+
+   private final VendorAdminRepository vendorAdminRepository;
+   private final RoleRepository roleRepository;
+   private final AccountRepository accountRepository;
+
+   PasswordEncoder passwordEncoder;
+
+   @Autowired
+    public VendorAdminServiceImpl(VendorAdminRepository vendorAdminRepository,
+                                  RoleRepository roleRepository,
+                                  AccountRepository accountRepository
+                                  ) {
+        this.vendorAdminRepository = vendorAdminRepository;
+        this.roleRepository = roleRepository;
+        this.accountRepository = accountRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
+   }
+
+    @Override
+    public List<VendorAdmin> getAllVendorAdmins() {
+       return vendorAdminRepository.findAll();
+    }
+
+    @Override
+    public VendorAdminDTO getVendorAdminById(Long id) {
+        Optional<VendorAdmin> vendorAdmin = vendorAdminRepository.findById(id);
+
+        if(vendorAdmin.isPresent()){
+            return VendorAdminAdapter.toDTO(vendorAdmin.get());
+        }else{
+            throw new UserNotFoundException("Employee not found");
+        }
+    }
+
+    @Override
+    public VendorAdminDTO addVendorAdmin(VendorAdminDTO vendorAdminDTO) {
+        Optional<VendorAdmin> vendorAdminOptional = vendorAdminRepository.findByEmail(vendorAdminDTO.getEmail());
+        if(vendorAdminOptional.isPresent()){
+            throw new UserBadRequestException("VendorAdmin already exists");
+        }
+        VendorAdmin vendorAdmin = VendorAdminAdapter.fromDTO(vendorAdminDTO);
+
+        Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        vendorAdmin.getAccount().setRoles(roles);
+
+        vendorAdmin.getAccount().setPassword(this.passwordEncoder.encode(vendorAdmin.getAccount().getPassword()));
+        vendorAdmin.getAccount().setUsername(vendorAdmin.getEmail());
+
+        Account account = accountRepository.save(vendorAdmin.getAccount());
+        vendorAdmin.setAccount(account);
+
+        VendorAdmin savedVendorAdmin = vendorAdminRepository.save(vendorAdmin);
+
+        return VendorAdminAdapter.toDTO(savedVendorAdmin);
+    }
+
+    @Override
+    public VendorAdminDTO updateVendorAdmin(Long id, VendorAdminDTO vendorAdminDTO) {
+        Optional<VendorAdmin> vendorAdminOptional = vendorAdminRepository.findById(id);
+        if(vendorAdminOptional.isPresent()) {
+            VendorAdmin vendorAdmin = vendorAdminOptional.get();
+            vendorAdmin.setFirstName(vendorAdminDTO.getFirstName());
+            vendorAdmin.setLastName(vendorAdminDTO.getLastName());
+            vendorAdmin.setPhone(vendorAdminDTO.getPhone());
+            VendorAdmin savedEmployee = vendorAdminRepository.save(vendorAdmin);
+            return VendorAdminAdapter.toDTO(savedEmployee);
+        }else{
+            throw new UserNotFoundException("Employee not found");
+        }
+
+    }
+
+    @Override
+    public void deleteVendorAdmin(Long id) {
+
+       vendorAdminRepository.deleteById(id);
+    }
+}

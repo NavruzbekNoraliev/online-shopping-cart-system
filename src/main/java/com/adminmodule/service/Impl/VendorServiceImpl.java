@@ -1,7 +1,55 @@
 package com.adminmodule.service.Impl;
 
+import com.adminmodule.domain.Vendor;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
+import com.adminmodule.repository.VendorRepository;
+import com.adminmodule.service.VendorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class VendorServiceImpl {
+public class VendorServiceImpl implements VendorService {
+
+
+    private final VendorRepository vendorRepository;
+    @Autowired
+    public VendorServiceImpl(VendorRepository vendorRepository) {
+        this.vendorRepository = vendorRepository;
+    }
+    @Override
+    public List<Vendor> getAllVendors() {
+        return vendorRepository.findAll();
+    }
+
+    @Override
+    public Vendor getVendorById(Long id) {
+        return vendorRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
+    }
+
+    @Override
+    public Vendor addVendor(Vendor vendor) {
+        return vendorRepository.save(vendor);
+    }
+
+    @Override
+    public Vendor updateVendor(Long id, Vendor vendor) {
+        Vendor existingVendor = vendorRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
+        existingVendor.setName(vendor.getName());
+        existingVendor.setPhoneNumber(vendor.getPhoneNumber());
+        existingVendor.setEmail(vendor.getEmail());
+        existingVendor.setAddress(vendor.getAddress());
+//        existingVendor.setAccountDetails(vendor.getAccountDetails());
+        existingVendor.setBillingAddress(vendor.getBillingAddress());
+
+        return vendorRepository.save(existingVendor);
+    }
+
+    @Override
+    public void deleteVendor(Long id) {
+        vendorRepository.deleteById(id);
+    }
 }
