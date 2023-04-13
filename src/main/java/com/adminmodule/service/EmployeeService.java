@@ -1,17 +1,16 @@
-//package com.adminmodule.service;
-//
-//import com.adminmodule.domain.Employee;
-//import com.adminmodule.service.dto.UserDTO;
-//
-//import java.util.List;
-//
-//public interface EmployeeService {
-//
-//    List<UserDTO> getAllEmployees();
-//    UserDTO getEmployeeById(Long id);
-//    UserDTO addEmployee(UserDTO userDTO);
-//    UserDTO updateEmployee(UserDTO userDTO);
-//    void deleteEmployee(Long id);
-//
-//
-//}
+package com.adminmodule.service;
+
+import com.adminmodule.domain.Employee;
+import com.adminmodule.service.dto.EmployeeDTO;
+import java.util.List;
+
+public interface EmployeeService {
+
+    List<Employee> getAllEmployees();
+    EmployeeDTO getEmployeeById(Long id);
+    EmployeeDTO addEmployee(EmployeeDTO employeeDTO);
+    EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO);
+    void deleteEmployee(Long id);
+
+
+}
