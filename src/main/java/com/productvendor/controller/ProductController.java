@@ -73,11 +73,11 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/category")
+    @GetMapping("/category/{id}")
     public ResponseEntity<Page<Product>> getProductsByCategory(@RequestParam(defaultValue = "0") int pageNumber,
                                                                @RequestParam(defaultValue = "10") int pageSize,
-                                                               @RequestBody Long categoryId) {
-        Page<Product> products = productService.getProductsByCategory(categoryId.longValue(), pageNumber, pageSize);
+                                                               @PathVariable Long id) {
+        Page<Product> products = productService.getProductsByCategory(id.longValue(), pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
 //
@@ -136,7 +136,7 @@ public class ProductController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "pmin", required = false) Double minPrice,
             @RequestParam(name = "pmax", required = false) Double maxPrice,
-            @RequestBody(required = false) Long categoryId) {
+            @RequestParam(name = "category", required = false) Long categoryId) {
 
         if (name != null && minPrice == null && maxPrice == null && categoryId == null) {
             // Call getProductsByName
