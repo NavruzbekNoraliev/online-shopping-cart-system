@@ -9,15 +9,28 @@ import java.util.Set;
 
 @Entity
 @Builder
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Customer extends User{
+public class Customer{
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id", nullable = false)
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+
 
     @OneToOne
     private Address shippingAddress;
     @OneToOne
     private Address billingAddress;
+
+    @OneToOne
+    private Account account;
 
 }

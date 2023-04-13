@@ -2,14 +2,12 @@ package com.adminmodule.domain;
 
 import com.adminmodule.domain.Enum.RoleType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
@@ -21,4 +19,8 @@ public class Role {
     @Enumerated
     @Column(name = "role_type")
     private RoleType roleType;
+
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
 }

@@ -3,24 +3,19 @@ package com.adminmodule.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 @Entity
+@Builder
 @Setter
 @Getter
-
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Account {
     @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id", nullable = false)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
     private String username;
     private String password;
 
@@ -29,4 +24,7 @@ public abstract class User {
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+
+
 }
