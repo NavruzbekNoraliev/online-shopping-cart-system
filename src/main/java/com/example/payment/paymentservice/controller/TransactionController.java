@@ -1,7 +1,6 @@
 package com.example.payment.paymentservice.controller;
 
 import com.example.payment.paymentservice.model.dto.TransactionDto;
-import com.example.payment.paymentservice.model.entity.TransactionEntity;
 import com.example.payment.paymentservice.rest.request.TransactionRequest;
 import com.example.payment.paymentservice.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,12 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity readTransactions(Pageable pageable) {
-        return ResponseEntity.ok(transactionService.readPayments(pageable));
+        return ResponseEntity.ok(transactionService.readTransactions(pageable));
+    }
+
+    @GetMapping("/getbalance")
+    public ResponseEntity readBalance() {
+        return ResponseEntity.ok(transactionService.getBalance());
     }
     @PostMapping
     public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) {
