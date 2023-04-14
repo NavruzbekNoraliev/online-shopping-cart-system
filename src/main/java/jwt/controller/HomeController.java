@@ -1,20 +1,21 @@
-package ab.jwttest.controller;
+package jwt.controller;
 
-import ab.jwttest.model.JwtRequest;
-import ab.jwttest.model.JwtResponse;
-import ab.jwttest.service.UserService;
-import ab.jwttest.utility.JWTUtility;
+import jwt.model.JwtRequest;
+import jwt.model.JwtResponse;
+import jwt.service.UserService;
+import jwt.utility.JWTUtility;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 public class HomeController {
 
     @Autowired
@@ -26,17 +27,24 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/home1")
-    public String home() {
-        return "Hello World, seems working";
+    @GetMapping("/home2")
+    public String home2() {
+        log.info("before return");
+        return "Hello World, seems working with no id";
     }
 
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            throw new Exception("User is already authenticated");
+//        }
+
         try {
-            authenticationManager.authenticate(
+            authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(),
                             jwtRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
@@ -46,5 +54,4 @@ public class HomeController {
         final String token = jwtUtility.generateToken(userDetails);
         return new JwtResponse(token);
     }
-
 }

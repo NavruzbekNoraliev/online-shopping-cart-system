@@ -1,7 +1,7 @@
-package ab.jwttest.filter;
+package jwt.filter;
 
-import ab.jwttest.service.UserService;
-import ab.jwttest.utility.JWTUtility;
+import jwt.service.UserService;
+import jwt.utility.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,24 +28,25 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
-        String token = null;
-        String username = null;
+        String token = "";
+        String username = "";
 
-        if (authorization != null && authorization.startsWith("Bearer ")) {
-            token = authorization.substring(7);
+        if (authorization != null) {
+            token = authorization.split(" ")[1].trim();
             username = jwtUtility.getUsernameFromToken(token);
-        }
-
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userService.loadUserByUsername(username);
-            if(jwtUtility.validateToken(token, userDetails)){
+            boolean isTokenValid = jwtUtility.validateToken(token, userDetails);
+            if (isTokenValid && SecurityContextHolder.getContext().getAuthentication() == null){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
-
-            filterChain.doFilter(request, response);
         }
+//        else{
+//            throw new AuthorizationHeaderNotPresent("Can not find authorization header!");
+//        }
+        filterChain.doFilter(request,response);
+
     }
 }

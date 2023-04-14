@@ -1,4 +1,4 @@
-package ab.jwttest.service;
+package jwt.service;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

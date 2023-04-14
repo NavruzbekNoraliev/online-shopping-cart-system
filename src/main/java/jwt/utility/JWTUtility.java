@@ -1,4 +1,4 @@
-package ab.jwttest.utility;
+package jwt.utility;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -56,17 +56,28 @@ public class JWTUtility implements Serializable {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
-
-    //while creating the token -
-    //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
-    //2. Sign the JWT using the HS512 algorithm and secret key.
+//
+//    //while creating the token -
+//    //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
+//    //2. Sign the JWT using the HS512 algorithm and secret key.
     private String doGenerateToken(Map<String, Object> claims, String subject) {
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, secretKey).compact();
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+    public String generateRefereshToken(String email){
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() +JWT_TOKEN_VALIDITY))
+                .signWith(SignatureAlgorithm.HS512,secretKey)
+                .compact();
+
     }
 
     //validate token
