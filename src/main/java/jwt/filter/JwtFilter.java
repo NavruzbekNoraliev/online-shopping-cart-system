@@ -2,7 +2,6 @@ package jwt.filter;
 
 import jwt.service.UserService;
 import jwt.utility.JWTUtility;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +18,14 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JWTUtility jwtUtility;
-
-    @Autowired
     private UserService userService;
+
+    //constructor injection
+    public JwtFilter(JWTUtility jwtUtility, UserService userService) {
+        this.jwtUtility = jwtUtility;
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

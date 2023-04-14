@@ -1,11 +1,11 @@
 package jwt.controller;
 
-import jwt.model.JwtRequest;
-import jwt.model.JwtResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jwt.model.*;
 import jwt.service.UserService;
 import jwt.utility.JWTUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,19 +18,32 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class HomeController {
 
-    @Autowired
-    private JWTUtility jwtUtility;
+    private final JWTUtility jwtUtility;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    //constructor injection
+    public HomeController(JWTUtility jwtUtility, AuthenticationManager authenticationManager, UserService userService) {
+        this.jwtUtility = jwtUtility;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+    }
 
     @GetMapping("/home2")
     public String home2() {
         log.info("before return");
         return "Hello World, seems working with no id";
+    }
+
+    @GetMapping("/producttest/{id}")
+    public String getProduct(@PathVariable("id") Long id) throws JsonProcessingException {
+        String response = userService.getProduct(id);
+        ObjectMapper mapper = new ObjectMapper();
+        ProductDTO productDTO = mapper.readValue(response, ProductDTO.class);
+        log.info("Category: "+productDTO.getCategory().getName());
+        return userService.getProduct(id);
     }
 
     @PostMapping("/authenticate")

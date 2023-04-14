@@ -2,7 +2,6 @@ package jwt.config;
 
 import jwt.filter.JwtFilter;
 import jwt.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,15 +23,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class SecurityConfiguration{
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    @Autowired
     private JwtFilter jwtFilter;
+
+    public SecurityConfiguration(JwtFilter jwtFilter, UserService userService) {
+        this.jwtFilter = jwtFilter;
+        this.userService = userService;
+    }
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -43,6 +45,7 @@ public class SecurityConfiguration{
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/home2").authenticated()
+                .antMatchers("/producttest/**").permitAll()
                 //.antMatchers("/test/**")
                 .anyRequest()
                 .authenticated()
