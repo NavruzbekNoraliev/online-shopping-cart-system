@@ -29,7 +29,7 @@ public class SecurityConfiguration{
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    private JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
 
     public SecurityConfiguration(JwtFilter jwtFilter, UserService userService) {
         this.jwtFilter = jwtFilter;
