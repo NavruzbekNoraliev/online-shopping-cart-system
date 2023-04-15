@@ -186,12 +186,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO verifyCustomer(Account account) {
         Optional<Customer> customerOptional = customerRepository.findByEmail(account.getUsername());
-        if(customerOptional.isPresent()){
+        if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
-            if(Utils.checkPassword(account.getPassword(), customer.getAccount().getPassword())){
+            if (Utils.checkPassword(account.getPassword(), customer.getAccount().getPassword())) {
                 return CustomerAdapter.toDTO(customer);
+            } else {
+                throw new UserBadRequestException("Wrong password");
             }
+        } else {
+            throw new UserNotFoundException("Employee not found");
         }
-        return null;
     }
 }

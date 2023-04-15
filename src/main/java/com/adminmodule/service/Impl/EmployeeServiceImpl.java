@@ -97,4 +97,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
+
+    @Override
+    public EmployeeDTO verifyEmployee(Account account) {
+
+        Optional<Employee> employeeOptional = employeeRepository.findByEmail(account.getUsername());
+        if(employeeOptional.isPresent()){
+            Employee employee = employeeOptional.get();
+            if(Utils.checkPassword(account.getPassword(), employee.getAccount().getPassword())){
+                return EmployeeAdapter.toDTO(employee);
+            }else{
+                throw new UserBadRequestException("Wrong password");
+            }
+        }else{
+           throw new UserNotFoundException("Employee not found");
+        }
+    }
 }

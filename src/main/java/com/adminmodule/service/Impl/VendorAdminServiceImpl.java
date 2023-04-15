@@ -99,4 +99,19 @@ public class VendorAdminServiceImpl implements VendorAdminService {
 
        vendorAdminRepository.deleteById(id);
     }
+
+    @Override
+    public VendorAdminDTO verifyVendor(Account account) {
+        Optional<VendorAdmin> vendorAdminOptional = vendorAdminRepository.findByEmail(account.getUsername());
+        if(vendorAdminOptional.isPresent()){
+            VendorAdmin vendorAdmin = vendorAdminOptional.get();
+            if(Utils.checkPassword(vendorAdmin.getAccount().getPassword(),account.getPassword())){
+                return VendorAdminAdapter.toDTO(vendorAdmin);
+            }else{
+                throw new UserBadRequestException("Invalid password");
+            }
+        }else{
+            throw new UserNotFoundException("VendorAdmin not found");
+        }
+    }
 }

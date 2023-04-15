@@ -1,5 +1,6 @@
 package com.adminmodule.service;
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Employee;
 import com.adminmodule.service.dto.EmployeeDTO;
 import java.util.List;
@@ -13,4 +14,5 @@ public interface EmployeeService {
     void deleteEmployee(Long id);
 
 
+    EmployeeDTO verifyEmployee(Account account);
 }

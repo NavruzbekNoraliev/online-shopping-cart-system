@@ -1,5 +1,6 @@
 package com.adminmodule.service;
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.domain.VendorAdmin;
 import com.adminmodule.service.dto.VendorAdminDTO;
 
@@ -13,5 +14,5 @@ public interface VendorAdminService {
     void deleteVendorAdmin(Long id);
 
 
-
+    VendorAdminDTO verifyVendor(Account account);
 }

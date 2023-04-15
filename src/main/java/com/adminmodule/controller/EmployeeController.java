@@ -1,8 +1,11 @@
 package com.adminmodule.controller;
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.service.EmployeeService;
+import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +39,11 @@ public class EmployeeController {
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyEmployee(@RequestBody Account account){
+
+        EmployeeDTO employeeDTO = employeeService.verifyEmployee(account);
+        return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
     }
 }
