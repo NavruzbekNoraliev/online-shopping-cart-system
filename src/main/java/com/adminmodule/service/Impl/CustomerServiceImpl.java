@@ -12,8 +12,11 @@ import com.adminmodule.repository.AddressRepository;
 import com.adminmodule.repository.CustomerRepository;
 import com.adminmodule.repository.RoleRepository;
 import com.adminmodule.service.CustomerService;
+import com.adminmodule.service.dto.AddressAdaptor;
+import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerAdapter;
 import com.adminmodule.service.dto.CustomerDTO;
+import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,8 +35,6 @@ public class CustomerServiceImpl implements CustomerService {
     private final RoleRepository roleRepository;
     private final AccountRepository accountRepository;
 
-    PasswordEncoder passwordEncoder;
-
     @Autowired
     public CustomerServiceImpl(CustomerRepository customerRepository,
                                AddressRepository addressRepository,
@@ -43,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.addressRepository = addressRepository;
         this.roleRepository = roleRepository;
         this.accountRepository = accountRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+
     }
 
 
@@ -86,15 +87,10 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setBillingAddress(address);
         }
 
-        Role role = roleRepository.findByRoleType(RoleType.CUSTOMER);
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-
-        String encodedPassword = this.passwordEncoder.encode(customer.getAccount().getPassword());
-        customer.getAccount().setPassword(encodedPassword);
+        customer.getAccount().setPassword(Utils.encodePassword(customer.getAccount().getPassword()));
         customer.getAccount().setUsername(customer.getEmail());
-        customer.getAccount().setRoles(roles);
+        Role role = roleRepository.findByRoleType(RoleType.CUSTOMER);
+        customer.getAccount().setRoles(Utils.addRoles(role));
 
         Account account = accountRepository.save(customer.getAccount());
         customer.setAccount(account);
@@ -153,5 +149,37 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    @Override
+    public AddressDTO updateShippingAddress(AddressDTO addressDTO, Long id) {
+       Optional<Customer> customerOptional = customerRepository.findById(id);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            if(addressDTO != null){
+                customer.setShippingAddress(addressRepository.save(AddressAdaptor.fromDTO(addressDTO)));
+                customerRepository.save(customer);
+            }
+            return AddressAdaptor.toDTO(customer.getShippingAddress());
+        }
+        else{
+            throw new UserNotFoundException("Customer not found");
+        }
+    }
+
+    @Override
+    public AddressDTO updateBillingAddress(AddressDTO addressDTO, Long id) {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            if(addressDTO != null){
+                customer.setBillingAddress(addressRepository.save(AddressAdaptor.fromDTO(addressDTO)));
+                customerRepository.save(customer);
+            }
+            return AddressAdaptor.toDTO(customer.getBillingAddress());
+        }
+        else{
+            throw new UserNotFoundException("Customer not found");
+        }
     }
 }

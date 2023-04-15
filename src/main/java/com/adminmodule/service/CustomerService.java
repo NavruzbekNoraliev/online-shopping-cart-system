@@ -3,6 +3,7 @@ package com.adminmodule.service;
 
 
 import com.adminmodule.domain.Customer;
+import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.Customers;
 
@@ -14,4 +15,8 @@ public interface CustomerService {
     CustomerDTO addCustomer(CustomerDTO customerDTO);
     CustomerDTO updateCustomer(CustomerDTO customerDTO, Long id);
     void deleteCustomer(Long id);
+
+    AddressDTO updateShippingAddress(AddressDTO addressDTO, Long id);
+
+    AddressDTO updateBillingAddress(AddressDTO addressDTO, Long id);
 }

@@ -12,6 +12,7 @@ import com.adminmodule.repository.VendorAdminRepository;
 import com.adminmodule.service.VendorAdminService;
 import com.adminmodule.service.dto.VendorAdminAdapter;
 import com.adminmodule.service.dto.VendorAdminDTO;
+import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +30,6 @@ public class VendorAdminServiceImpl implements VendorAdminService {
    private final RoleRepository roleRepository;
    private final AccountRepository accountRepository;
 
-   PasswordEncoder passwordEncoder;
-
    @Autowired
     public VendorAdminServiceImpl(VendorAdminRepository vendorAdminRepository,
                                   RoleRepository roleRepository,
@@ -39,7 +38,6 @@ public class VendorAdminServiceImpl implements VendorAdminService {
         this.vendorAdminRepository = vendorAdminRepository;
         this.roleRepository = roleRepository;
         this.accountRepository = accountRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
    }
 
     @Override
@@ -67,11 +65,9 @@ public class VendorAdminServiceImpl implements VendorAdminService {
         VendorAdmin vendorAdmin = VendorAdminAdapter.fromDTO(vendorAdminDTO);
 
         Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        vendorAdmin.getAccount().setRoles(roles);
+        vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
 
-        vendorAdmin.getAccount().setPassword(this.passwordEncoder.encode(vendorAdmin.getAccount().getPassword()));
+        vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
         vendorAdmin.getAccount().setUsername(vendorAdmin.getEmail());
 
         Account account = accountRepository.save(vendorAdmin.getAccount());

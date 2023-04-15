@@ -3,10 +3,7 @@ package com.adminmodule.service.dto;
 import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Address;
 import com.adminmodule.domain.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @ToString
+@Builder
 public class EmployeeDTO {
 
     private Long id;

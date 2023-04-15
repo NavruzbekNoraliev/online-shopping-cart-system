@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/vendorAdmin")
+@RequestMapping("/api/v1/vendor-admin")
 public class VendorAdminController {
 
     private final VendorAdminService vendorAdminService;

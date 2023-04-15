@@ -12,6 +12,7 @@ import com.adminmodule.repository.RoleRepository;
 import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.dto.EmployeeAdapter;
 import com.adminmodule.service.dto.EmployeeDTO;
+import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +30,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final RoleRepository roleRepository;
     private final AccountRepository accountRepository;
 
-    PasswordEncoder passwordEncoder;
-
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                RoleRepository roleRepository,
@@ -38,7 +37,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.accountRepository = accountRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
 
@@ -66,14 +64,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Employee employee = EmployeeAdapter.fromDTO(employeeDTO);
 
+
         Role role = roleRepository.findByRoleType(RoleType.ADMIN);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        employee.getAccount().setRoles(roles);
-
-        employee.getAccount().setPassword(this.passwordEncoder.encode(employee.getAccount().getPassword()));
+        employee.getAccount().setRoles(Utils.addRoles(role));
+        employee.getAccount().setPassword(Utils.encodePassword(employee.getAccount().getPassword()));
         employee.getAccount().setUsername(employee.getEmail());
-
         Account account = accountRepository.save(employee.getAccount());
         employee.setAccount(account);
 

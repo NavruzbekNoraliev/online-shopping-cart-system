@@ -2,6 +2,7 @@ package com.adminmodule.controller;
 
 import com.adminmodule.domain.Customer;
 import com.adminmodule.service.CustomerService;
+import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.Customers;
 
@@ -50,5 +51,17 @@ public class CustomerController {
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id){
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/shipping-address/{id}")
+    public ResponseEntity<?> updateShippingAddress(@PathVariable("id") Long id,
+                                                   @RequestBody AddressDTO addressDTO){
+        return ResponseEntity.ok(customerService.updateShippingAddress(addressDTO, id));
+    }
+
+    @PutMapping("/billing-address/{id}")
+    public ResponseEntity<?> updateBillingAddress(@PathVariable("id") Long id,
+                                                   @RequestBody AddressDTO addressDTO){
+        return ResponseEntity.ok(customerService.updateBillingAddress(addressDTO, id));
     }
 }

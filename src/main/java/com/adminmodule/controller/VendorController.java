@@ -45,4 +45,8 @@ public class VendorController {
         vendorService.deleteVendor(id);
     }
 
+    @PostMapping("/approve/{id}")
+    public void approveVendor(@PathVariable Long id) {
+        vendorService.approveVendor(id);
+    }
 }

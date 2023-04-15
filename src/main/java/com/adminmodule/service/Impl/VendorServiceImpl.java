@@ -1,5 +1,6 @@
 package com.adminmodule.service.Impl;
 
+import com.adminmodule.domain.Enum.Status;
 import com.adminmodule.domain.Vendor;
 import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.VendorRepository;
@@ -31,7 +32,15 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor addVendor(Vendor vendor) {
+        vendor.setStatus(Status.PENDING);
         return vendorRepository.save(vendor);
+    }
+
+    public void approveVendor(Long id) {
+        Vendor existingVendor = vendorRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
+        existingVendor.setStatus(Status.APPROVED);
+        vendorRepository.save(existingVendor);
     }
 
     @Override

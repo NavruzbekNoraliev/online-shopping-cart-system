@@ -1,5 +1,6 @@
 package com.adminmodule.domain;
 
+import com.adminmodule.domain.Enum.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,5 +32,7 @@ public class Vendor {
     @OneToOne
     @JoinColumn(name = "account_detail_id")
     private AccountDetails accountDetails;
+
+    private Status status;
 
 }

@@ -46,6 +46,12 @@
             <artifactId>spring-security-core</artifactId>
             <version>5.7.4</version>
         </dependency>
+		<!-- Mockito extension -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
 
     </dependencies>
 
