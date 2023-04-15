@@ -1,5 +1,6 @@
 package com.adminmodule.controller;
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Customer;
 import com.adminmodule.service.CustomerService;
 import com.adminmodule.service.dto.AddressDTO;
@@ -64,4 +65,14 @@ public class CustomerController {
                                                    @RequestBody AddressDTO addressDTO){
         return ResponseEntity.ok(customerService.updateBillingAddress(addressDTO, id));
     }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyCustomer(@RequestBody Account account){
+
+        CustomerDTO newCustomer = customerService.verifyCustomer(account);
+        return new ResponseEntity<>(newCustomer, HttpStatus.OK);
+    }
+
+
+
 }

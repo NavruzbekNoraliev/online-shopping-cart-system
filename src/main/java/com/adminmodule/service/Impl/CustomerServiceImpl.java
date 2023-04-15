@@ -182,4 +182,16 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UserNotFoundException("Customer not found");
         }
     }
+
+    @Override
+    public CustomerDTO verifyCustomer(Account account) {
+        Optional<Customer> customerOptional = customerRepository.findByEmail(account.getUsername());
+        if(customerOptional.isPresent()){
+            Customer customer = customerOptional.get();
+            if(Utils.checkPassword(account.getPassword(), customer.getAccount().getPassword())){
+                return CustomerAdapter.toDTO(customer);
+            }
+        }
+        return null;
+    }
 }

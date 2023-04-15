@@ -2,6 +2,7 @@ package com.adminmodule.service;
 
 
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Customer;
 import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerDTO;
@@ -19,4 +20,6 @@ public interface CustomerService {
     AddressDTO updateShippingAddress(AddressDTO addressDTO, Long id);
 
     AddressDTO updateBillingAddress(AddressDTO addressDTO, Long id);
+
+    CustomerDTO verifyCustomer(Account account);
 }
