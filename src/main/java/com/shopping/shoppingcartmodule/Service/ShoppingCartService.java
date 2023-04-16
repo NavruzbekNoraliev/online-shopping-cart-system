@@ -2,7 +2,7 @@ package com.shopping.shoppingcartmodule.Service;
 
 import com.shopping.shoppingcartmodule.Entity.Product;
 import com.shopping.shoppingcartmodule.Entity.ShoppingCart;
-import com.shopping.shoppingcartmodule.Repository.ProductRepository;
+import com.shopping.shoppingcartmodule.Repository.ProductRepo;
 import com.shopping.shoppingcartmodule.Repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,11 +16,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ShoppingCartService implements ShoppingCartInterface {
 //    @Autowired
 //    private KafkaTemplate<String,ShoppingCart> kafkaTemplate;
-     private ProductRepository productRepository;
+     private ProductRepo productRepository;
 
     private ShoppingCartRepository shoppingCartRepository;
 
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository,ProductRepository productRepository) {
+    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository,ProductRepo productRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.productRepository=productRepository;
 
