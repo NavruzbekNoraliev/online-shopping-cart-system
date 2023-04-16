@@ -15,7 +15,7 @@ p {
 
 .whole-form {
     border: 1px solid #03412a;
-    margin-top: 4rem;
+    margin-top: 3rem;
     padding: 2rem;
 }
 
@@ -32,6 +32,8 @@ p {
 .btn {
     color: azure;
     background-color: #03412a;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
 }
 
 .btn-sm {

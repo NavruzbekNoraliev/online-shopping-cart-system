@@ -1,3 +1,32 @@
-<p>
-  product-list works!
-</p>
+<div class="product-list">
+  <div class="container">
+    <div class="row">
+      <div class="dropdown">
+        <a class="dropdown-toggle" id="dropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <a (click)="filter('')" class="dropdown-item">All products</a>
+          <a (click)="filter('electronics')" class="dropdown-item">Electronics</a>
+          <a (click)="filter('fashion')"  class="dropdown-item">Fashion</a>
+          <a (click)="filter('jewelery')" class="dropdown-item">Jewelery</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <ng-container *ngFor = "let item of filterCategory | filter: searchKey: 'title'">
+        <div class="card col-md-3">
+          <img src="{{item.image}}" alt="">
+          <h5>{{item.title}}</h5>
+          <p>{{item.description}}</p>
+          <p>Price: ${{item.price}}</p>
+          <button (click)="addToCart(item)" class="btn">Add to cart</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+

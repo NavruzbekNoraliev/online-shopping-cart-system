@@ -1,0 +1,33 @@
+<header>
+    <div class="navbar">
+        <div class="navbar-brand align-item-center d-flex">
+            <img src="assets/online-shop-logo.jpg" alt="Logo">
+
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="searchTerm" (keyup)="search($event)" placeholder="Search Products">
+                <!-- <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <button (click)="filter('')" class="dropdown-item" type="button">All products</button>
+                        <button (click)="filter('electronics')" class="dropdown-item" type="button">Electronics</button>
+                        <button class="dropdown-item" type="button">Mens</button>
+                        <button class="dropdown-item" type="button">Jewelery</button>
+                    </div>
+                </div> -->
+            </div>
+            <span class="fas fa-search search-icon"></span>
+        </div>
+
+        <button (click)="navigateToUserDashboard()" class="btn">
+            <i class="fa-solid fa-user"></i>
+        </button>
+        <button (click)="navigateToCart()" class="btn">
+            <i class="fas fa-cart-plus"></i>
+            <div class="badge bg-danger">
+                {{ totalItems }}
+            </div>
+        </button>
+    </div>
+</header>

@@ -1,0 +1,58 @@
+.product-list {
+    font-family: 'lato';
+}
+
+h5, p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100ch;
+}
+
+.dropdown {
+    padding: 1rem;
+}
+
+.dropdown-toggle {
+    margin: 2rem;
+}
+
+.dropdown a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #03412a;
+}
+
+.dropdown-menu a {
+    font-size: 1rem;
+}
+
+.btn {
+    color: azure;
+    background-color: #03412a;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+}
+
+.item {
+    margin: 0, 1rem;
+    text-align: center;
+}
+
+.card {
+    padding: 2rem;
+    margin: 3rem;
+}
+
+.card img {
+    margin: auto;
+    height: 50%;
+    width: 50%;
+    transition: 0.3s ease-in-out;
+    margin-bottom: 1rem;
+}
+
+.card img:hover {
+    transition: 0.3s ease-in-out;
+    transform: scale(1.1);
+}

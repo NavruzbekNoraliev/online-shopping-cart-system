@@ -28,12 +28,18 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  navigateToHome() {
+    // this.route.navigate(["customer-register"]);
+    this.route.navigateByUrl("/");
+  }
+
   navigateToCustomerSignIn() {
     // this.route.navigate(["customer-register"]);
     this.route.navigateByUrl("auth/customer-register");
   }
 
   navigateToVendorSignIn() {
+    // this.route.navigate(["customer-register"]);
     this.route.navigateByUrl("auth/vendor-register");
   }
 

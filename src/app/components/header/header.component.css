@@ -1,0 +1,44 @@
+.navbar {
+    font-family: 'lato';
+}
+
+header {
+    margin: 0 1rem;
+    border-bottom: 1px solid #03412a;
+}
+
+img {
+    width: 8%;
+}
+
+
+
+.form-control {
+    border-radius: 3px;
+    width: 150%;
+    margin: 1rem 1.8rem;
+}
+
+.dropdown {
+    margin-left: 1rem;
+
+}
+
+.search-icon {
+    position: absolute;
+    z-index: 10;
+    right:64%;
+    top: 2.3rem;
+    color: #03412a;
+}
+
+.fa-cart-plus, .fa-user {
+    font-size: 2rem;
+    color: #03412a;
+}
+
+
+
+.badge {
+    font-size: 0.7rem;
+}

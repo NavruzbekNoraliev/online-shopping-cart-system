@@ -1,7 +1,7 @@
 .user-register {
     text-align: center;
     padding: 4rem;
-    margin: 4rem;
+    margin: 2rem;
     color: #03412a;
     font-family: 'lato';
 }
@@ -27,4 +27,6 @@ p {
 .btn {
     background-color: #03412a;
     color: azure;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
 }

@@ -20,12 +20,12 @@
                     </div>
 
                     <div class="mt-4">
-                        <button  type="submit" class="btn">Login</button>
+                        <button (click) = "navigateToHome()"  type="submit" class="btn">Login</button>
                     </div>
                     <div class="register">
                         <p>Don't have an account?</p>
                         <div class="mt-4">
-                            <button (click)="navigateToCustomerSignIn()" type="submit" class="btn btn-sm">Customer Register</button>
+                            <button (click)="navigateToCustomerSignIn()" type="submit" class="btn btn-sm"> Customer Register </button>
                             <button (click)="navigateToVendorSignIn()" type="submit" class="btn btn-sm">Vendor Register</button>
                         </div>
                     </div>

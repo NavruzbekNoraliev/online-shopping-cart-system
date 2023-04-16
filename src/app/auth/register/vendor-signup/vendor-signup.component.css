@@ -17,15 +17,18 @@ p {
 }
 
 .sign-in {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .form-group {
-    text-align: left;
     margin-bottom: 1rem;
+    display: inline-block;
+    margin-left: 1rem;
 }
 
 .btn {
     background-color: #03412a;
     color: azure;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
 }
