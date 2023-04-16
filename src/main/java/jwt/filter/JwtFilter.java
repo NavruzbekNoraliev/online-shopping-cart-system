@@ -2,6 +2,7 @@ package jwt.filter;
 
 import jwt.service.UserService;
 import jwt.utility.JWTUtility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private UserService userService;
 
     //constructor injection
+    @Autowired
     public JwtFilter(JWTUtility jwtUtility, UserService userService) {
         this.jwtUtility = jwtUtility;
         this.userService = userService;

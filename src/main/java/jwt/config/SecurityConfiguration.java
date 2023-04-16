@@ -2,6 +2,7 @@ package jwt.config;
 
 import jwt.filter.JwtFilter;
 import jwt.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,8 +30,10 @@ public class SecurityConfiguration{
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     private final JwtFilter jwtFilter;
 
+    @Autowired
     public SecurityConfiguration(JwtFilter jwtFilter, UserService userService) {
         this.jwtFilter = jwtFilter;
         this.userService = userService;
