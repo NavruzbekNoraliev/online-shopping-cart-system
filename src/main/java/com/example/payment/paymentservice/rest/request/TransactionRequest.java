@@ -9,12 +9,6 @@ import java.util.Date;
 @Data
 public class TransactionRequest {
     private Long id;
-    private String cardNumber;
-    private String transactionNumber;
-    private String transactionAddress;
-    private BigDecimal transactionAmount;
-    private Long vendorId;
-    private String vendorActiveIndicator;
-    private Date date;
-    private TransactionStatus transactionStatus;
+    private String cardId;
+    private String amount;
 }

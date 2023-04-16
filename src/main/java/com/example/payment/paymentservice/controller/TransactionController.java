@@ -25,10 +25,10 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.readTransactions(pageable));
     }
 
-    @GetMapping("/getbalance")
-    public ResponseEntity readBalance() {
-        return ResponseEntity.ok(transactionService.getBalance());
-    }
+//    @GetMapping("/checkCard")
+//    public ResponseEntity checkCard() {
+//        return ResponseEntity.ok(transactionService.checkCard());
+//    }
     @PostMapping
     public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) {
         return ResponseEntity.ok(transactionService.utilPayment(transactionRequest));
@@ -42,7 +42,6 @@ public class TransactionController {
         } catch (ChangeSetPersister.NotFoundException er){
             return new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND);
         }
-
     }
 
 }

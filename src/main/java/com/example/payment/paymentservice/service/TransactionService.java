@@ -33,8 +33,8 @@ public class TransactionService {
     @Autowired
     private BankClient bankClient;
 
-    public String getBalance() {
-        String balance = bankClient.getBalance();
+    public TransactionResponse checkCard(TransactionRequest transactionRequest) {
+        TransactionResponse balance = bankClient.getAcceptance(transactionRequest);
         return balance;
         // do something with the balance
     }
@@ -42,18 +42,16 @@ public class TransactionService {
     public TransactionResponse utilPayment(TransactionRequest transactionRequest) {
         log.info("Transaction processing {}", transactionRequest.toString());
 
+        TransactionResponse returnedTransaction = checkCard(transactionRequest);
+
         TransactionEntity entity = new TransactionEntity();
         BeanUtils.copyProperties(transactionRequest, entity);
-        entity.setTransactionStatus(TransactionStatus.TU);
+        entity.setTransactionStatus(returnedTransaction.getTransactionStatus());
+        entity.setTransactionNumber(returnedTransaction.getTransactionId());
         TransactionEntity optUtilPayment = transactionRepository.save(entity);
 
-        String transactionNum = UUID.randomUUID().toString();
-        optUtilPayment.setTransactionStatus(TransactionStatus.TS);
-        optUtilPayment.setTransactionNumber(transactionNum);
 
-        transactionRepository.save(optUtilPayment);
-
-        return TransactionResponse.builder().message("Utility Payment Successfully Processed").transactionId(transactionNum).build();
+        return TransactionResponse.builder().transactionStatus(optUtilPayment.getTransactionStatus()).transactionId(optUtilPayment.getTransactionNumber()).build();
     }
 
     public List<TransactionDto> readTransactions(Pageable pageable) {
