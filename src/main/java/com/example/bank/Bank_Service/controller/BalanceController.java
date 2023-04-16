@@ -1,45 +1,53 @@
 package com.example.bank.Bank_Service.controller;
 
+import com.example.bank.Bank_Service.model.TransactionStatus;
+import com.example.bank.Bank_Service.model.entity.MasterBalanceEntity;
+import com.example.bank.Bank_Service.model.entity.VisaBalanceEntity;
+import com.example.bank.Bank_Service.repository.MasterBalanceRepository;
+import com.example.bank.Bank_Service.repository.VisaBalanceRepository;
+import com.example.bank.Bank_Service.rest.request.BankRequest;
+import com.example.bank.Bank_Service.rest.request.TransactionRequest;
+import com.example.bank.Bank_Service.rest.response.TransactionResponse;
+import com.example.bank.Bank_Service.service.BankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/banking")
 public class BalanceController {
 
-    @GetMapping
-    public ResponseEntity getBalance() {
-        return ResponseEntity.ok("this is from Banking");
+
+
+
+    @Autowired
+    private final BankService bankService;
+
+    @PostMapping
+    public TransactionResponse checkCard(@RequestBody TransactionRequest transactionRequest) {
+        BankRequest request =  bankService.getCardDetails(transactionRequest.getCardId());
+
+        TransactionResponse transactionResponse = bankService.checkCard(request , transactionRequest);
+
+
+        return TransactionResponse.builder().transactionStatus(transactionResponse.getTransactionStatus()).transactionId(transactionResponse.getTransactionId()).build();
+    }
+    @GetMapping("/visa")
+    public ResponseEntity getVisaBalances(Pageable pageable) {
+        return ResponseEntity.ok(bankService.readVisaBalances(pageable));
+    }
+    @GetMapping("master")
+    public ResponseEntity getMasterBalances(Pageable pageable) {
+        return ResponseEntity.ok(bankService.readMasterBalances(pageable));
     }
 
-
-//    @Autowired
-//    private final TransactionService transactionService;
-//
-//    @GetMapping
-//    public ResponseEntity readTransactions(Pageable pageable) {
-//        return ResponseEntity.ok(transactionService.readTransactions(pageable));
-//    }
-//    @PostMapping
-//    public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) {
-//        return ResponseEntity.ok(transactionService.utilPayment(transactionRequest));
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Object getTransactionById(@PathVariable Long id){
-//        try {
-//            TransactionDto transaction = transactionService.getTransactionById(id);
-//            return ResponseEntity.ok(transaction);
-//        } catch (ChangeSetPersister.NotFoundException er){
-//            return new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
 
 }

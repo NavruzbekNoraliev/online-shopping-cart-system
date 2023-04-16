@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "transaction")
+@Table(name = "master_balance")
 public class MasterBalanceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +25,16 @@ public class MasterBalanceEntity {
 
 
     @Column(name = "card_balance")
-    private Integer cardBalance;
+    private BigDecimal cardBalance;
 
     @Column(name = "transaction_value")
-    private BigDecimal transactionValue;
+    private String transactionValue;
 
 
     @Column(name = "transaction_number")
     private String transactionNumber;
 
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "transaction_status")
     @Enumerated(EnumType.STRING)
