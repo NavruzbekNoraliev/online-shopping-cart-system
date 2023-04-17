@@ -1,13 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main.component';
-import { HeaderComponent } from './header/header.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
+import { HeaderComponent } from './layouts/full/header/header.component';
+import { ProductPageModule } from '../pages/product/product-page.module';
+import { AllMaterialModule } from '../shared/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ProductPageModule,
+    FlexLayoutModule,
+    AllMaterialModule
   ],
-  declarations: [MainComponent, HeaderComponent, ProductListComponent]
+  declarations: [
+    HeaderComponent,
+    MainComponent
+  ],
+  exports:[
+    HeaderComponent
+  ]
 })
 export class MainModule { }

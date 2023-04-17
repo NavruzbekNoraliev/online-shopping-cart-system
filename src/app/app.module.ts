@@ -9,30 +9,31 @@ import { ServiceComponent } from './service/service.component';
 import { HttpClientModule } from "@angular/common/http";
 import { MainComponent } from './components/main.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { CartComponent } from './components/cart/cart.component';
 import { FilterPipe } from './shared/filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
+import { MainModule } from './components/main.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     ServiceComponent,
-    MainComponent,
     HeaderComponent,
-    ProductListComponent,
     CartComponent,
     FilterPipe
 
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MainModule,
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],
