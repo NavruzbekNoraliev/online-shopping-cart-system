@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -47,9 +48,10 @@ public class SecurityConfiguration{
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers("/home2").authenticated()
-                .antMatchers("/producttest/**").permitAll()
-                //.antMatchers("/test/**")
+                .antMatchers("/register").permitAll()
+                .antMatchers("/welcome").permitAll()
+                .antMatchers("/home").authenticated()
+                .antMatchers("/users/**").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -63,5 +65,10 @@ public class SecurityConfiguration{
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+    //use bcrypt for password encoding
+//     @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
 
