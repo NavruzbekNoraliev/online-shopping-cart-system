@@ -30,7 +30,9 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
         String token = "";
         String username = "";
@@ -51,6 +53,5 @@ public class JwtFilter extends OncePerRequestFilter {
 //            throw new AuthorizationHeaderNotPresent("Can not find authorization header!");
 //        }
         filterChain.doFilter(request,response);
-
     }
 }

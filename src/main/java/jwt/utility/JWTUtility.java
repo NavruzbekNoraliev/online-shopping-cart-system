@@ -20,8 +20,8 @@ public class JWTUtility implements Serializable {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-//    @Value("${jwt.secret}")
-    private String secretKey = "secretKey123";
+
+    private String secretKey = "secret123";
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -76,7 +76,6 @@ public class JWTUtility implements Serializable {
                 .setExpiration(new Date(System.currentTimeMillis() +JWT_TOKEN_VALIDITY))
                 .signWith(SignatureAlgorithm.HS512,secretKey)
                 .compact();
-
     }
 
     //validate token
