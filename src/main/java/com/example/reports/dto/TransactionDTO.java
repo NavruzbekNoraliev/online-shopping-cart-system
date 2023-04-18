@@ -15,7 +15,9 @@ import java.util.List;
 @Builder
 public class TransactionDTO {
 
+    //long transactionId;
     List<ProductSales> productSales;
     Date date;
     long userId;
+    String userName;
 }

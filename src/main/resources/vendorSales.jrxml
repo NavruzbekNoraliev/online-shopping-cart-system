@@ -1,36 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vendorSales" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6f4eb593-5b80-4576-a7a3-3d75e87e8df2">
-    <property name="com.jaspersoft.studio.data.sql.tables" value="Ik9SREVSUyIgLDE1LDE1LDQyYjZiMGE2LWM5OWQtNGQ0Ny04ODAxLWJiY2VlZWMxMGY5Nzs="/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
-    <queryString language="SQL">
-        <![CDATA[SELECT *
-FROM "ORDERS";]]>
-    </queryString>
-    <field name="ORDERID" class="java.lang.Integer">
-        <property name="com.jaspersoft.studio.field.name" value="ORDERID"/>
-        <property name="com.jaspersoft.studio.field.label" value="ORDERID"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="ORDERS"/>
+
+    <field name="vendorName" class="java.lang.String">
+
     </field>
-    <field name="CUSTOMERID" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.name" value="CUSTOMERID"/>
-        <property name="com.jaspersoft.studio.field.label" value="CUSTOMERID"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="ORDERS"/>
+    <field name="category" class="java.lang.String">
     </field>
-    <field name="EMPLOYEEID" class="java.lang.Integer">
-        <property name="com.jaspersoft.studio.field.name" value="EMPLOYEEID"/>
-        <property name="com.jaspersoft.studio.field.label" value="EMPLOYEEID"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="ORDERS"/>
+    <field name="productName" class="java.lang.String">
     </field>
-    <field name="ORDERDATE" class="java.sql.Timestamp">
-        <property name="com.jaspersoft.studio.field.name" value="ORDERDATE"/>
-        <property name="com.jaspersoft.studio.field.label" value="ORDERDATE"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="ORDERS"/>
+    <field name="quantity" class="java.lang.Integer">
     </field>
-    <field name="REQUIREDDATE" class="java.sql.Timestamp">
-        <property name="com.jaspersoft.studio.field.name" value="REQUIREDDATE"/>
-        <property name="com.jaspersoft.studio.field.label" value="REQUIREDDATE"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="ORDERS"/>
+    <field name="total" class="java.lang.Double">
+
     </field>
     <background>
         <band/>
@@ -123,7 +105,7 @@ FROM "ORDERS";]]>
                 <textElement>
                     <font size="14"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{ORDERID}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{vendorName}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="111" y="0" width="111" height="20" uuid="a82c468a-c55d-48b0-b99a-1d980f39cb7b">
@@ -132,7 +114,7 @@ FROM "ORDERS";]]>
                 <textElement>
                     <font size="14"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{CUSTOMERID}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="222" y="0" width="111" height="20" uuid="96df0114-0faf-4e20-ae5e-7f223a53b1f0">
@@ -141,7 +123,7 @@ FROM "ORDERS";]]>
                 <textElement>
                     <font size="14"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{EMPLOYEEID}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="333" y="0" width="111" height="20" uuid="090766c4-0537-45cc-9bce-5f2c7656793d">
@@ -150,7 +132,7 @@ FROM "ORDERS";]]>
                 <textElement>
                     <font size="14"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{ORDERDATE}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="444" y="0" width="111" height="20" uuid="255a6c42-a681-4cad-b65a-2c61822c3296">
@@ -159,7 +141,7 @@ FROM "ORDERS";]]>
                 <textElement>
                     <font size="14"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{REQUIREDDATE}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
             </textField>
         </band>
     </detail>

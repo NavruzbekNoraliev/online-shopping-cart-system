@@ -21,8 +21,13 @@ public class ProductSales {
             generator = "productSalesSeq"
     )
     long productSalesId;
-    long productId;
     long transactionId;
+
+    long productId;
+    String productName;
     long vendorId;
+    String vendorName;
     int quantity;
+    double pricePerUnit;
+
 }

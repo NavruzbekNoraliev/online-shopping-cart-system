@@ -37,8 +37,7 @@ public class Transaction {
     )
     List<ProductSales> productSales;
     Date date;
-    @Embedded
-    Location location;
     long userId;
+    String userName;
 
 }
