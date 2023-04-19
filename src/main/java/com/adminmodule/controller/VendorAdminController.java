@@ -47,15 +47,10 @@ public class VendorAdminController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyCustomer(@RequestBody Account account){
+    public ResponseEntity<?> verifyCustomer(@RequestBody Account account) {
 
         VendorAdminDTO vendorAdminDTO = vendorAdminService.verifyVendor(account);
         return new ResponseEntity<>(vendorAdminDTO, HttpStatus.OK);
-    }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
-        return authService.generateToken(account);
     }
 
 }

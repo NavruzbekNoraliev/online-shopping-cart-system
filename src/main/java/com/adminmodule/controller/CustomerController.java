@@ -92,10 +92,4 @@ public class CustomerController {
         CustomerDTO newCustomer = customerService.verifyCustomer(account);
         return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
-
-    //authenticate and generate token
-    @PostMapping("/authenticate")
-    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
-        return authService.generateToken(account);
-    }
 }

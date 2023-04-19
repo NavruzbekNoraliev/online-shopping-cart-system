@@ -50,9 +50,4 @@ public class EmployeeController {
         EmployeeDTO employeeDTO = employeeService.verifyEmployee(account);
         return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
     }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
-        return authService.generateToken(account);
-    }
 }
