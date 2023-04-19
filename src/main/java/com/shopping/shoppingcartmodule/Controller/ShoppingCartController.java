@@ -4,7 +4,7 @@ package com.shopping.shoppingcartmodule.Controller;
 import com.shopping.shoppingcartmodule.Entity.Product;
 import com.shopping.shoppingcartmodule.Entity.ShoppingCart;
 
-import com.shopping.shoppingcartmodule.Service.ShoppingCartService;
+import com.shopping.shoppingcartmodule.Service.Impl.ShoppingCartService;
 
 
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +18,15 @@ public class ShoppingCartController {
    public ShoppingCartController(ShoppingCartService shoppingCartService){
        this.shoppingCartService=shoppingCartService;
    }
-    @PostMapping(value = "/add-cart/{cartid}")
-    public ShoppingCart addProductToCart(@RequestBody Product product, @PathVariable long cartid){
+    @PostMapping(value = "/add-cart/{cartid}/{productid}")
+    public ShoppingCart addProductToCart(@PathVariable long productid, @PathVariable long cartid){
 
-        return shoppingCartService.addToCart(product,cartid);
+        return shoppingCartService.addToCart(productid,cartid);
     }
 
     @PostMapping(value = "/create-cart/{email}")
     public ShoppingCart createCart(@PathVariable String email){
        return shoppingCartService.createCart(email);
-
    }
 
   @DeleteMapping(value="/removeproduct/{cartid}/{productid}")
@@ -44,5 +43,9 @@ public class ShoppingCartController {
 //       shoppingCartService.checkout(cartid);
 //
 //  }
+@DeleteMapping(value="/removeallproduct/{cartid}")
+public ShoppingCart deleteAllProduct(@PathVariable long cartid){
+    return   shoppingCartService.deleteAllProduct(cartid);
+}
 }
 
