@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: AdminService
   config:
     import: optional:file:.env[.properties]
   datasource:
@@ -10,3 +12,9 @@ spring:
     hibernate.ddl-auto: create
     generate-ddl: true
     show-sql: true
+server:
+  port: 9090
+eureka:
+  client:
+    service-url:
+        defaultZone: http://localhost:8761/eureka/

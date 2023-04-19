@@ -26,6 +26,8 @@ public class Account {
     private Set<Role> roles = new LinkedHashSet<>();
 
 
-
-
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

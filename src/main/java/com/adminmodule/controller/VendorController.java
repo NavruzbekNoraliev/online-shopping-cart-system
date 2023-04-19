@@ -49,4 +49,27 @@ public class VendorController {
     public void approveVendor(@PathVariable Long id) {
         vendorService.approveVendor(id);
     }
+
+    @GetMapping("/pending-approval")
+    public List<Vendor> getAllPendingApprovalVendors() {
+        return vendorService.getAllPendingApprovalVendors();
+    }
+
+    @GetMapping("/pending-payment")
+    public List<Vendor> getAllPendingPaymentVendors() {
+        return vendorService.getAllPendingPaymentVendors();
+    }
+
+//    @Autowired
+//    AccountFeignClient accountClient;
+//    @RequestMapping("/customer/{customerid}")
+//    public Account getName(@PathVariable("customerid") String customerId) {
+//        Account account = accountClient.getName(customerId);
+//        return account;
+//    }
+//    @FeignClient(name = "account-service", url = "http://localhost:8090")
+//    interface AccountFeignClient {
+//        @RequestMapping("/account/{customerid}")
+//        public Account getName(@PathVariable("customerid") String customerId);
+//    }
 }

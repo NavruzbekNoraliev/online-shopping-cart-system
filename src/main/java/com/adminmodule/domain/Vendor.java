@@ -20,6 +20,7 @@ public class Vendor {
     private String phoneNumber;
     private String email;
 
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;

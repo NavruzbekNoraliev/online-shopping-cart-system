@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=""
+      - MYSQL_DATABASE=spm
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+    build: .
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - "9595:9595"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+       "spring.driverClassName" : "com.mysql.cj.jdbc.Driver",
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/spm?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "create"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:

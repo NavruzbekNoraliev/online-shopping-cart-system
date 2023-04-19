@@ -11,4 +11,8 @@ public interface VendorService {
     Vendor updateVendor(Long id, Vendor vendor);
     void deleteVendor(Long id);
     void approveVendor(Long id);
+
+    List<Vendor> getAllPendingApprovalVendors();
+
+    List<Vendor> getAllPendingPaymentVendors();
 }

@@ -32,7 +32,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor addVendor(Vendor vendor) {
-        vendor.setStatus(Status.PENDING);
+        vendor.setStatus(Status.PENDING_PAYMENT);
         return vendorRepository.save(vendor);
     }
 
@@ -42,6 +42,18 @@ public class VendorServiceImpl implements VendorService {
         existingVendor.setStatus(Status.APPROVED);
         vendorRepository.save(existingVendor);
     }
+
+    @Override
+    public List<Vendor> getAllPendingApprovalVendors() {
+        return vendorRepository.findAllPendingApprovalVendors();
+    }
+
+    @Override
+    public List<Vendor> getAllPendingPaymentVendors() {
+        return vendorRepository.findAllPendingPaymentVendors();
+    }
+
+
 
     @Override
     public Vendor updateVendor(Long id, Vendor vendor) {
