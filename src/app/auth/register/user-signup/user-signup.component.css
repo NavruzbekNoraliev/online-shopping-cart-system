@@ -1,9 +1,9 @@
 .user-register {
     text-align: center;
-    padding: 4rem;
-    margin: 2rem;
+    padding: 2rem;
     color: #03412a;
     font-family: 'lato';
+    
 }
 
 p {
@@ -14,7 +14,7 @@ p {
     margin-bottom: 2rem;
 }
 
-.col-md-6 {
+.col-md-10 {
     border: 2px solid #03412a;
     padding: 3rem;
 }
@@ -29,4 +29,11 @@ p {
     color: azure;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
+}
+
+.title {
+    display: block;
+    text-align: left;
+    margin: 2rem 2rem 1rem 2rem;
+    font-style: italic;
 }

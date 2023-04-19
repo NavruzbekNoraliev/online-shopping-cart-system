@@ -1,0 +1,28 @@
+.payment {
+    margin: 1.5rem;
+    font-family: 'lato';
+    font-size: medium;
+}
+
+.pay-button {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    color: azure;
+    background-color: rgb(226, 97, 10);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;  
+    font-size: large;
+}
+
+p {
+  font-family: Lato;
+}
+
+label {
+  display: inline;
+}

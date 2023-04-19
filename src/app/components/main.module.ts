@@ -5,13 +5,15 @@ import { HeaderComponent } from './layouts/full/header/header.component';
 import { ProductPageModule } from '../pages/product/product-page.module';
 import { AllMaterialModule } from '../shared/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards/public-api'
 
 @NgModule({
   imports: [
     CommonModule,
     ProductPageModule,
     FlexLayoutModule,
-    AllMaterialModule
+    AllMaterialModule,
+    NgxSandCreditCardsModule
   ],
   declarations: [
     HeaderComponent,

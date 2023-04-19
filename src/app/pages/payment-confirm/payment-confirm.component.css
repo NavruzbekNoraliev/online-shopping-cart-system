@@ -1,0 +1,38 @@
+.payment-confirm {
+    color: #03412a;
+    font-family: 'lato';
+    margin: 3rem;
+    text-align: center;
+}
+
+.card {
+    height: 70vh;
+    margin: 2rem;
+    padding: 2rem;
+
+}
+
+.center {
+    position: absolute;
+    top: 45%;
+    left: 47%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.center img {
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    outline: none;
+    width: 70%;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    color: azure;
+    background-color: rgb(226, 97, 10);
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;  
+    font-size: large;
+}

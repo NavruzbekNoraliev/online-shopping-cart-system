@@ -33,4 +33,8 @@ export class CartComponent implements OnInit {
     this.route.navigateByUrl("/");
   }
 
+  navigateToPayment() {
+    this.route.navigateByUrl("payment");
+  }
+
 }

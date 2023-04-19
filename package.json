@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
     "bootstrap": "^5.2.3",
+    "card-validator": "^8.1.1",
     "ngx-bootstrap": "^6.2.0",
     "angular-star-rating": "^6.0.0",
     "rxjs": "~7.5.0",

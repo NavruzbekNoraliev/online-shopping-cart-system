@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 
 import { HttpClientModule } from "@angular/common/http";
-import { MainComponent } from './components/main.component';
-import { HeaderComponent } from './components/header/header.component';
 import { CartComponent } from './components/cart/cart.component';
 import { FilterPipe } from './shared/filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { PaymentComponent } from './components/payment/payment.component';
+import { HeaderComponent } from './components/header/header.component';
+import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
+import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
+import { VendorDashboardComponent } from './components/dashboard/vendor-dashboard/vendor-dashboard.component';
 
 
 import { MainModule } from './components/main.module';
@@ -21,8 +25,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     HeaderComponent,
     CartComponent,
-    FilterPipe
-
+    FilterPipe,
+    PaymentComponent,
+    PaymentConfirmComponent,
+    VendorDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +38,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MainModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule
+    NgxSandCreditCardsModule
+    
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],
