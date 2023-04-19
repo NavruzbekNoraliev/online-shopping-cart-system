@@ -25,10 +25,6 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.readTransactions(pageable));
     }
 
-//    @GetMapping("/checkCard")
-//    public ResponseEntity checkCard() {
-//        return ResponseEntity.ok(transactionService.checkCard());
-//    }
     @PostMapping
     public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) {
         return ResponseEntity.ok(transactionService.utilPayment(transactionRequest));

@@ -50,8 +50,8 @@ public class TransactionService {
         entity.setTransactionNumber(returnedTransaction.getTransactionId());
         TransactionEntity optUtilPayment = transactionRepository.save(entity);
 
-
-        return TransactionResponse.builder().transactionStatus(optUtilPayment.getTransactionStatus()).transactionId(optUtilPayment.getTransactionNumber()).build();
+        return TransactionResponse.builder().transactionStatus(optUtilPayment.getTransactionStatus())
+                .transactionId(optUtilPayment.getTransactionNumber()).build();
     }
 
     public List<TransactionDto> readTransactions(Pageable pageable) {
