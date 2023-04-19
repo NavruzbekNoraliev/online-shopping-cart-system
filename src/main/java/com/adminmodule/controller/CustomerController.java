@@ -2,6 +2,10 @@ package com.adminmodule.controller;
 
 import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Customer;
+import com.adminmodule.repository.AccountRepository;
+import com.adminmodule.security.AccountDetailsService;
+import com.adminmodule.security.AuthService;
+import com.adminmodule.security.JWTUtility;
 import com.adminmodule.service.CustomerService;
 import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerDTO;
@@ -12,16 +16,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    private final AuthService authService;
+    private final AccountDetailsService accountDetailsService;
+
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, AuthService authService, AccountDetailsService accountDetailsService) {
         this.customerService = customerService;
+        this.accountDetailsService = accountDetailsService;
+        this.authService = authService;
     }
     @GetMapping
     public ResponseEntity<?> getAllCustomers(){
@@ -34,6 +47,13 @@ public class CustomerController {
     public ResponseEntity<?> getCustomerById(@PathVariable("id") Long id){
         CustomerDTO customerDTO = customerService.getCustomerById(id);
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
+    //insert into account table for testing purpose
+    @PostMapping("/account")
+    public ResponseEntity<?> addAccount(@RequestBody Account account){
+        Account newAccount = accountDetailsService.addAccount(account);
+        return new ResponseEntity<>(newAccount, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -73,6 +93,9 @@ public class CustomerController {
         return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
 
-
-
+    //authenticate and generate token
+    @PostMapping("/authenticate")
+    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
+        return authService.generateToken(account);
+    }
 }

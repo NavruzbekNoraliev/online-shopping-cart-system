@@ -3,7 +3,7 @@ package com.adminmodule.service.dto;
 import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Address;
 import com.adminmodule.domain.Role;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.Builder;
 
 import java.util.LinkedHashSet;

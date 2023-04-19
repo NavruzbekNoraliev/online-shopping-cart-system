@@ -1,8 +1,7 @@
 package com.adminmodule.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VendorAdmin {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendor_admin_id", nullable = false)
     private Long id;

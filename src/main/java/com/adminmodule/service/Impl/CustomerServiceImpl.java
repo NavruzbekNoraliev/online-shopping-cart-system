@@ -197,4 +197,17 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UserNotFoundException("Employee not found");
         }
     }
+
+    //findByUsername follow good coding practice
+    @Override
+    public CustomerDTO getCustomerByUsername(String username) {
+        Optional<Customer> customerOptional = customerRepository.findByEmail(username);
+        if (customerOptional.isPresent()) {
+            return CustomerAdapter.toDTO(customerOptional.get());
+        } else {
+            throw new UserNotFoundException("Customer not found");
+        }
+    }
+
+
 }

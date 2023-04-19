@@ -1,7 +1,7 @@
 package com.adminmodule.domain;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Entity

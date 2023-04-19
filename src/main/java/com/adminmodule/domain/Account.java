@@ -1,6 +1,6 @@
 package com.adminmodule.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.LinkedHashSet;
@@ -12,14 +12,14 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
     private Long id;
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))

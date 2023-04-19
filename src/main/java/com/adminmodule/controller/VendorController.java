@@ -1,8 +1,11 @@
 package com.adminmodule.controller;
 
+import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Vendor;
+import com.adminmodule.security.AuthService;
 import com.adminmodule.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +17,12 @@ public class VendorController {
 
     private final VendorService vendorService;
 
+    private final AuthService authService;
+
     @Autowired
-    public VendorController(VendorService vendorService) {
+    public VendorController(VendorService vendorService, AuthService authService) {
         this.vendorService = vendorService;
+        this.authService = authService;
     }
     //get all vendors
     @GetMapping()
@@ -72,4 +78,9 @@ public class VendorController {
 //        @RequestMapping("/account/{customerid}")
 //        public Account getName(@PathVariable("customerid") String customerId);
 //    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
+        return authService.generateToken(account);
+    }
 }

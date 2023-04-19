@@ -1,7 +1,7 @@
 package com.adminmodule.domain;
 
 import com.adminmodule.domain.Enum.Status;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.List;

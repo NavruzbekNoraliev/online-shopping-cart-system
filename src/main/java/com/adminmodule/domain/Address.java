@@ -1,9 +1,6 @@
 package com.adminmodule.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import javax.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Address {
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;

@@ -1,6 +1,7 @@
 package com.adminmodule.controller;
 
 import com.adminmodule.domain.Account;
+import com.adminmodule.security.AuthService;
 import com.adminmodule.service.VendorAdminService;
 import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.VendorAdminDTO;
@@ -15,9 +16,12 @@ public class VendorAdminController {
 
     private final VendorAdminService vendorAdminService;
 
+    private final AuthService authService;
+
     @Autowired
-    public VendorAdminController(VendorAdminService vendorAdminService) {
+    public VendorAdminController(VendorAdminService vendorAdminService, AuthService authService) {
         this.vendorAdminService = vendorAdminService;
+        this.authService = authService;
     }
 
     @GetMapping
@@ -47,6 +51,11 @@ public class VendorAdminController {
 
         VendorAdminDTO vendorAdminDTO = vendorAdminService.verifyVendor(account);
         return new ResponseEntity<>(vendorAdminDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
+        return authService.generateToken(account);
     }
 
 }

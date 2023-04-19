@@ -22,4 +22,6 @@ public interface CustomerService {
     AddressDTO updateBillingAddress(AddressDTO addressDTO, Long id);
 
     CustomerDTO verifyCustomer(Account account);
+
+    CustomerDTO getCustomerByUsername(String email);
 }

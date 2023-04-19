@@ -1,6 +1,7 @@
 package com.adminmodule.controller;
 
 import com.adminmodule.domain.Account;
+import com.adminmodule.security.AuthService;
 import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.EmployeeDTO;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    private final AuthService authService;
+
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, AuthService authService) {
         this.employeeService = employeeService;
+        this.authService = authService;
     }
 
     @GetMapping
@@ -45,5 +49,10 @@ public class EmployeeController {
 
         EmployeeDTO employeeDTO = employeeService.verifyEmployee(account);
         return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<Object> generateToken(@RequestBody Account account) throws Exception {
+        return authService.generateToken(account);
     }
 }
