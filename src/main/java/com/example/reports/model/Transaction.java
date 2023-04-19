@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,18 +27,38 @@ public class Transaction {
             strategy = GenerationType.SEQUENCE,
             generator = "transactionSeq"
     )
-    long transactionId;
+    private long transactionId;
 
+//    @OneToMany(
+//            cascade = CascadeType.ALL
+//    )
+//    @JoinColumn(
+//            name = "transaction_id",
+//            referencedColumnName = "transactionId"
+//    )
     @OneToMany(
-            cascade = CascadeType.ALL
+            mappedBy = "transaction"
     )
-    @JoinColumn(
-            name = "transaction_id",
-            referencedColumnName = "transactionId"
-    )
-    List<ProductSales> productSales;
-    Date date;
-    long userId;
-    String userName;
+    private List<ProductSales> productSales;
+    private Date date;
+    private long userId;
+    private String userName;
+
+    public List<Report> createReport(){
+        List<Report> reports = new ArrayList<>();
+        for(ProductSales ps : productSales){
+            Report report = Report.builder()
+                    .date(this.date)
+                    .userName(this.userName)
+                    .category(ps.getCategory())
+                    .pricePerUnit(ps.getPricePerUnit())
+                    .productName(ps.getProductName())
+                    .quantity(ps.getQuantity())
+                    .total(ps.getTotal())
+                    .vendorName(ps.getVendorName())
+                    .build();
+        }
+        return reports;
+    }
 
 }

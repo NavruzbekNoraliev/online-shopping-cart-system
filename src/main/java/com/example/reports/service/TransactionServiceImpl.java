@@ -17,6 +17,8 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = Transaction.builder()
                 .date(transactionDTO.getDate())
                 .productSales(transactionDTO.getProductSales())
+                .userName(transactionDTO.getUserName())
+                .userId(transactionDTO.getUserId())
                 .build();
         transactionRepository.save(transaction);
         return transactionDTO;

@@ -2,6 +2,7 @@ package com.example.reports.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
+@Builder
 public class ProductSales {
     @Id
     @SequenceGenerator(
@@ -20,14 +22,24 @@ public class ProductSales {
             strategy = GenerationType.SEQUENCE,
             generator = "productSalesSeq"
     )
-    long productSalesId;
-    long transactionId;
+    private long productSalesId;
 
-    long productId;
-    String productName;
-    long vendorId;
-    String vendorName;
-    int quantity;
-    double pricePerUnit;
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "transaction_id",
+            referencedColumnName = "transactionId"
+    )
+    private Transaction transaction;
+
+    private long productId;
+    private String productName;
+    private String category;
+    private long vendorId;
+    private String vendorName;
+    private int quantity;
+    private double pricePerUnit;
+    private double total;
 
 }
