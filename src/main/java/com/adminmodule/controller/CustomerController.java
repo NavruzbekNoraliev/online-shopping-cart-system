@@ -1,7 +1,6 @@
 package com.adminmodule.controller;
 
 import com.adminmodule.domain.Customer;
-import com.adminmodule.security.AccountDetailsService;
 import com.adminmodule.security.JWTUtility;
 import com.adminmodule.service.CustomerService;
 import com.adminmodule.service.dto.AddressDTO;
@@ -10,9 +9,12 @@ import com.adminmodule.service.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/customer")
@@ -35,15 +37,26 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable("id") Long id, @RequestHeader("Authorization") String authorizationHeader){
-        String jwtToken = authorizationHeader.substring(7);
-        String username = jwtUtility.getUsernameFromToken(jwtToken);
-        CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
-        CustomerDTO customer = customerService.getCustomerById(id);
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (customer.getId()==customerDTO.getId() || roles.contains("ROLE_ADMIN")){
-            return new ResponseEntity<>(customer, HttpStatus.OK);
+        try{
+            String jwtToken = authorizationHeader.substring(7);
+            String username = jwtUtility.getUsernameFromToken(jwtToken);
+            CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
+            CustomerDTO customer = customerService.getCustomerById(id);
+            List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+            if (customer.getId()==customerDTO.getId()){
+                return new ResponseEntity<>(customer, HttpStatus.OK);
+            } else if (roles.contains("ROLE_ADMIN")) {
+                return new ResponseEntity<>(customer, HttpStatus.OK);
+            }
+            else{
+                throw new AuthenticationException("Unauthorized access") {
+                };
+            }
+        }catch (AuthenticationException e){
+            Map<String, Object> response = new HashMap<>();
+            response.put("error", "Unauthorized access");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping()

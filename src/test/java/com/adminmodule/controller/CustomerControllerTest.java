@@ -1,11 +1,8 @@
 package com.adminmodule.controller;
 
 import com.adminmodule.domain.Customer;
-import com.adminmodule.domain.Employee;
 import com.adminmodule.service.CustomerService;
-import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.dto.CustomerDTO;
-import com.adminmodule.service.dto.EmployeeDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

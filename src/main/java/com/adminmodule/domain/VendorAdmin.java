@@ -22,7 +22,7 @@ public class VendorAdmin {
     private String email;
     private String phone;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "vendorId")
     private Vendor vendor;
 

@@ -19,7 +19,7 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String phoneNumber;
+    private String phone;
     private String email;
 
 
@@ -40,6 +40,19 @@ public class Vendor {
 
     @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
     private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
+
+    public Vendor(int id, String name, String email, String phone,
+                  Address address, Address billingAddress,
+                  AccountDetails accountDetails) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.billingAddress = billingAddress;
+        this.accountDetails = accountDetails;
+    }
+
 
     public void addVendorAdmin(VendorAdmin vendorAdmin) {
         vendorAdmin.setVendor(this);

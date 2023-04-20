@@ -18,14 +18,10 @@ import com.adminmodule.service.dto.CustomerAdapter;
 import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -34,7 +30,6 @@ public class CustomerServiceImpl implements CustomerService {
     private final AddressRepository addressRepository;
     private final RoleRepository roleRepository;
     private final AccountRepository accountRepository;
-
     @Autowired
     public CustomerServiceImpl(CustomerRepository customerRepository,
                                AddressRepository addressRepository,

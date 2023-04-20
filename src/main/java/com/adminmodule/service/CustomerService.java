@@ -6,7 +6,6 @@ import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Customer;
 import com.adminmodule.service.dto.AddressDTO;
 import com.adminmodule.service.dto.CustomerDTO;
-import com.adminmodule.service.dto.Customers;
 
 import java.util.List;
 

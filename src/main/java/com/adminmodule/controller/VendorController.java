@@ -4,13 +4,14 @@ import com.adminmodule.domain.Vendor;
 import com.adminmodule.security.JWTUtility;
 import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.VendorService;
+import com.adminmodule.service.dto.VendorAdaptor;
 import com.adminmodule.service.dto.VendorAdminDTO;
+import com.adminmodule.service.dto.VendorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/v1/vendor")
@@ -50,8 +51,8 @@ public class VendorController {
 
     //add vendor
     @PostMapping()
-    public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) {
-        return ResponseEntity.ok(vendorService.addVendor(vendor));
+    public ResponseEntity<?> addVendor(@RequestBody VendorDTO vendorDTO) {
+        return ResponseEntity.ok(vendorService.addVendor(vendorDTO));
     }
     //update vendor
     @PutMapping("/{id}")
@@ -60,12 +61,12 @@ public class VendorController {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         VendorAdminDTO vendorAdminDTO = vendorService.getVendorAdminByUsername(username);
-        Vendor vendor1 = vendorAdminDTO.getVendor();
+        VendorDTO vendor1 = VendorAdaptor.toDTO(vendorAdminDTO.getVendor());
         List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
         if (vendor1.getId() != id || !roles.contains("ROLE_ADMIN")) {
             return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.ok(vendorService.updateVendor(id, vendor));
+        return ResponseEntity.ok(vendorService.updateVendor(id, vendor1));
     }
     //delete vendor
     @DeleteMapping("/{id}")

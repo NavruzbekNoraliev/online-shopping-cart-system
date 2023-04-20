@@ -69,7 +69,7 @@ public class SecurityConfiguration {
                 .antMatchers("/api/v1/auth").permitAll()
                 .antMatchers("/api/v1/employee/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/vendor-admin/all").hasRole("ADMIN")
-                .antMatchers( "/api/v1/vendor-admin").hasAnyRole("VENDOR_ADMIN", "ADMIN")
+                .antMatchers( "/api/v1/vendor-admin/**").hasAnyRole("VENDOR_ADMIN", "ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/v1/vendor").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/vendor/all").hasRole("ADMIN")
                 .antMatchers("/api/v1/vendor").hasAnyRole("VENDOR_ADMIN", "ADMIN")
