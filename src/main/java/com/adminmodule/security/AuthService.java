@@ -2,6 +2,7 @@ package com.adminmodule.security;
 
 import com.adminmodule.domain.Account;
 import com.adminmodule.service.CustomerService;
+import com.adminmodule.service.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,8 +58,10 @@ public class AuthService {
                 accountDetailsService.loadUserByUsername(account.getUsername());
         final String token = jwtUtility.generateToken(userDetails);
         Map<String, Object> response = new HashMap<>();
+        CustomerDTO customerDTO = customerService.getCustomerByUsername(account.getUsername());
+        customerDTO.getAccount().setPassword("********");
         response.put("bearerToken", token);
-        response.put("user", customerService.getCustomerByUsername(account.getUsername()));
+        response.put("user", customerDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
