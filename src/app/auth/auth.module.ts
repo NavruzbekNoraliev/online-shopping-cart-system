@@ -5,12 +5,16 @@ import { VendorSignupComponent } from './register/vendor-signup/vendor-signup.co
 import { UserSignupComponent } from './register/user-signup/user-signup.component';
 import { RouterModule } from '@angular/router';
 import { authRoutes } from './auth.routing';
+import { AllMaterialModule } from '../shared/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(authRoutes)
+    RouterModule.forChild(authRoutes),
+    ReactiveFormsModule,
+    AllMaterialModule
   ],
   declarations: [
     LoginComponent,

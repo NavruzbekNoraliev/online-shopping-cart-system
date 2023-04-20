@@ -1,46 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-  email = "";
-  password = "";
-  error = "";
-  loading = false;
 
-  constructor(private route: Router) { }
+  request$?: Observable<any>;
+  private requesting: BehaviorSubject<any> = new BehaviorSubject(false);
+  requesting$: Observable<boolean> = this.requesting.asObservable();
 
-  ngOnInit(): void {
+  form: FormGroup;
+
+  // "username": "arda@gmail.com",
+  // "password": "Aa@12345"
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authAPI: AuthService
+  ) {
+    this.form = this.fb.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required]
+    });
   }
 
-  onSubmit(): void {
-    this.loading = true;
-    this.error = "";
-    if(!this.email || !this.password) {
-      this.error = "Please enter your email and password!";
-    } else {
-
-    }
+  ngOnInit() {
   }
 
-  navigateToHome() {
-    // this.route.navigate(["customer-register"]);
-    this.route.navigateByUrl("/");
+  onSubmit() {
+    const values = this.form.value;
+    this.requesting.next(true);
+    this.request$ = this.authAPI.login(values.username, values.password).pipe(
+      tap(_ => {
+        this.requesting.next(false);
+        this.router.navigate(['/main']);
+      }, _ => {
+        this.requesting.next(false);
+      })
+    );
   }
-
-  navigateToCustomerSignIn() {
-    // this.route.navigate(["customer-register"]);
-    this.route.navigateByUrl("auth/customer-register");
-  }
-
-  navigateToVendorSignIn() {
-    // this.route.navigate(["customer-register"]);
-    this.route.navigateByUrl("auth/vendor-register");
-  }
-
 }

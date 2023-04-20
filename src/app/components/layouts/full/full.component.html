@@ -1,3 +1,28 @@
-<p>
-  full works!
-</p>
+<div class="main-container">
+    <div>
+        <mat-toolbar color="primary" class="topbar telative" fxFlex="100" fxLayout="row" fxLayoutAlign="start start">
+            <div>
+                <button mat-icon-button #sidebarbtn id="sidebarbtn" value="sidebarclosed">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+            <span class="example-spacer"></span>
+                <app-header></app-header>
+        </mat-toolbar>
+    </div>
+ 
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+        [ngClass]="{'minisidebar': false}">
+        <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'"
+            fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"
+            (open)="sidebarOpened = true" (close)="sidebarOpened = false">
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+        <mat-sidenav-content class="page-wrapper">
+            <div class="page-content">
+                <router-outlet><app-spinner></app-spinner></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+<ng-template *ngIf="sidebarMenuEvents$ | async"></ng-template>

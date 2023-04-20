@@ -1,47 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { HostListener } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Observable, map, startWith } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  screenHeight: any;
-  screenWidth: any;
-  isMenuOpen = false;
-  isMobile = false;
-  isLoggedIn = false;
-  dropdownVisible = false;
-  cartData: any;
+export class HeaderComponent implements OnInit{
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions!: Observable<string[]>;
 
-  // @HostListener('window:resize', ['$event'])
-  // getScreenSize(event?) {
-  //   this.screenHeight = window.innerHeight;
-  //   this.screenWidth = window.innerWidth;
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
 
-  //   if (this.screenWidth > 768) this.isMobile = false;
-  //   else this.isMobile = true;
-  // }
-
-  constructor() {
-    // this.getScreenSize();
+  }
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
   }
 
-  ngOnInit(): void {}
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  redirectToCart(){
+    this.router.navigate(['/cart'],);
+  }
+  logOut(){
+    this.authService.logout();
   }
 
-  toggleDropdown() {
-    this.dropdownVisible = !this.dropdownVisible;
-  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
 
-  removeProductFromCart(id: number) {
-  }
-
-  logout() {
-    this.isMenuOpen = false;
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 }

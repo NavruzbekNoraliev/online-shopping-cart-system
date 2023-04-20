@@ -4,3 +4,7 @@ body {
 .mt-5{
     margin-top: 5px !important;
 }
+.mat-toolbar.mat-primary {
+    background: rgb(53, 39, 39);
+    color: #fff;
+  }

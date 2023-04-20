@@ -4,14 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routes } from './app.routing';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CartComponent } from './components/cart/cart.component';
 import { FilterPipe } from './shared/filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PaymentComponent } from './components/payment/payment.component';
-import { HeaderComponent } from './components/header/header.component';
+
 import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
 import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
 import { VendorDashboardComponent } from './components/dashboard/vendor-dashboard/vendor-dashboard.component';
@@ -19,16 +18,25 @@ import { VendorDashboardComponent } from './components/dashboard/vendor-dashboar
 
 import { MainModule } from './components/main.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FullComponent } from './components/layouts/full/full.component';
+import { SidebarComponent } from './components/layouts/full/sidebar/sidebar.component';
+import { AllMaterialModule } from './shared/material.module';
+import { MenuItems } from './shared/menu-items';
+import { ResponseInterceptor } from './core/services/interceptors/response.interceptor';
+import { HeaderComponent } from './components/layouts/full/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     CartComponent,
     FilterPipe,
     PaymentComponent,
     PaymentConfirmComponent,
-    VendorDashboardComponent
+    VendorDashboardComponent,
+    FullComponent,
+    SidebarComponent,
+    HeaderComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -36,13 +44,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     MainModule,
+    NgxSandCreditCardsModule,
+    AllMaterialModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule
-    NgxSandCreditCardsModule
-    
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [],
+  providers: [ 
+    MenuItems,
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
