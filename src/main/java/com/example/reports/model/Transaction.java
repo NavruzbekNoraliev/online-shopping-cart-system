@@ -2,10 +2,7 @@ package com.example.reports.model;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +13,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
+@ToString(exclude = "productSales")
 public class Transaction {
     @Id
     @SequenceGenerator(
@@ -37,6 +35,7 @@ public class Transaction {
 //            referencedColumnName = "transactionId"
 //    )
     @OneToMany(
+            cascade = CascadeType.ALL,
             mappedBy = "transaction"
     )
     private List<ProductSales> productSales;
@@ -57,6 +56,7 @@ public class Transaction {
                     .total(ps.getTotal())
                     .vendorName(ps.getVendorName())
                     .build();
+            reports.add(report);
         }
         return reports;
     }

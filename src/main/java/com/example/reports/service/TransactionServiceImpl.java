@@ -1,7 +1,10 @@
 package com.example.reports.service;
 
+import com.example.reports.dto.Mapper;
 import com.example.reports.dto.TransactionDTO;
+import com.example.reports.model.ProductSales;
 import com.example.reports.model.Transaction;
+import com.example.reports.repository.ProductSalesRepository;
 import com.example.reports.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +15,11 @@ import java.time.LocalDate;
 public class TransactionServiceImpl implements TransactionService {
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    Mapper mapper;
 
-    public TransactionDTO createTransaction(TransactionDTO transactionDTO){
-        Transaction transaction = Transaction.builder()
-                .date(transactionDTO.getDate())
-                .productSales(transactionDTO.getProductSales())
-                .userName(transactionDTO.getUserName())
-                .userId(transactionDTO.getUserId())
-                .build();
+    public TransactionDTO createTransaction(Transaction transaction){
         transactionRepository.save(transaction);
-        return transactionDTO;
+        return mapper.transactionToDto(transaction);
     }
 }

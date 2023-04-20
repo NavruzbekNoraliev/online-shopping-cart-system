@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -41,5 +44,19 @@ public class ProductSales {
     private int quantity;
     private double pricePerUnit;
     private double total;
+
+    public Report createReport(){
+        Report report = Report.builder()
+            .date(transaction.getDate())
+            .userName(transaction.getUserName())
+            .category(this.getCategory())
+            .pricePerUnit(this.getPricePerUnit())
+            .productName(this.getProductName())
+            .quantity(this.getQuantity())
+            .total(this.getTotal())
+            .vendorName(this.getVendorName())
+            .build();
+        return report;
+    }
 
 }

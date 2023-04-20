@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ProductSalesRepository extends JpaRepository<ProductSales, Long> {
     List<ProductSales> getProductSalesByVendorId(long vendorId);
+    List<ProductSales> getProductSalesByProductId(long productId);
+    List<ProductSales> getProductSalesByProductName(String productName);
 }

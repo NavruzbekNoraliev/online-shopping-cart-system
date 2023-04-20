@@ -12,13 +12,25 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/reports/")
 public class ReportsController {
 
     @Autowired
     ReportService reportService;
 
-    @GetMapping("/{vendorId}/sales/{format}")
-    public String getVendorSales(@PathVariable String format, @PathVariable Long vendorId) throws JRException, FileNotFoundException {
+    @GetMapping("/vendor/{vendorId}/sales/{format}")
+    public String getVendorSales(@PathVariable String format, @PathVariable long vendorId) throws JRException, FileNotFoundException {
         return reportService.exportVendorSalesReport(format, vendorId);
     }
+
+    @GetMapping("/user/{userId}/sales/{format}")
+    public String getUserOrders(@PathVariable String format, @PathVariable long userId) throws JRException, FileNotFoundException {
+        return reportService.exportUserReport(format, userId);
+    }
+
+    @GetMapping("/product/{productId}/sales/{format}")
+    public String getProductSales(@PathVariable String format, @PathVariable long productId) throws JRException, FileNotFoundException {
+        return reportService.productReport(format, productId);
+    }
+
 }
