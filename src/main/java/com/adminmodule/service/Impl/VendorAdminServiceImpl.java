@@ -66,10 +66,8 @@ public class VendorAdminServiceImpl implements VendorAdminService {
 
         Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
         vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
-
         vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
         vendorAdmin.getAccount().setUsername(vendorAdmin.getEmail());
-
         Account account = accountRepository.save(vendorAdmin.getAccount());
         vendorAdmin.setAccount(account);
 

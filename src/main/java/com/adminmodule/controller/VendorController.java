@@ -1,69 +1,65 @@
 package com.adminmodule.controller;
 
-import com.adminmodule.domain.Account;
 import com.adminmodule.domain.Vendor;
-import com.adminmodule.security.AuthService;
 import com.adminmodule.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/vendor")
 public class VendorController {
 
-
     private final VendorService vendorService;
 
-    private final AuthService authService;
-
     @Autowired
-    public VendorController(VendorService vendorService, AuthService authService) {
+    public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
-        this.authService = authService;
     }
-    //get all vendors
-    @GetMapping()
-    public List<Vendor> getAllVendors() {
-        return vendorService.getAllVendors();
+
+    @GetMapping("all")
+    public ResponseEntity<?> getAllVendors() {
+        return ResponseEntity.ok(vendorService.getAllVendors());
     }
 
     //get vendor by id
     @GetMapping("/{id}")
-    public Vendor getVendorById(@PathVariable Long id) {
-        return vendorService.getVendorById(id);
+    public ResponseEntity<?> getVendorById(@PathVariable Long id) {
+        return ResponseEntity.ok(vendorService.getVendorById(id));
     }
     //add vendor
     @PostMapping()
-    public Vendor addVendor(@RequestBody Vendor vendor) {
-        return vendorService.addVendor(vendor);
+    public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) {
+        return ResponseEntity.ok(vendorService.addVendor(vendor));
     }
     //update vendor
     @PutMapping("/{id}")
-    public Vendor updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
-        return vendorService.updateVendor(id, vendor);
+    public ResponseEntity<?> updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
+        return ResponseEntity.ok(vendorService.updateVendor(id, vendor));
     }
     //delete vendor
-    @DeleteMapping("/delete/{id}")
-    public void deleteVendor(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteVendor(@PathVariable Long id) {
         vendorService.deleteVendor(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/approve/{id}")
-    public void approveVendor(@PathVariable Long id) {
+    public ResponseEntity<?> approveVendor(@PathVariable Long id) {
         vendorService.approveVendor(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/pending-approval")
-    public List<Vendor> getAllPendingApprovalVendors() {
-        return vendorService.getAllPendingApprovalVendors();
+
+    //pending vendors with good practices
+    @GetMapping("/pending")
+    public ResponseEntity<?> getAllPendingApprovalVendors() {
+        return ResponseEntity.ok(vendorService.getAllPendingApprovalVendors());
     }
 
     @GetMapping("/pending-payment")
-    public List<Vendor> getAllPendingPaymentVendors() {
-        return vendorService.getAllPendingPaymentVendors();
+    public ResponseEntity<?> getAllPendingPaymentVendors() {
+        return ResponseEntity.ok(vendorService.getAllPendingPaymentVendors());
     }
-
 }

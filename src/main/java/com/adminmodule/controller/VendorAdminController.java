@@ -1,12 +1,9 @@
 package com.adminmodule.controller;
 
-import com.adminmodule.domain.Account;
 import com.adminmodule.security.AuthService;
 import com.adminmodule.service.VendorAdminService;
-import com.adminmodule.service.dto.CustomerDTO;
 import com.adminmodule.service.dto.VendorAdminDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,7 @@ public class VendorAdminController {
         this.authService = authService;
     }
 
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<?> getAllVendorAdmins() {
         return ResponseEntity.ok(vendorAdminService.getAllVendorAdmins());
     }
@@ -45,12 +42,6 @@ public class VendorAdminController {
     public ResponseEntity<?> deleteVendorAdmin(@PathVariable Long id) {
         vendorAdminService.deleteVendorAdmin(id);
         return ResponseEntity.ok().build();
-    }
-    @PostMapping("/verify")
-    public ResponseEntity<?> verifyCustomer(@RequestBody Account account) {
-
-        VendorAdminDTO vendorAdminDTO = vendorAdminService.verifyVendor(account);
-        return new ResponseEntity<>(vendorAdminDTO, HttpStatus.OK);
     }
 
 }
