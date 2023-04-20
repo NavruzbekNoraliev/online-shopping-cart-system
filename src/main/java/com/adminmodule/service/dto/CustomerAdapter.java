@@ -28,4 +28,16 @@ public class CustomerAdapter {
 
     }
 
+    public static CustomerDTO1 toDTO1(Customer customer){
+        return new CustomerDTO1(customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getBillingAddress(),
+                customer.getShippingAddress(),
+                AccountAdapter.toDTO(customer.getAccount()));
+
+    }
+
 }
