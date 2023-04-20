@@ -61,7 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
 
          if(customer.isPresent()){
 
-                return CustomerAdapter.toDTO(customer.get());
+             CustomerDTO customerDTO1 = CustomerAdapter.toDTO(customer.get());
+             customerDTO1.getAccount().setPassword("********");
+             return customerDTO1;
          }
          else{
              throw new UserNotFoundException("Customer not found");
@@ -70,21 +72,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO addCustomer(CustomerDTO customerDTO) {
-        Optional<Customer> customerOptional = customerRepository.findByEmail(customerDTO.getEmail());
-        if(customerOptional.isPresent()){
-            throw new UserBadRequestException("Customer already exists");
+        if(customerDTO.getEmail() == null){
+            throw new UserBadRequestException("Email is required");
+        }
+        if(customerDTO.getAccount().getPassword() == null){
+            throw new UserBadRequestException("Password is required");
+        }
+
+        if(accountRepository.findByUsername(customerDTO.getEmail())!=null){
+            throw new UserBadRequestException("Email already exists");
         }
 
         Customer customer = CustomerAdapter.fromDTO(customerDTO);
-
-
         if(customer.getShippingAddress() != null){
-            Address address = addressRepository.save(customer.getShippingAddress());
-           customer.setShippingAddress(address);
+            customer.setShippingAddress(addressRepository.save(customer.getShippingAddress()));
         }
         if(customer.getBillingAddress() != null){
-            Address address = addressRepository.save(customer.getBillingAddress());
-            customer.setBillingAddress(address);
+            customer.setBillingAddress(addressRepository.save(customer.getBillingAddress()));
         }
 
         customer.getAccount().setPassword(Utils.encodePassword(customer.getAccount().getPassword()));
@@ -95,7 +99,9 @@ public class CustomerServiceImpl implements CustomerService {
         Account account = accountRepository.save(customer.getAccount());
         customer.setAccount(account);
         Customer newCustomer =  customerRepository.save(customer);
-        return CustomerAdapter.toDTO(newCustomer);
+        CustomerDTO customerDTO1 = CustomerAdapter.toDTO(newCustomer);
+        customerDTO1.getAccount().setPassword("********");
+        return customerDTO1;
     }
 
     @Override
@@ -139,7 +145,9 @@ public class CustomerServiceImpl implements CustomerService {
 
        Customer updatedCustomer = customerRepository.save(customer);
 
-            return CustomerAdapter.toDTO(updatedCustomer);
+            CustomerDTO customerDTO1 = CustomerAdapter.toDTO(updatedCustomer);
+            customerDTO1.getAccount().setPassword("********");
+            return customerDTO1;
         }
         else{
             throw new UserNotFoundException("Customer not found");

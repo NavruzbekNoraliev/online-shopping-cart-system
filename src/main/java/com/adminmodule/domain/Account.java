@@ -30,4 +30,7 @@ public class Account {
         this.username = username;
         this.password = password;
     }
+
+    public Account(String username, Set<Role> role) {
+    }
 }
