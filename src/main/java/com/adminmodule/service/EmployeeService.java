@@ -15,4 +15,6 @@ public interface EmployeeService {
 
 
     EmployeeDTO verifyEmployee(Account account);
+
+    EmployeeDTO getEmployeeByUsername(String username);
 }

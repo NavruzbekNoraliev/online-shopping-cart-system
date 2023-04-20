@@ -4,7 +4,9 @@ import com.adminmodule.domain.Enum.Status;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -35,5 +37,17 @@ public class Vendor {
     private AccountDetails accountDetails;
 
     private Status status;
+
+    @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
+    private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
+
+    public void addVendorAdmin(VendorAdmin vendorAdmin) {
+        vendorAdmin.setVendor(this);
+        vendorAdmins.add(vendorAdmin);
+    }
+
+    public void removeVendorAdmin(VendorAdmin vendorAdmin) {
+        vendorAdmins.remove(vendorAdmin);
+    }
 
 }

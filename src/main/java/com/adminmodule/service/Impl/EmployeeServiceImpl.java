@@ -113,4 +113,11 @@ public class EmployeeServiceImpl implements EmployeeService {
            throw new UserNotFoundException("Employee not found");
         }
     }
+
+    @Override
+    public EmployeeDTO getEmployeeByUsername(String username) {
+        return employeeRepository.findByEmail(username)
+                .map(EmployeeAdapter::toDTO)
+                .orElseThrow(() -> new UserNotFoundException("Employee not found"));
+    }
 }

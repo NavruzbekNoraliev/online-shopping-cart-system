@@ -2,13 +2,17 @@ package com.adminmodule.service.Impl;
 
 import com.adminmodule.domain.Enum.Status;
 import com.adminmodule.domain.Vendor;
+import com.adminmodule.domain.VendorAdmin;
 import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.VendorRepository;
 import com.adminmodule.service.VendorService;
+import com.adminmodule.service.dto.VendorAdminAdapter;
+import com.adminmodule.service.dto.VendorAdminDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -53,6 +57,12 @@ public class VendorServiceImpl implements VendorService {
         return vendorRepository.findAllPendingPaymentVendors();
     }
 
+    @Override
+    public VendorAdminDTO getVendorAdminByUsername(String username) {
+        return vendorRepository.findVendorAdminByEmail(username)
+                .map(VendorAdminAdapter::toDTO)
+                .orElseThrow(() -> new UserNotFoundException("Vendor Admin not found"));
+    }
 
 
     @Override

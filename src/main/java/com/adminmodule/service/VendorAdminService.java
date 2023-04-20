@@ -15,4 +15,6 @@ public interface VendorAdminService {
 
 
     VendorAdminDTO verifyVendor(Account account);
+
+    VendorAdminDTO getVendorAdminByUsername(String username);
 }

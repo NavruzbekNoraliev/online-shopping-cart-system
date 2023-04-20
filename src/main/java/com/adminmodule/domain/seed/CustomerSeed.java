@@ -95,9 +95,6 @@ public class CustomerSeed implements CommandLineRunner {
             abdu.setAccount(accountRepository.save(account3));
             customerRepository.save(abdu);
 
-
-
-
         }
     }
 }

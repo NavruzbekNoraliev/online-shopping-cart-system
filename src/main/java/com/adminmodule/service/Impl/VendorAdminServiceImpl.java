@@ -112,4 +112,11 @@ public class VendorAdminServiceImpl implements VendorAdminService {
             throw new UserNotFoundException("VendorAdmin not found");
         }
     }
+
+    @Override
+    public VendorAdminDTO getVendorAdminByUsername(String username) {
+        return vendorAdminRepository.findByEmail(username)
+                .map(VendorAdminAdapter::toDTO)
+                .orElseThrow(() -> new UserNotFoundException("VendorAdmin not found"));
+    }
 }

@@ -96,4 +96,15 @@ public class JWTUtility implements Serializable {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public List<String> getRoleFromToken(String jwtToken) {
+        //get the role from the token, not just the first one
+        List<String> roles = new ArrayList<>();
+        Claims claims = getAllClaimsFromToken(jwtToken);
+        List<Map<String, String>> roleMap = (List<Map<String, String>>) claims.get("roles");
+        for (Map<String, String> map : roleMap) {
+            roles.add(map.get("authority"));
+        }
+        return roles;
+    }
 }

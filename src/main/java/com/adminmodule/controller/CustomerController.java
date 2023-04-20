@@ -39,7 +39,8 @@ public class CustomerController {
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
         CustomerDTO customer = customerService.getCustomerById(id);
-        if (customer.getId()==customerDTO.getId()){
+        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+        if (customer.getId()==customerDTO.getId() || roles.contains("ROLE_ADMIN")){
             return new ResponseEntity<>(customer, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -56,7 +57,8 @@ public class CustomerController {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO1 = customerService.getCustomerByUsername(username);
-        if (customerDTO1.getId()!=id){
+        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+        if (customerDTO1.getId()!=id || !roles.contains("ROLE_ADMIN")){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         CustomerDTO newCustomer =  customerService.updateCustomer(customerDTO, id);
@@ -68,7 +70,8 @@ public class CustomerController {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
-        if (customerDTO.getId()!=id){
+        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         customerService.deleteCustomer(id);
@@ -82,7 +85,8 @@ public class CustomerController {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
-        if (customerDTO.getId()!=id){
+        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return ResponseEntity.ok(customerService.updateShippingAddress(addressDTO, id));
@@ -95,7 +99,8 @@ public class CustomerController {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
-        if (customerDTO.getId()!=id){
+        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
+        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return ResponseEntity.ok(customerService.updateBillingAddress(addressDTO, id));
