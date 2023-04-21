@@ -1,24 +1,33 @@
 package com.order.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.Date;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String customerName;
+    private String customerEmail;
+    private String customerPhone;
+    private Date orderDate;
+    private double totalPrice;
+    @OneToMany(cascade= CascadeType.ALL)
+    private List<OrderItem> orderItems;
+    private OrderStatus status;
+    @OneToOne(cascade= CascadeType.ALL)
+    private OrderAddress shippingAddress;
+    @OneToOne(cascade= CascadeType.ALL)
+    private OrderAddress billingAddress;
+    private PaymentMethod paymentMethod;
 
 }

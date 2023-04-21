@@ -16,8 +16,8 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String email;
+    private long customerId;
     private double totalPrice;
     @OneToMany(cascade=CascadeType.ALL)
-    private List<Product> products;
+    private List<CartItem> cartItems;
 }

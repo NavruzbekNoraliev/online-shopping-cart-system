@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "cart_item")
 @Data
@@ -14,9 +16,10 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long cartId;
-    private long productId;
-    private String productName;
-    private double price;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Cart cart;
+    @OneToOne
+    private Product product;
     private int quantity;
+    private double subTotal = product.getPrice() * quantity;
 }

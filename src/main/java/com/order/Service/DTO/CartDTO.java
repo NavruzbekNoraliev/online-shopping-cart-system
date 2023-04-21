@@ -1,4 +1,4 @@
-package com.order.DTO;
+package com.order.Service.DTO;
 
 import com.order.Entity.Product;
 import lombok.AllArgsConstructor;

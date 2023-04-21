@@ -1,7 +1,6 @@
 package com.order.Service;
 
-import com.order.DTO.ProductDTO;
-import com.order.Entity.Product;
+import com.order.Service.DTO.ProductDTO;
 
 import java.util.List;
 

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -25,6 +27,6 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
-   // private CategoryEnum category;
+
 
 }
