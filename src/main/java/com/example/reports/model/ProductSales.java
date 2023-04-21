@@ -39,6 +39,7 @@ public class ProductSales {
     private long productId;
     private String productName;
     private String category;
+    private String description;
     private long vendorId;
     private String vendorName;
     private int quantity;

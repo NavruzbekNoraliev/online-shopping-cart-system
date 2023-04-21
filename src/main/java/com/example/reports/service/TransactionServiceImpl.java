@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -21,5 +22,10 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO createTransaction(Transaction transaction){
         transactionRepository.save(transaction);
         return mapper.transactionToDto(transaction);
+    }
+
+    public List<Transaction> createOrderHistory(long userId){
+        List<Transaction> transactionList = transactionRepository.getTransactionByUserId(userId);
+        return transactionList;
     }
 }
