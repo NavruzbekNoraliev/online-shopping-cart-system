@@ -6,7 +6,7 @@ import com.adminmodule.domain.Customer;
 import com.adminmodule.domain.Enum.RoleType;
 import com.adminmodule.domain.Role;
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
-import com.adminmodule.exceptionResponse.userException.ResourceNotFoundException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.AccountRepository;
 import com.adminmodule.repository.AddressRepository;
 import com.adminmodule.repository.CustomerRepository;
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
              return customerDTO1;
          }
          else{
-             throw new ResourceNotFoundException("Customer not found");
+             throw new UserNotFoundException("Customer not found");
          }
     }
 
@@ -145,7 +145,7 @@ public class CustomerServiceImpl implements CustomerService {
             return customerDTO1;
         }
         else{
-            throw new ResourceNotFoundException("Customer not found");
+            throw new UserNotFoundException("Customer not found");
         }
     }
 
@@ -166,7 +166,7 @@ public class CustomerServiceImpl implements CustomerService {
             return AddressAdaptor.toDTO(customer.getShippingAddress());
         }
         else{
-            throw new ResourceNotFoundException("Customer not found");
+            throw new UserNotFoundException("Customer not found");
         }
     }
 
@@ -182,7 +182,7 @@ public class CustomerServiceImpl implements CustomerService {
             return AddressAdaptor.toDTO(customer.getBillingAddress());
         }
         else{
-            throw new ResourceNotFoundException("Customer not found");
+            throw new UserNotFoundException("Customer not found");
         }
     }
 
@@ -197,7 +197,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new UserBadRequestException("Wrong password");
             }
         } else {
-            throw new ResourceNotFoundException("Employee not found");
+            throw new UserNotFoundException("Employee not found");
         }
     }
 
@@ -208,7 +208,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerOptional.isPresent()) {
             return CustomerAdapter.toDTO(customerOptional.get());
         } else {
-            throw new ResourceNotFoundException("Customer not found");
+            throw new UserNotFoundException("Customer not found");
         }
     }
 

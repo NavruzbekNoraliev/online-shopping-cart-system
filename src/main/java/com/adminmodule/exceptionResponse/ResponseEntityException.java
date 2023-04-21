@@ -1,7 +1,7 @@
 package com.adminmodule.exceptionResponse;
 
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
-import com.adminmodule.exceptionResponse.userException.ResourceNotFoundException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.Date;
 @ControllerAdvice
 public class ResponseEntityException extends ResponseEntityExceptionHandler {
     @ExceptionHandler({
-            ResourceNotFoundException.class,
+            UserNotFoundException.class,
             UserBadRequestException.class
     })
     public ResponseEntity<ExceptionResponse> UserNotFoundException(Exception e, WebRequest request){

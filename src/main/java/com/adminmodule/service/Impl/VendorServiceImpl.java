@@ -7,7 +7,7 @@ import com.adminmodule.domain.Role;
 import com.adminmodule.domain.Vendor;
 import com.adminmodule.domain.VendorAdmin;
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
-import com.adminmodule.exceptionResponse.userException.ResourceNotFoundException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.*;
 import com.adminmodule.service.VendorService;
 import com.adminmodule.service.dto.VendorAdaptor;
@@ -57,7 +57,7 @@ public class VendorServiceImpl implements VendorService {
         if (vendor.isPresent()) {
             return VendorAdaptor.toDTO(vendor.get());
         }
-        throw new ResourceNotFoundException("Vendor not found");
+        throw new UserNotFoundException("Vendor not found");
     }
 
     @Override
@@ -132,7 +132,7 @@ public class VendorServiceImpl implements VendorService {
             Vendor savedVendor = vendorRepository.save(vendor);
             return VendorAdaptor.toDTO(savedVendor);
         } else {
-            throw new ResourceNotFoundException("Vendor not found");
+            throw new UserNotFoundException("Vendor not found");
         }
     }
 
@@ -146,7 +146,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public void approveVendor(Long id, String authorizationHeader) {
         Vendor existingVendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
         existingVendor.setStatus(Status.APPROVED);
         vendorRepository.save(existingVendor);
     }
@@ -164,7 +164,7 @@ public class VendorServiceImpl implements VendorService {
     public VendorAdminDTO getVendorAdminByUsername(String username) {
         return vendorRepository.findVendorAdminByEmail(username)
                 .map(VendorAdminAdapter::toDTO)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor Admin not found"));
+                .orElseThrow(() -> new UserNotFoundException("Vendor Admin not found"));
     }
 
     @Override
@@ -192,7 +192,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO, String authorizationHeader) {
         Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
 
         if (vendorAdminDTO == null) {
             throw new UserBadRequestException("VendorAdmin cannot be null");
@@ -232,7 +232,7 @@ public class VendorServiceImpl implements VendorService {
             savedVendorAdmin.getAccount().setPassword("********");
             return savedVendorAdmin;
         }else{
-            throw new ResourceNotFoundException("Vendor Admin not found");
+            throw new UserNotFoundException("Vendor Admin not found");
         }
     }
 

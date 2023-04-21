@@ -5,7 +5,7 @@ import com.adminmodule.domain.Employee;
 import com.adminmodule.domain.Enum.RoleType;
 import com.adminmodule.domain.Role;
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
-import com.adminmodule.exceptionResponse.userException.ResourceNotFoundException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.AccountRepository;
 import com.adminmodule.repository.EmployeeRepository;
 import com.adminmodule.repository.RoleRepository;
@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(employee.isPresent()){
             return EmployeeAdapter.toDTO(employee.get());
         }else{
-            throw new ResourceNotFoundException("Employee not found");
+            throw new UserNotFoundException("Employee not found");
         }
     }
 
@@ -84,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee savedEmployee = employeeRepository.save(employee);
             return EmployeeAdapter.toDTO(savedEmployee);
         }else{
-            throw new ResourceNotFoundException("Employee not found");
+            throw new UserNotFoundException("Employee not found");
         }
 
     }
@@ -106,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new UserBadRequestException("Wrong password");
             }
         }else{
-           throw new ResourceNotFoundException("Employee not found");
+           throw new UserNotFoundException("Employee not found");
         }
     }
 
@@ -114,6 +114,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO getEmployeeByUsername(String username) {
         return employeeRepository.findByEmail(username)
                 .map(EmployeeAdapter::toDTO)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+                .orElseThrow(() -> new UserNotFoundException("Employee not found"));
     }
 }
