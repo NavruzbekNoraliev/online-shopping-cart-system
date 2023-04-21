@@ -12,4 +12,4 @@ spring:
     show-sql: true
 
   kafka:
-    bootstrap-servers: 9092
+    bootstrap-servers: kafka:9092

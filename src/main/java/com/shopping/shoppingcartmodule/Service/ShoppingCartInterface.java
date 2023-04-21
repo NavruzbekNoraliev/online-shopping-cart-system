@@ -1,10 +1,12 @@
 package com.shopping.shoppingcartmodule.Service;
 
+import com.shopping.shoppingcartmodule.DTO.ShoppingCartDTO;
 import com.shopping.shoppingcartmodule.Entity.ShoppingCart;
 
 public interface ShoppingCartInterface {
-    ShoppingCart addToCart(long product, long cartid);
+    ShoppingCartDTO addToCart(long product, long cartid, int quantity);
      ShoppingCart createCart(String email);
-     ShoppingCart deleteProduct(long cartid,long productid);
+     ShoppingCart deleteProductFromCart(long cartid,long productid);
     ShoppingCart deleteAllProduct(long cartid);
+    String checkout(long cartId);
 }

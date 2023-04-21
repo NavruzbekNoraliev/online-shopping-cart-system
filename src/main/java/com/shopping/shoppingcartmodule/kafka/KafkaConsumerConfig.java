@@ -31,13 +31,18 @@ public class KafkaConsumerConfig {
                 "groupId");
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                org.apache.kafka.common.serialization.StringDeserializer.class);
         props.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                org.apache.kafka.common.serialization.StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
+    //Properties props = new Properties();
+    //props.put("bootstrap.servers", "localhost:9092");
+    //props.put("group.id", "my-group");
+    //props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    //props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String>
     kafkaListenerContainerFactory() {
