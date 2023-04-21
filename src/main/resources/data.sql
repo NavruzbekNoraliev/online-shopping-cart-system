@@ -3,4 +3,4 @@
 --  ("watch","cali",433),
 --  ("washingmachine","seattle",700);
 
-insert into category(id, name) values (1, "electronics");
+-- INSERT INTO person (id,fname,lname) VALUES (5,'Rox','Diamonds');

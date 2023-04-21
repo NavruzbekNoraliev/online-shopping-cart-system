@@ -15,21 +15,21 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     //findByVendor
     List<Product> findByVendorId(int vendorId);
 
-    Page<Product> findByCategory(Category category, Pageable page);
+    Page<Product> findByCategoryAndAvailable(Category category, boolean available, Pageable page);
 
-    Page<Product> findByName(String name, Pageable page);
+    Page<Product> findByNameAndAvailable(String name,boolean available, Pageable page);
 
-    Page<Product> findByPriceBetweenAndName(double min, double max, String name, Pageable page);
+    Page<Product> findByPriceBetweenAndNameAndAvailable(double min, double max, String name, boolean available, Pageable page);
 
-    Page<Product> findByNameAndCategory(String name, Category category, Pageable page);
+    Page<Product> findByNameAndCategoryAndAvailable(String name, Category category, boolean available, Pageable page);
 
-    Page<Product> findByCategoryAndPriceBetween(Category category, double min, double max, Pageable page);
+    Page<Product> findByCategoryAndPriceBetweenAndAvailable(Category category, double min, double max, boolean available, Pageable page);
 
-    Page<Product> findByNameAndCategoryAndPriceBetween(String name, Category category, double min, double max, Pageable page);
+    Page<Product> findByNameAndCategoryAndPriceBetweenAndAvailable(String name, Category category, double min, double max, boolean available, Pageable page);
 
     Optional<Product> findById(Long id);
 
-    Page<Product> findAll(Pageable page);
+    Page<Product> findAllAndAvailable(Pageable page, boolean available);
 
 //    Page<Product> findAll(Sort sort, Pageable page);
 }

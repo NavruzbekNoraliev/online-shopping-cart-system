@@ -67,19 +67,19 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByCategory(category, pageable);
+        return productRepository.findByCategoryAndAvailable(category, true, pageable);
     }
 
     @Override
     public Page<Product> getProductsByName(String name, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByName(name, pageable);
+        return productRepository.findByNameAndAvailable(name, true, pageable);
     }
 
     @Override
     public Page<Product> getProductsByPriceAndName(String name, double min, double max, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByPriceBetweenAndName(min, max, name, pageable);
+        return productRepository.findByPriceBetweenAndNameAndAvailable(min, max, name, true, pageable);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByNameAndCategory(name, category, pageable);
+        return productRepository.findByNameAndCategoryAndAvailable(name, category, true, pageable);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByCategoryAndPriceBetween(category, min, max, pageable);
+        return productRepository.findByCategoryAndPriceBetweenAndAvailable(category, min, max, true, pageable);
     }
 
     @Override
@@ -103,11 +103,11 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findByNameAndCategoryAndPriceBetween(name, category, min, max, pageable);
+        return productRepository.findByNameAndCategoryAndPriceBetweenAndAvailable(name, category, min, max, true, pageable);
     }
     public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
-        return productRepository.findAll(pageable);
+        return productRepository.findAllAndAvailable( pageable, true);
     }
 
     public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
