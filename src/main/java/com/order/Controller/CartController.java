@@ -24,9 +24,41 @@ public class CartController {
         return ResponseEntity.ok(cartService.addItemToCart(cartItem, authorizationHeader));
     }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<?> getCartByCustomerId(@PathVariable Long customerId,
-                                                 @RequestHeader("Authorization") String authorizationHeader){
+    @GetMapping
+    public ResponseEntity<?> getCartByCustomerId(@RequestHeader("Authorization") String authorizationHeader){
+//        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
+        long customerId = 1;
         return ResponseEntity.ok(cartService.getCartByCustomerId(customerId));
     }
+
+    @PutMapping("/{cartId}/item/{cartItemId}")
+    public ResponseEntity<?> updateCartItem(@PathVariable("cartId") long cartId,
+                                            @PathVariable("cartItemId") long cartItemId,
+                                            @RequestBody CartItem cartItem,
+                                            @RequestHeader("Authorization") String authorizationHeader){
+//        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
+        long customerId = 1l;
+        return ResponseEntity.ok(cartService.updateCartItem(cartId, cartItemId, cartItem, customerId));
+    }
+
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<?> clearCart(@PathVariable("cartId") long cartId,
+                                        @RequestHeader("Authorization") String authorizationHeader){
+//        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
+        long customerId = 1l;
+        return ResponseEntity.ok(cartService.clearCart(cartId, customerId));
+
+    }
+
+    @DeleteMapping("/{cartId}/item/{cartItemId}")
+    public ResponseEntity<?> removeItemFromCart(@PathVariable("cartId") long cartId,
+                                                @PathVariable("cartItemId") long cartItemId,
+                                                @RequestHeader("Authorization") String authorizationHeader){
+//        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
+        long customerId = 1l;
+    return ResponseEntity.ok(cartService.removeItemFromCart(cartId, cartItemId, customerId));
+
+    }
+
+
 }

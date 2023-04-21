@@ -1,7 +1,7 @@
 package com.order.kafka;
 
 import com.fasterxml.jackson.databind.ser.std.StringSerializer;
-import com.order.Entity.ShoppingCart;
+import com.order.Entity.Cart;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ public class KafkaProducerConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, ShoppingCart> producerFactory() {
+    public ProducerFactory<String, Cart> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -34,7 +34,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, ShoppingCart> kafkaTemplate() {
+    public KafkaTemplate<String, Cart> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

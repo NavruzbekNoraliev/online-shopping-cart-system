@@ -13,13 +13,15 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "order_item")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Order order;
+
     private String productName;
     private String vendorName;
     private int quantity;

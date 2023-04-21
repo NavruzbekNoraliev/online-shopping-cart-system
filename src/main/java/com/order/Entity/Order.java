@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "order_table")
 @ToString
 public class Order {
     @Id
@@ -21,8 +22,10 @@ public class Order {
     private String customerPhone;
     private Date orderDate;
     private double totalPrice;
-    @OneToMany(cascade= CascadeType.ALL)
+
+    @OneToMany(cascade=CascadeType.ALL)
     private List<OrderItem> orderItems;
+
     private OrderStatus status;
     @OneToOne(cascade= CascadeType.ALL)
     private OrderAddress shippingAddress;

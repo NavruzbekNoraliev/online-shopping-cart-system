@@ -8,19 +8,19 @@ public interface CartItem {
     //addItemToCart
     public CartItem addItemToCart(ProductDTO productDTO);
 
-    //updateCartItemQuantity
-    public CartItem updateCartItemQuantity(int cartItemId, ProductDTO productDTO);
+//    //updateCartItemQuantity
+//    public CartItem updateCartItemQuantity(int cartItemId, ProductDTO productDTO);
+//
+//    //removeItemFromCart
+//    public CartItem removeItemFromCart(int customerId, ProductDTO productDTO);
+//
+//    //removeAllItemsFromCart
+//    public void removeAllItemsFromCart();
 
-    //removeItemFromCart
-    public CartItem removeItemFromCart(int customerId, ProductDTO productDTO);
-
-    //removeAllItemsFromCart
-    public void removeAllItemsFromCart();
-
-    //getCartItems
-    public List<CartItem> getCartItems(int customerId);
-
-    //checkout
+//    //getCartItems
+//    public List<CartItem> getCartItems(int customerId);
+//
+//    //checkout
 
 
 
