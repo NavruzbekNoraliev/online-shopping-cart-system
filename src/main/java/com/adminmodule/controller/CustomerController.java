@@ -36,7 +36,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomerById(@PathVariable("id") Long id, @RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<?> getCustomerById(@PathVariable("id") Long id,
+                                             @RequestHeader("Authorization") String authorizationHeader){
         try{
             String jwtToken = authorizationHeader.substring(7);
             String username = jwtUtility.getUsernameFromToken(jwtToken);

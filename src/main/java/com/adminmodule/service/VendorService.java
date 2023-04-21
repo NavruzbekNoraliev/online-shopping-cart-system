@@ -1,22 +1,31 @@
 package com.adminmodule.service;
 
 import com.adminmodule.domain.Vendor;
+import com.adminmodule.domain.VendorAdmin;
 import com.adminmodule.service.dto.VendorAdminDTO;
 import com.adminmodule.service.dto.VendorDTO;
 
 import java.util.List;
 
 public interface VendorService {
-    List<Vendor> getAllVendors();
-    VendorDTO getVendorById(Long id);
+    List<Vendor> getAllVendors(String authorizationHeader);
+    VendorDTO getVendorById(Long id, String authorizationHeader);
     public VendorDTO addVendor(VendorDTO vendorDTO);
-    VendorDTO updateVendor(Long id, VendorDTO vendorDTO);
-    void deleteVendor(Long id);
-    void approveVendor(Long id);
+    VendorDTO updateVendor(Long id, VendorDTO vendorDTO, String authorizationHeader);
+    void deleteVendor(Long id, String authorizationHeader);
+    void approveVendor(Long id, String authorizationHeader);
 
-    List<Vendor> getAllPendingApprovalVendors();
+    List<Vendor> getAllPendingApprovalVendors(String authorizationHeader);
 
-    List<Vendor> getAllPendingPaymentVendors();
+    List<Vendor> getAllPendingPaymentVendors(String authorizationHeader);
 
     VendorAdminDTO getVendorAdminByUsername(String username);
+
+
+    List<VendorAdmin> getAllVendorAdmins(String authorizationHeader);
+    List<VendorAdmin> getAllVendorAdminsByVendor(Long vendorId, String authorizationHeader);
+    VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO, String authorizationHeader);
+    VendorAdminDTO updateVendorAdmin(Long vendorId, Long vendorAdminId, VendorAdminDTO vendorAdminDTO, String authorizationHeader);
+
+    void deleteVendorAdmin(Long vendorId, Long vendorAdminId, String authorizationHeader);
 }

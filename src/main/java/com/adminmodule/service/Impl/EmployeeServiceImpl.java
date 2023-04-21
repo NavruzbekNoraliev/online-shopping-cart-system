@@ -5,7 +5,7 @@ import com.adminmodule.domain.Employee;
 import com.adminmodule.domain.Enum.RoleType;
 import com.adminmodule.domain.Role;
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
-import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
+import com.adminmodule.exceptionResponse.userException.ResourceNotFoundException;
 import com.adminmodule.repository.AccountRepository;
 import com.adminmodule.repository.EmployeeRepository;
 import com.adminmodule.repository.RoleRepository;
@@ -14,14 +14,10 @@ import com.adminmodule.service.dto.EmployeeAdapter;
 import com.adminmodule.service.dto.EmployeeDTO;
 import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -52,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(employee.isPresent()){
             return EmployeeAdapter.toDTO(employee.get());
         }else{
-            throw new UserNotFoundException("Employee not found");
+            throw new ResourceNotFoundException("Employee not found");
         }
     }
 
@@ -88,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee savedEmployee = employeeRepository.save(employee);
             return EmployeeAdapter.toDTO(savedEmployee);
         }else{
-            throw new UserNotFoundException("Employee not found");
+            throw new ResourceNotFoundException("Employee not found");
         }
 
     }
@@ -110,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new UserBadRequestException("Wrong password");
             }
         }else{
-           throw new UserNotFoundException("Employee not found");
+           throw new ResourceNotFoundException("Employee not found");
         }
     }
 
@@ -118,6 +114,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO getEmployeeByUsername(String username) {
         return employeeRepository.findByEmail(username)
                 .map(EmployeeAdapter::toDTO)
-                .orElseThrow(() -> new UserNotFoundException("Employee not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
     }
 }

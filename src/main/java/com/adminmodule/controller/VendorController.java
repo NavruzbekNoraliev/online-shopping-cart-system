@@ -30,23 +30,16 @@ public class VendorController {
         this.jwtUtility = jwtUtility;
     }
 
-    @GetMapping("all")
-    public ResponseEntity<?> getAllVendors() {
-        return ResponseEntity.ok(vendorService.getAllVendors());
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllVendors( @RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(vendorService.getAllVendors(authorizationHeader));
     }
 
     //get vendor by id
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getVendorById(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        String username = jwtUtility.getUsernameFromToken(jwtToken);
-        VendorAdminDTO vendorAdminDTO = vendorService.getVendorAdminByUsername(username);
-        Vendor vendor = vendorAdminDTO.getVendor();
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (vendor.getId() != id || !roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        return ResponseEntity.ok(vendorService.getVendorById(id));
+    @GetMapping("/{vendorId}")
+    public ResponseEntity<?> getVendorById(@PathVariable Long vendorId,
+                                           @RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(vendorService.getVendorById(vendorId, authorizationHeader));
     }
 
     //add vendor
@@ -55,72 +48,72 @@ public class VendorController {
         return ResponseEntity.ok(vendorService.addVendor(vendorDTO));
     }
     //update vendor
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateVendor(@PathVariable Long id, @RequestBody Vendor vendor,
+    @PutMapping("/{vendorId}")
+    public ResponseEntity<?> updateVendor(@PathVariable Long vendorId,
+                                          @RequestBody VendorDTO vendorDTO,
                                           @RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        String username = jwtUtility.getUsernameFromToken(jwtToken);
-        VendorAdminDTO vendorAdminDTO = vendorService.getVendorAdminByUsername(username);
-        VendorDTO vendor1 = VendorAdaptor.toDTO(vendorAdminDTO.getVendor());
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (vendor1.getId() != id || !roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        return ResponseEntity.ok(vendorService.updateVendor(id, vendor1));
+        return ResponseEntity.ok(vendorService.updateVendor(vendorId, vendorDTO, authorizationHeader));
     }
     //delete vendor
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteVendor(@PathVariable Long id,
+    @DeleteMapping("/{vendorId}")
+    public ResponseEntity<?> deleteVendor(@PathVariable Long vendorId,
                                           @RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        String username = jwtUtility.getUsernameFromToken(jwtToken);
-        VendorAdminDTO vendorAdminDTO = vendorService.getVendorAdminByUsername(username);
-        Vendor vendor = vendorAdminDTO.getVendor();
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (vendor.getId() != id || !roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        vendorService.deleteVendor(id);
+        vendorService.deleteVendor(vendorId, authorizationHeader);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/approve/{id}")
-    public ResponseEntity<?> approveVendor(@PathVariable Long id,
+    @PostMapping("/approve/{vendorId}")
+    public ResponseEntity<?> approveVendor(@PathVariable Long vendorId,
                                            @RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        //get role from token
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        //check if role is admin
-        if (!roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        vendorService.approveVendor(id);
+        vendorService.approveVendor(vendorId, authorizationHeader);
         return ResponseEntity.ok().build();
     }
 
 
     //pending vendors with good practices
-    @GetMapping("/pending")
+    @GetMapping("/pending-approval")
     public ResponseEntity<?> getAllPendingApprovalVendors(@RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        //get role from token
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        //check if role is admin
-        if (!roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        return ResponseEntity.ok(vendorService.getAllPendingApprovalVendors());
+               return ResponseEntity.ok(vendorService.getAllPendingApprovalVendors(authorizationHeader));
     }
 
     @GetMapping("/pending-payment")
     public ResponseEntity<?> getAllPendingPaymentVendors(@RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        //get role from token
-        List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        //check if role is admin
-        if (!roles.contains("ROLE_ADMIN")) {
-            return ResponseEntity.status(403).build();
-        }
-        return ResponseEntity.ok(vendorService.getAllPendingPaymentVendors());
+        return ResponseEntity.ok(vendorService.getAllPendingPaymentVendors(authorizationHeader));
+    }
+
+    //All vendor-admins regardless of vendor
+    @GetMapping("/vendor-admin")
+    public ResponseEntity<?> getAllVendorAdmins(@RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(vendorService.getAllVendorAdmins(authorizationHeader));
+    }
+
+    //All vendor-admins from a specific vendor
+    @GetMapping("/{vendorId}/vendor-admin")
+    public ResponseEntity<?> getAllVendorAdminsByVendor(@PathVariable Long vendorId,
+                                                          @RequestHeader("Authorization") String authorizationHeader){
+        return ResponseEntity.ok(vendorService.getAllVendorAdminsByVendor(vendorId, authorizationHeader));
+    }
+
+    //add vendor-admin
+    @PostMapping("/{vendorId}/vendor-admin")
+    public ResponseEntity<?> addVendorAdmin(@PathVariable Long vendorId,
+                                            @RequestBody VendorAdminDTO vendorAdminDTO,
+                                            @RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(vendorService.addVendorAdmin(vendorId, vendorAdminDTO, authorizationHeader));
+    }
+    @PutMapping("/{vendorId}/vendor-admin/{vendorAdminId}")
+    public ResponseEntity<?> updateVendorAdmin(@PathVariable Long vendorId,
+                                               @PathVariable Long vendorAdminId,
+                                               @RequestBody VendorAdminDTO vendorAdminDTO,
+                                               @RequestHeader("Authorization") String authorizationHeader) {
+
+        return ResponseEntity.ok(vendorService.updateVendorAdmin(vendorId, vendorAdminId, vendorAdminDTO, authorizationHeader));
+    }
+    @DeleteMapping("/{vendorId}/vendor-admin/{vendorAdminId}")
+    public ResponseEntity<?> deleteVendorAdmin(@PathVariable Long vendorId,
+                                               @PathVariable Long vendorAdminId,
+                                               @RequestHeader("Authorization") String authorizationHeader) {
+        vendorService.deleteVendorAdmin(vendorId, vendorAdminId, authorizationHeader);
+        return ResponseEntity.ok().build();
     }
 }

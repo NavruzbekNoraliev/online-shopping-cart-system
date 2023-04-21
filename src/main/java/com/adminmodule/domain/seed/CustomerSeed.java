@@ -77,23 +77,7 @@ public class CustomerSeed implements CommandLineRunner {
             customerRepository.save(customer1);
 
 
-            Customer alp = new Customer("Mehmet", "A", phone, "Mehmet@gmail.com");
-            alp.setBillingAddress(addressRepository.save(address2));
-            alp.setShippingAddress(addressRepository.save(address2));
-            Account account2 = new Account(alp.getEmail(), password);
-            account2.setRoles(Set.of(roleC));
-            alp.setAccount(accountRepository.save(account2));
-            customerRepository.save(alp);
 
-
-            Customer abdu = new Customer("Abdulhakim", "E", phone, "abdu@gmail.com");
-            Address address3 = new Address("200 s 4th St", "Iowa City", "IA", "55647");
-            abdu.setBillingAddress(addressRepository.save(address3));
-            abdu.setShippingAddress(addressRepository.save(address3));
-            Account account3 = new Account(abdu.getEmail(), password);
-            account3.setRoles(Set.of(roleA));
-            abdu.setAccount(accountRepository.save(account3));
-            customerRepository.save(abdu);
 
         }
     }
