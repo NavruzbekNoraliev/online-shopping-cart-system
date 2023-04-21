@@ -21,5 +21,10 @@ public class CartItem {
     @OneToOne
     private Product product;
     private int quantity;
-    private double subTotal = product.getPrice() * quantity;
+    private double subTotal;
+
+    //calculate subTotal
+    public double calculateSubTotal(){
+        return product.getPrice() * quantity;
+    }
 }

@@ -7,6 +7,7 @@ import com.order.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -36,21 +37,24 @@ public class CartServiceImpl implements CartService {
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
+            if (newCart.getCartItems() == null) {
+                newCart.setCartItems(new ArrayList<>());
+            }
             newCart.getCartItems().add(newCartItem);
-            newCart.setTotalPrice(cartItem.getSubTotal());
+            newCart.setTotalPrice(cartItem.calculateSubTotal());
         }else {
             newCart = cart.get();
             //check if this item already exists in the cart
             for(CartItem item: newCart.getCartItems()){
                 if(item.getProduct().getId()==cartItem.getProduct().getId()){
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
-                    item.setSubTotal(item.getSubTotal() + cartItem.getSubTotal());
+                    item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
                     cartItemRepository.save(item);
-                    newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getSubTotal());
+                    newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
                     return cartRepository.save(newCart);
                 }
             }
-            newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getSubTotal());
+            newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
             newCart.getCartItems().add(cartItemRepository.save(cartItem));
         }
         return cartRepository.save(newCart);
