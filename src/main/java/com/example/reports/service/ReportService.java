@@ -1,5 +1,6 @@
 package com.example.reports.service;
 
+import com.example.reports.model.AnalysisReport;
 import com.example.reports.model.ProductSales;
 import com.example.reports.model.Report;
 import com.example.reports.model.Transaction;
@@ -25,6 +26,7 @@ public class ReportService {
     TransactionRepository transactionRepository;
     @Autowired
     ProductSalesRepository productSalesRepository;
+
     public String exportVendorSalesReport(String reportFormat, long vendorId) throws FileNotFoundException, JRException {
 
         List<Report> reports = new ArrayList<>();
@@ -43,23 +45,10 @@ public class ReportService {
 
         initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
 
-
-//            File file= ResourceUtils.getFile("classpath:vendorSales.jrxml");
-//        JasperReport jasperReport= JasperCompileManager.compileReport(file.getAbsolutePath());
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reports);
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//        if (reportFormat.equalsIgnoreCase("html")){
-//            JasperExportManager.exportReportToHtmlFile(jasperPrint, "report.html");
-//        }
-//        if (reportFormat.equalsIgnoreCase("pdf")){
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-//        }
-
         return "vendor report generated";
     }
 
     public String exportUserReport(String reportFormat, long userId) throws FileNotFoundException, JRException {
-
         List<Report> reports = new ArrayList<>();
         List<Transaction> userOrders = transactionRepository.getTransactionByUserId(userId);
         for (Transaction ps: userOrders){
@@ -76,16 +65,6 @@ public class ReportService {
 
         initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
 
-//        File file= ResourceUtils.getFile("classpath:userReport.jrxml");
-//        JasperReport jasperReport= JasperCompileManager.compileReport(file.getAbsolutePath());
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reports);
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//        if (reportFormat.equalsIgnoreCase("html")){
-//            JasperExportManager.exportReportToHtmlFile(jasperPrint, "report.html");
-//        }
-//        if (reportFormat.equalsIgnoreCase("pdf")){
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-//        }
         return "user report generated";
     }
 
@@ -111,25 +90,38 @@ public class ReportService {
 
         initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
 
-//        File file= ResourceUtils.getFile("classpath:productReport.jrxml");
-//        JasperReport jasperReport= JasperCompileManager.compileReport(file.getAbsolutePath());
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reports);
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//        if (reportFormat.equalsIgnoreCase("html")){
-//            JasperExportManager.exportReportToHtmlFile(jasperPrint, "report.html");
-//        }
-//        if (reportFormat.equalsIgnoreCase("pdf")){
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-//        }
         return "product report generated";
     }
 
     public String productAnalysisReport(String reportFormat, String productName) throws FileNotFoundException, JRException {
 
-        List<Report> reports = new ArrayList<>();
+        List<AnalysisReport> reports = new ArrayList<>();
         List<ProductSales> soldProducts = productSalesRepository.getProductSalesByProductName(productName);
+        Map<String, List<ProductSales>> vendorSales = new HashMap<>();
         for (ProductSales ps: soldProducts){
-            reports.add(ps.createReport());
+            if(vendorSales.get(ps.getVendorName()) == null){
+                List<ProductSales> products = new ArrayList<>();
+                products.add(ps);
+                vendorSales.put(ps.getVendorName(), products);
+            }
+            else {
+                List<ProductSales> products = vendorSales.get(ps.getVendorName());
+                products.add(ps);
+                vendorSales.put(ps.getVendorName(), products);
+            }
+        }
+        for(Map.Entry<String, List<ProductSales>> e : vendorSales.entrySet()){
+            double avg = e.getValue().stream()
+                    .mapToDouble((p) -> p.getPricePerUnit())
+                    .average().orElse(0.0);
+            int quantity = e.getValue().stream()
+                    .mapToInt((p) -> p.getQuantity())
+                    .reduce(0, (acc, element) -> acc + element);
+            double total = e.getValue().stream()
+                    .mapToDouble((p) -> p.getTotal())
+                    .reduce(0, (acc, element) -> acc + element);
+            AnalysisReport ar = new AnalysisReport(e.getKey(), quantity, avg, total);
+            reports.add(ar);
         }
         Map<String, Object> parameters = new HashMap<>();
         double salesTotal = reports.stream()
@@ -138,30 +130,17 @@ public class ReportService {
         int quantityTotal = reports.stream()
                 .mapToInt(r -> r.getQuantity())
                 .reduce(0,(sum, element) -> sum + element);
-        parameters.put("title", reports.get(0).getVendorName());
-        parameters.put("salesTotal", salesTotal);
-        parameters.put("quantityTotal", quantityTotal);
-        String path = "classpath:userReport.jrxml";
-        String reportFileName = parameters.get("title").toString();
+        parameters.put("title", productName);
+        String path = "classpath:productSalesByVendor.jrxml";
+        String reportFileName = parameters.get("title").toString() + "Analysis";
 
         initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
 
-//        File file= ResourceUtils.getFile("classpath:productSalesByVendor.jrxml");
-//        JasperReport jasperReport= JasperCompileManager.compileReport(file.getAbsolutePath());
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reports);
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//        if (reportFormat.equalsIgnoreCase("html")){
-//            JasperExportManager.exportReportToHtmlFile(jasperPrint, "report.html");
-//        }
-//        if (reportFormat.equalsIgnoreCase("pdf")){
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-//        }
         return "product analysis report generated";
     }
 
 
-
-    private static Boolean initilizeReport(Map<String, Object> parameters, String reportFormat, String path, List<Report> reports, String reportFileName) throws FileNotFoundException, JRException {
+    private static Boolean initilizeReport(Map<String, Object> parameters, String reportFormat, String path, List<?> reports, String reportFileName) throws FileNotFoundException, JRException {
         File file= ResourceUtils.getFile(path);
         JasperReport jasperReport= JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reports);

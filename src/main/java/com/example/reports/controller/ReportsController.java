@@ -33,4 +33,9 @@ public class ReportsController {
         return reportService.productReport(format, productId);
     }
 
+    @GetMapping("/analysis/product/{productName}/sales/{format}")
+    public String getProductSalesAnalysis(@PathVariable String format, @PathVariable String productName) throws JRException, FileNotFoundException {
+        return reportService.productAnalysisReport(format, productName);
+    }
+
 }

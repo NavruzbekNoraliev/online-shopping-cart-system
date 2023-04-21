@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnalysisReport  extends Report{
+public class AnalysisReport {
+    String vendorName;
+    int quantity;
     double avgPrice;
+    double total;
 }
