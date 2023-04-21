@@ -1,9 +1,18 @@
 package com.shopping.shoppingcartmodule.Controller;
 
+import com.shopping.shoppingcartmodule.DTO.CustomerCommentDTO;
+import com.shopping.shoppingcartmodule.DTO.ProductDTO;
+import com.shopping.shoppingcartmodule.Entity.CustomerComment;
 import com.shopping.shoppingcartmodule.Entity.Product;
+import com.shopping.shoppingcartmodule.Service.DTO.ProductDTOConverter;
 import com.shopping.shoppingcartmodule.Service.ProductService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,29 +20,45 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductController {
-
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+    private final ProductDTOConverter productDTOConverter;
 
     //get all products
     @GetMapping("/all")
-    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
-                                                        @RequestParam(defaultValue = "10") int pageSize) {
-        Page<Product> products = productService.getAllProducts(pageNumber, pageSize);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
+                                                           @RequestParam(defaultValue = "10") int pageSize) {
+        try {
+            Page<Product> productPage = productService.getAllProducts(pageNumber, pageSize);
+            Page<ProductDTO> productDtoPage = productPage.map(product -> productDTOConverter.toDTO(product) );
+            return ResponseEntity.ok(productDtoPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     @GetMapping("/all-asc")
-    public ResponseEntity<Page<Product>> getAllProductsPriceAsc(@RequestParam(defaultValue = "0") int pageNumber,
+    public ResponseEntity<Page<ProductDTO>> getAllProductsPriceAsc(@RequestParam(defaultValue = "0") int pageNumber,
                                                         @RequestParam(defaultValue = "10") int pageSize) {
-        Page<Product> products = productService.getAllProductsSortedByPriceAsc(pageNumber, pageSize);
-        return ResponseEntity.ok(products);
+        try {
+            Page<Product> productPage = productService.getAllProductsSortedByPriceAsc(pageNumber, pageSize);
+            Page<ProductDTO> productDtoPage = productPage.map(product -> productDTOConverter.toDTO(product) );
+            return ResponseEntity.ok(productDtoPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     @GetMapping("/all-desc")
-    public ResponseEntity<Page<Product>> getAllProductsPriceDesc(@RequestParam(defaultValue = "0") int pageNumber,
+    public ResponseEntity<Page<ProductDTO>> getAllProductsPriceDesc(@RequestParam(defaultValue = "0") int pageNumber,
                                                         @RequestParam(defaultValue = "10") int pageSize) {
-        Page<Product> products = productService.getAllProductsSortedByPriceDesc(pageNumber, pageSize);
-        return ResponseEntity.ok(products);
+        try {
+            Page<Product> productPage = productService.getAllProductsSortedByPriceDesc(pageNumber, pageSize);
+            Page<ProductDTO> productDtoPage = productPage.map(product -> productDTOConverter.toDTO(product) );
+            return ResponseEntity.ok(productDtoPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     //get all products by vendor
@@ -62,8 +87,14 @@ public class ProductController {
 
     //delete product
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        try {
+            productService.deleteProduct(id);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @GetMapping("/category/{id}")
