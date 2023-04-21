@@ -1,0 +1,38 @@
+
+.login-register{
+    height:100vh;
+    display: flex;
+    background-size:cover; 
+    align-items: center;
+    .mat-card{
+        margin: 0px 15px;
+    }
+    .mat-form-field{
+        width: 100%;
+    }
+    .login-register-box{
+        max-width: 400px;
+        min-width: 280px;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+    .support-text{
+        margin-top: -15px;
+        display: block;
+        padding-bottom: 15px;
+    }
+}
+.error-card{
+    h1{
+      font-size: 210px;
+      font-weight: 900;
+      line-height: 210px;
+      margin: 0px;
+      text-shadow: 4px 5px 1px #b3bbbf;    
+    }
+}
+
+.ngx-datatable.material{
+    box-shadow: none;
+    border:1px solid rgba(120, 130, 140, 0.13);
+}

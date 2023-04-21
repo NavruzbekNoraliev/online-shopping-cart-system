@@ -23,8 +23,16 @@ export class AuthService extends CoreHTTPService {
             this.role = result.user.account.roles[0];
         }));
     }
-    registerCustomer(username: string, password: string){
-        return this.post('customer', { username, password }).pipe(tap(result => {
+
+    registerCustomer(value: any){
+        return this.post('customer', { value }).pipe(tap(result => {
+            this.token = result.token;
+            this.username = result.user;
+        }));
+    }
+
+    registerVendor(value: any){
+        return this.post('vendor', { value }).pipe(tap(result => {
             this.token = result.token;
             this.username = result.user;
         }));

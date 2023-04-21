@@ -1,4 +1,4 @@
-<div class="user-register container">
+<!-- <div class="user-register container">
     <div class="row ">
         <div class="col-md-10 mx-auto ">
             <div class="sign-in">
@@ -78,4 +78,108 @@
 
     </div>
 
+</div> -->
+
+
+<div class="login-register" style="background-image:url(https://img.freepik.com/free-photo/flat-lay-black-friday-tags-with-shopping-cart_23-2148285102.jpg?w=2000&t=st=1682005954~exp=1682006554~hmac=664fc7bdf7409ce79d2fae1d9e252666ebdd4039919ed992d5a34bd487062eed);">
+    <div class="customer-register-box">
+        <mat-card>
+            <mat-card-content>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div
+                        class="text-center">
+                        <!-- <img alt="homepage" src="assets/images/logo-icon.png"> -->
+                        <h2 style="text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.34);">Customer
+                            <b>Register</b>
+                        </h2>
+                    </div>
+
+                    <div
+                        fxlayout="row wrap">
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>First Name</mat-label>
+                                <input matInput type="text" placeholder="First Name" formControlName="firstName">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput type="text" placeholder="Last Name" formControlName="lastName">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Email</mat-label>
+                                <input matInput placeholder="Email*" formControlName="email">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="password" placeholder="Password*" formControlName="password">
+                            </mat-form-field>
+                        </div>
+                         <!-- col full-->
+                         <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Phone Number</mat-label>
+                                <input matInput type="text" placeholder="Phone Number" formControlName="phoneNumber">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Shipping Address:</mat-label>
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Street Address</mat-label>
+                                <input matInput type="text" placeholder="Street Address" formControlName="streetAddress">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>City</mat-label>
+                                <input matInput type="text" placeholder="City" formControlName="city">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>State</mat-label>
+                                <input matInput type="text" placeholder="State" formControlName="state">
+                            </mat-form-field>
+                        </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field style="width:100%">
+                                <mat-label>Zipcode</mat-label>
+                                <input matInput type="text" placeholder="Zipcode" formControlName="zipCode">
+                            </mat-form-field>
+                        </div>
+
+
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-progress-bar class="m-t-20" mode="indeterminate" *ngIf="requesting$ | async"></mat-progress-bar>
+                            <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit" [disabled]="!form.valid || (requesting$ | async)">
+                                Register
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
+
+<!-- <ng-container *ngIf="request$ | async"></ng-container> -->
