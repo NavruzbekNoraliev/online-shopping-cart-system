@@ -37,16 +37,14 @@ public class CartServiceImpl implements CartService {
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
-            if (newCart.getCartItems() == null) {
-                newCart.setCartItems(new ArrayList<>());
-            }
+            newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
             newCart.setTotalPrice(cartItem.calculateSubTotal());
         }else {
             newCart = cart.get();
             //check if this item already exists in the cart
             for(CartItem item: newCart.getCartItems()){
-                if(item.getProduct().getId()==cartItem.getProduct().getId()){
+                if(item.getProduct().getId() == cartItem.getProduct().getId()){
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
                     item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
                     cartItemRepository.save(item);
@@ -83,5 +81,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart getCartByUserId(Long id) {
         return null;
+    }
+
+    @Override
+    public Cart getCartByCustomerId(long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
+        if(cart.isPresent()){
+            return cart.get();
+        }else{
+            return null;
+        }
+
     }
 }

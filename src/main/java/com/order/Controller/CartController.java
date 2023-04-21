@@ -23,4 +23,10 @@ public class CartController {
                                            @RequestHeader("Authorization") String authorizationHeader){
         return ResponseEntity.ok(cartService.addItemToCart(cartItem, authorizationHeader));
     }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<?> getCartByCustomerId(@PathVariable Long customerId,
+                                                 @RequestHeader("Authorization") String authorizationHeader){
+        return ResponseEntity.ok(cartService.getCartByCustomerId(customerId));
+    }
 }

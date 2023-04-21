@@ -17,4 +17,6 @@ public interface CartService {
     public Cart updateCart(Cart cart);
 
     public Cart getCartByUserId(Long id);
+
+    Cart getCartByCustomerId(long l);
 }
