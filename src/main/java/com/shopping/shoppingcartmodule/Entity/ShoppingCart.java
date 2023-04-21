@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -17,11 +19,13 @@ import java.util.List;
 public class ShoppingCart {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String emailid;
-//    private long productid;
-//    private String productname;
+    private String userId;
     private double totalPrice;
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Product> products;
+    private  int quantity;
+    @ElementCollection
+    private Map<Long,Integer> buketProduct=new HashMap<>();
+
+//    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+//     private List<Product> products;
 
 }

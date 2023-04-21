@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart,Long> {
- Optional<ShoppingCart> findByEmailidIgnoreCase(String email);
+ Optional<ShoppingCart> findByUserIdIgnoreCase(String useId);
 }
