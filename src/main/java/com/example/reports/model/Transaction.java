@@ -1,5 +1,7 @@
 package com.example.reports.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,8 +38,10 @@ public class Transaction {
 //    )
     @OneToMany(
             cascade = CascadeType.ALL,
-            mappedBy = "transaction"
+            mappedBy = "transaction",
+            orphanRemoval = true
     )
+    @JsonIgnoreProperties("transaction")
     private List<ProductSales> productSales;
     private Date date;
     private long userId;

@@ -25,10 +25,9 @@ public class TransactionController {
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/history/user/{userId}")
     public ResponseEntity<?> userHistory(@PathVariable long userId){
         List<Transaction> transactionList = transactionServiceImpl.createOrderHistory(userId);
-
         return new ResponseEntity<>(transactionList, HttpStatus.OK);
     }
 }
