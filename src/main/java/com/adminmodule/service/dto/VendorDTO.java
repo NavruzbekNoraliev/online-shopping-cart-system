@@ -15,11 +15,12 @@ import java.util.Set;
 @ToString
 @Builder
 public class VendorDTO {
-    private int id;
+    private Long id;
     private String name;
     private String phone;
     private String email;
     private Address address;
     private Address billingAddress;
     private AccountDetails accountDetails;
+    private Status status;
 }

@@ -63,11 +63,11 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public VendorDTO addVendor(VendorDTO vendorDTO) {
         if (vendorRepository.findByEmail(vendorDTO.getEmail()) != null) {
-            throw new UserBadRequestException("Email already exists");
+            throw new UserBadRequestException("Email already exists.");
         }
         //if username or password is null
         if (vendorDTO.getEmail() == null) {
-            throw new UserBadRequestException("Username is null");
+            throw new UserBadRequestException("Email is required.");
         }
 
         Vendor vendor1 = VendorAdaptor.fromDTO(vendorDTO);
@@ -84,6 +84,12 @@ public class VendorServiceImpl implements VendorService {
             vendor1.setAccountDetails(accountDetailsRepository.save(vendor1.getAccountDetails()));
         }
         vendor1.setStatus(Status.PENDING_APPROVAL);
+        Vendor vendor = vendorRepository.save(vendor1);
+        //create vendor admin
+//        VendorAdmin vendorAdmin = vendor1.getVendorAdmins().toArray(new VendorAdmin[0])[0];
+//        VendorAdminDTO vendorAdminDTO = addVendorAdmin((long) vendor.getId(),
+//                VendorAdminAdapter.toDTO(vendorAdmin), null);
+
         return VendorAdaptor.toDTO(vendorRepository.save(vendor1));
     }
 
@@ -185,9 +191,9 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO, String authorizationHeader) {
-        if (!vendorRepository.existsById(vendorId)) {
-            throw new ResourceNotFoundException("Vendor not found");
-        }
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+
         if (vendorAdminDTO == null) {
             throw new UserBadRequestException("VendorAdmin cannot be null");
         }
@@ -202,6 +208,7 @@ public class VendorServiceImpl implements VendorService {
         }
 
         VendorAdmin vendorAdmin = VendorAdminAdapter.fromDTO(vendorAdminDTO);
+        vendorAdmin.setVendor(vendor);
         Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
         vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
         vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
