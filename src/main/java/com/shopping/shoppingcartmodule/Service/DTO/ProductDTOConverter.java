@@ -4,12 +4,14 @@ import com.shopping.shoppingcartmodule.DTO.ProductDTO;
 import com.shopping.shoppingcartmodule.DTO.VendorDTO;
 import com.shopping.shoppingcartmodule.Entity.Category;
 import com.shopping.shoppingcartmodule.Entity.Product;
+import com.shopping.shoppingcartmodule.Repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ProductDTOConverter {
+    private final CategoryRepo categoryRepo;
 
     public ProductDTO toDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
@@ -19,7 +21,10 @@ public class ProductDTOConverter {
         productDTO.setPrice(product.getPrice());
         productDTO.setQuantity(product.getQuantity());
         //Vendor should use resttemplate
-        productDTO.setVendorDTO(new VendorDTO());
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setId(product.getVendorId());
+        productDTO.setVendorDTO(vendorDTO);
+        //
         productDTO.setColor(product.getColor());
         productDTO.setAvailable(product.isAvailable());
         //Get Category
@@ -38,9 +43,9 @@ public class ProductDTOConverter {
         product.setVendorId(productDTO.getVendorDTO().getId());
         product.setColor(productDTO.getColor());
         product.setAvailable(productDTO.isAvailable());
-        //Set category by id
-        Category category = new Category();
-        product.setCategory(category);
+        //Set category by id can check for exception
+        Long categoryId = Long.valueOf(productDTO.getCategoryId());
+        Category category = categoryRepo.findById(categoryId).get();
         product.setCategory(category);
 //        List<CustomerComment> commentList = productDTO.getComments().stream().map(commentText -> {
 //            CustomerComment comment = new CustomerComment();

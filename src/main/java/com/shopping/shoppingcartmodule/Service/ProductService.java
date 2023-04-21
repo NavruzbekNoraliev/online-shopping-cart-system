@@ -1,6 +1,7 @@
 package com.shopping.shoppingcartmodule.Service;
 
 
+import com.shopping.shoppingcartmodule.DTO.ProductDTO;
 import com.shopping.shoppingcartmodule.Entity.Product;
 import org.springframework.data.domain.Page;
 
@@ -10,10 +11,10 @@ public interface ProductService {
     Page<Product> getAllProducts(int pageNumber, int pageSize);
     Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize);
     Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize);
-    List<Product> getProductsByVendor(int vendorId);
+    Page<Product> getProductsByVendor(int vendorId, int pageNumber, int pageSize);
     Product getProductById(Long id);
-    Product addProduct(Product product);
-    Product updateProduct(Long id, Product product);
+    ProductDTO addProduct(ProductDTO productDTO);
+    Product updateProduct(Long id, ProductDTO productDTO);
     void deleteProduct(Long id);
     Page<Product> getProductsByCategory(long categoryId, int pageNumber, int pageSize);
     Page<Product> getProductsByName(String name, int pageNumber, int pageSize);

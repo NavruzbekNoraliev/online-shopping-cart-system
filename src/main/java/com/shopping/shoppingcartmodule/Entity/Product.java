@@ -24,11 +24,11 @@ public class Product {
     private String color;
     private boolean available;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
    // private CategoryEnum category;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(fetch = FetchType.EAGER ,orphanRemoval = true ,mappedBy = "product")
     private List<CustomerComment> commentList;
 
 

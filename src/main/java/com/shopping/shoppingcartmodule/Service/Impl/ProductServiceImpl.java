@@ -1,16 +1,21 @@
 package com.shopping.shoppingcartmodule.Service.Impl;
 
+import com.shopping.shoppingcartmodule.DTO.ProductDTO;
 import com.shopping.shoppingcartmodule.Entity.Category;
+import com.shopping.shoppingcartmodule.Entity.CustomerComment;
 import com.shopping.shoppingcartmodule.Entity.Product;
 import com.shopping.shoppingcartmodule.Repository.CategoryRepo;
 import com.shopping.shoppingcartmodule.Repository.ProductRepo;
+import com.shopping.shoppingcartmodule.Service.DTO.ProductDTOConverter;
 import com.shopping.shoppingcartmodule.Service.ProductService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -21,16 +26,18 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepository;
     private final CategoryRepo categoryRepo;
+    private final ProductDTOConverter productDTOConverter;
 
     @Override
     public Page<Product> getAllProducts(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findAll(pageable);
     }
-
+    //make pageable
     @Override
-    public List<Product> getProductsByVendor(int vendorid) {
-        return productRepository.findByVendorId(vendorid);
+    public Page<Product> getProductsByVendor(int vendorid,int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return productRepository.findAllByVendorId(vendorid, pageable);
     }
 
     @Override
@@ -40,26 +47,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        if(productDTO == null || StringUtils.isEmpty(productDTO.getName())) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+        Product product = productDTOConverter.toEntity(productDTO);
+        productRepository.save(product);
+        return productDTO;
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
+    public Product updateProduct(Long id, ProductDTO product) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setCategory(product.getCategory());
-        existingProduct.setVendorId(product.getVendorId());
+        //fix category and vendor or leave it cant be changed
+        //existingProduct.setCategory(product.getCategory());
+        //existingProduct.setVendorId(product.getVendorId());
         return productRepository.save(existingProduct);
     }
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product with ID " + id + " not found"));
+        productRepository.delete(product);
     }
 
     @Override
@@ -107,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
     }
     public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
-        return productRepository.findAllAndAvailable( pageable, true);
+        return productRepository.findAllByAvailable(pageable, true);
     }
 
     public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {

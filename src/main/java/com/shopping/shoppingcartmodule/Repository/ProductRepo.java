@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
     //findByVendor
-    List<Product> findByVendorId(int vendorId);
+    Page<Product> findAllByVendorId(int vendorId, Pageable page);
 
     Page<Product> findByCategoryAndAvailable(Category category, boolean available, Pageable page);
 
@@ -29,7 +29,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
     Optional<Product> findById(Long id);
 
-    Page<Product> findAllAndAvailable(Pageable page, boolean available);
+    Page<Product> findAllByAvailable(Pageable page, boolean available);
 
 //    Page<Product> findAll(Sort sort, Pageable page);
 }
