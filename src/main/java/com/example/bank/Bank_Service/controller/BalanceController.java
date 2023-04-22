@@ -48,6 +48,13 @@ public class BalanceController {
             return TransactionResponse.builder().message("Name on Card is not correct").build();
         }
 
+        if(!transactionRequest.getCardDetails().getExpDay().equals(request.getExpDay())){
+            return TransactionResponse.builder().message("Card Expiration date is Wrong").build();
+        }
+        if(!transactionRequest.getCardDetails().getExpMonth().equals(request.getExpMonth())){
+            return TransactionResponse.builder().message("Card Expiration date is Wrong").build();
+        }
+
             TransactionResponse transactionResponse = bankService.checkCard(request , transactionRequest);
 
 
