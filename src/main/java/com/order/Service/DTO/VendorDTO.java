@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class VendorDTO {
-    private int id;
+    private Long id;
     private String name;
     private String phone;
     private String email;

@@ -2,7 +2,7 @@ package com.order.Service.DTO;
 
 
 import com.order.Entity.Category;
-import com.order.Entity.Product;
+import com.order.Service.Impl.Product;
 import com.order.Repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

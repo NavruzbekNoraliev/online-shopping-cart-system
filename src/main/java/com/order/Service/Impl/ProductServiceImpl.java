@@ -2,7 +2,6 @@ package com.order.Service.Impl;
 
 
 import com.order.Entity.Category;
-import com.order.Entity.Product;
 import com.order.Repository.CategoryRepo;
 import com.order.Repository.ProductRepo;
 import com.order.Service.DTO.ProductDTO;

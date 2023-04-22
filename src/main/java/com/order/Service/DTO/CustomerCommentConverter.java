@@ -2,7 +2,7 @@ package com.order.Service.DTO;
 
 
 import com.order.Entity.CustomerComment;
-import com.order.Entity.Product;
+import com.order.Service.Impl.Product;
 import com.order.Service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

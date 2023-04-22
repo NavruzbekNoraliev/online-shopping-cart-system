@@ -1,6 +1,6 @@
 package com.order.Service.DTO;
 
-import com.order.Entity.Product;
+import com.order.Service.Impl.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

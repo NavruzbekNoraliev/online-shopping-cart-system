@@ -2,7 +2,7 @@ package com.order.Service;
 
 
 
-import com.order.Entity.Product;
+import com.order.Service.Impl.Product;
 import com.order.Service.DTO.ProductDTO;
 import org.springframework.data.domain.Page;
 

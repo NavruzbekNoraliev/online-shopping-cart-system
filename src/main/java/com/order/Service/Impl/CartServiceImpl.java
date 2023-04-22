@@ -9,10 +9,13 @@ import com.order.Repository.OrderItemRepository;
 import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
 import com.order.Service.DTO.CustomerDTO;
-import com.order.Service.DTO.ProductDTOConverter;
+import com.order.Service.DTO.VendorDTO;
 import com.order.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
@@ -26,7 +29,9 @@ public class CartServiceImpl implements CartService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
 
-    private final ProductDTOConverter productDTOConverter1;
+
+
+    private VendorFeignClient vendorFeignClient;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
@@ -34,17 +39,25 @@ public class CartServiceImpl implements CartService {
                            CartItemRepository cartItemRepository,
                            OrderRepository orderRepository,
                            OrderItemRepository orderItemRepository,
-                           ProductDTOConverter productDTOConverter){
+                           VendorFeignClient vendorFeignClient){
         this.cartItemRepository=cartItemRepository;
         this.productService=productService;
         this.cartRepository=cartRepository;
         this.orderRepository=orderRepository;
         this.orderItemRepository=orderItemRepository;
-        this.productDTOConverter1=productDTOConverter;
+        this.vendorFeignClient = vendorFeignClient;
 
     }
 
+    @FeignClient(name = "vendor-service", url = "http://localhost:9090")
+    public interface VendorFeignClient {
+        @RequestMapping("/api/v1/vendor/{vendorId}")
+        public VendorDTO getVendorById(@PathVariable("vendorId") Long vendorId);
+    }
 
+    public VendorDTO getVendorById(Long vendorId){
+        return vendorFeignClient.getVendorById(vendorId);
+    }
 
     public Cart addItemToCart(Long customerId, CartItem cartItem, String authorizationHeader){
         Cart newCart;
@@ -209,7 +222,7 @@ public class CartServiceImpl implements CartService {
                         .productName(item.getProduct().getName())
                         .quantity(item.getQuantity())
                         .price(item.getProduct().getPrice())
-                        .vendorName("vendor name")
+                        .vendorName(getVendorById(item.getProduct().getVendorId()).getName())
                         .build();
                 orderItems.add(orderItem);
 
