@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -25,7 +24,5 @@ public class ShoppingCart {
     @ElementCollection
     private Map<Long,Integer> buketProduct=new HashMap<>();
 
-//    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
-//     private List<Product> products;
 
 }

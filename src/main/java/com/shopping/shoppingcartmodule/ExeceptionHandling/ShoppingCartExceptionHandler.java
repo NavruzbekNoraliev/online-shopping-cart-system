@@ -23,11 +23,6 @@ public class ShoppingCartExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(value = { InsufficientStockException.class })
-//    public ResponseEntity<Object> handleInsufficientStockException(InsufficientStockException ex) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
-
 
 }
 

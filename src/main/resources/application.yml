@@ -7,7 +7,7 @@ spring:
       username: ${MYSQLDB_USER}
       password: ${MYSQLDB_ROOT_PASSWORD}
   jpa:
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
 

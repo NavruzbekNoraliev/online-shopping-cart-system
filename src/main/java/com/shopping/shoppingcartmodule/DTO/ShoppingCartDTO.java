@@ -1,7 +1,6 @@
 package com.shopping.shoppingcartmodule.DTO;
 
-import com.shopping.shoppingcartmodule.Entity.Product;
-import jakarta.persistence.*;
+import com.shopping.shoppingcartmodule.Service.DTO.ProductCartDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class ShoppingCartDTO {
     private String userId;
     private double totalPrice;
     private int quantity;
-    private List<Product> products =new ArrayList<>();
+    private List<ProductCartDTO> products =new ArrayList<>();
 
     public ShoppingCartDTO(long id, String userId, double totalPrice, int quantity) {
         this.id = id;
