@@ -2,6 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Observable, debounceTime, fromEvent, merge, tap } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { MenuItems } from 'src/app/shared/menu-items';
 
 /** @title Responsive sidenav */
@@ -18,11 +19,19 @@ export class FullComponent implements OnDestroy, AfterViewInit {
   
   private _mobileQueryListener: () => void;
   
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public menuItems: MenuItems) {
+  constructor(
+    private authService: AuthService,
+    changeDetectorRef: ChangeDetectorRef, 
+    media: MediaMatcher, public menuItems: MenuItems) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+
+  authorized(): boolean {
+    return this.authService.isAuthorized;
+  }
+
 
   handleSidebarMenuClick() {
     const el = this.sidebarBtn.nativeElement;

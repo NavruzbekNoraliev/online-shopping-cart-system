@@ -38,6 +38,12 @@ export class AuthService extends CoreHTTPService {
         }));
     }
 
+    get isAuthorized(): boolean{
+        if(this.role && this.username && this.token) {
+            return true;
+        }
+        else return false;
+    }
     set username(value: any | null) {
         if (value === null) { value = ''; }
         localStorage.setItem('username', `${value.first_name} ${value.last_name}`);
