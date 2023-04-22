@@ -23,8 +23,8 @@ public class TransactionEntity {
     @Column(name = "transaction_number")
     private String transactionNumber;
 
-    @Column(name = "transaction_address")
-    private String transactionAddress;
+//    @Column(name = "transaction_address")
+//    private String transactionAddress;
 
     @Column(name = "transaction_status")
     @Enumerated(EnumType.STRING)
@@ -35,6 +35,9 @@ public class TransactionEntity {
 
     @Column(name = "vendor_id")
     private Long vendorId;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "vendor_active_indicator")
     private String vendorActiveIndicator;

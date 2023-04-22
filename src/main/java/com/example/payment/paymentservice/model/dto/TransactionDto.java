@@ -16,5 +16,5 @@ public class TransactionDto {
     private Long vendorId;
     private String vendorActiveIndicator;
     private Date date;
-    private TransactionStatus transactionStatus;
+    //private TransactionStatus transactionStatus;
 }

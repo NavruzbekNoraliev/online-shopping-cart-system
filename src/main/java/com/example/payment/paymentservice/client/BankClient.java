@@ -1,5 +1,6 @@
 package com.example.payment.paymentservice.client;
 
+import com.example.payment.paymentservice.model.dto.TransactionDto;
 import com.example.payment.paymentservice.rest.request.TransactionRequest;
 import com.example.payment.paymentservice.rest.response.TransactionResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,4 +13,5 @@ public interface BankClient {
 
     @PostMapping("/banking")
     TransactionResponse getAcceptance(@RequestBody TransactionRequest transactionRequest);
+
 }

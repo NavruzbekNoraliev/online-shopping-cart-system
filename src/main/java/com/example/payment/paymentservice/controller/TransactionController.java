@@ -2,6 +2,7 @@ package com.example.payment.paymentservice.controller;
 
 import com.example.payment.paymentservice.model.dto.TransactionDto;
 import com.example.payment.paymentservice.rest.request.TransactionRequest;
+import com.example.payment.paymentservice.service.CardService;
 import com.example.payment.paymentservice.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,14 +23,27 @@ public class TransactionController {
     @Autowired
     private final TransactionService transactionService;
 
+
+
     @GetMapping
     public ResponseEntity readTransactions(Pageable pageable) {
         return ResponseEntity.ok(transactionService.readTransactions(pageable));
     }
 
-    @PostMapping
-    public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) {
-        return ResponseEntity.ok(transactionService.utilPayment(transactionRequest));
+    @PostMapping("customer")
+    public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) throws ChangeSetPersister.NotFoundException, IOException {
+        return ResponseEntity.ok(transactionService.utilPayment(transactionRequest , false));
+    }
+    @PostMapping("vendor")
+    public ResponseEntity processTransactionVendor(@RequestBody TransactionRequest transactionRequest) throws ChangeSetPersister.NotFoundException, IOException {
+        return ResponseEntity.ok(transactionService.utilPayment(transactionRequest , true));
+    }
+
+
+    @PostMapping("/kafka")
+    public ResponseEntity<TransactionDto> notify(@RequestBody TransactionDto transactionDto){
+        transactionService.broadcastPaymentComplete(transactionDto);
+        return ResponseEntity.ok(transactionDto);
     }
 
     @GetMapping("/{id}")

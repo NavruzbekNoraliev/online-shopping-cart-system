@@ -9,4 +9,5 @@ import lombok.Data;
 public class TransactionResponse {
     private TransactionStatus transactionStatus;
     private String transactionId;
+    private String message;
 }

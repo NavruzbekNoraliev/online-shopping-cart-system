@@ -1,5 +1,9 @@
 package com.example.payment.paymentservice.model;
 
+
 public enum TransactionStatus {
-    TS, TF, TU
+    TU,
+    TF,
+    TS
+
 }

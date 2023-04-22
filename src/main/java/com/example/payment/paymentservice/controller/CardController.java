@@ -36,10 +36,10 @@ public class CardController {
         return ResponseEntity.ok(cardService.addCard(cardEntity));
     }
 
-    @GetMapping("/{id}")
-    public Object getCardDetailsById(@PathVariable Long id){
+    @GetMapping("/{number}")
+    public Object getCardDetailsById(@PathVariable String number){
         try {
-            CardEntity cardEntity = cardService.getCardById(id);
+            CardEntity cardEntity = cardService.getCardByNumber(number);
 
             BankResponse response = new BankResponse();
 
@@ -54,8 +54,13 @@ public class CardController {
 
             return response;
 
-        } catch (ChangeSetPersister.NotFoundException er){
-            return new ResponseEntity<>("Card not found", HttpStatus.NOT_FOUND);
+        }
+        catch (NullPointerException error){
+            BankResponse response = new BankResponse();
+            response.setCardNumber("0");
+            return response;
+
+            //return new ResponseEntity<>("Card not found", HttpStatus.NOT_FOUND);
         }
 
 

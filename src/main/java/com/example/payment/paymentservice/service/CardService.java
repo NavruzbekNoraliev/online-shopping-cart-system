@@ -50,4 +50,13 @@ public class CardService {
             throw new ChangeSetPersister.NotFoundException();
         }
     }
+
+    public CardEntity getCardByNumber(String number)  {
+        Optional<CardEntity> optionalCardEntity = cardRepository.findByCardNumber(number);
+        if (optionalCardEntity.isPresent()) {
+            return optionalCardEntity.get();
+        }else {
+            return null;
+        }
+    }
 }
