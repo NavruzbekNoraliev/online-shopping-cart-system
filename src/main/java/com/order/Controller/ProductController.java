@@ -1,7 +1,7 @@
 package com.order.Controller;
 
 
-import com.order.Entity.Product;
+import com.order.Service.Impl.Product;
 import com.order.ExeceptionHandling.product.ResourceNotFoundException;
 import com.order.Service.DTO.ProductDTO;
 import com.order.Service.DTO.ProductDTOConverter;

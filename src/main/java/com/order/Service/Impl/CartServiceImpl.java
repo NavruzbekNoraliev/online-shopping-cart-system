@@ -1,17 +1,23 @@
 package com.order.Service.Impl;
 
-import com.order.Entity.Cart;
-import com.order.Entity.CartItem;
+import com.order.Entity.*;
 import com.order.ExeceptionHandling.shopping.InvalidQuantityException;
 import com.order.ExeceptionHandling.shopping.ShoppingResourceNotFoundException;
+import com.order.Repository.CartItemRepository;
 import com.order.Repository.CartRepository;
+import com.order.Repository.OrderItemRepository;
+import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
+import com.order.Service.DTO.CustomerDTO;
+import com.order.Service.DTO.VendorDTO;
 import com.order.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -20,37 +26,54 @@ public class CartServiceImpl implements CartService {
 
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+
+
+
+    private VendorFeignClient vendorFeignClient;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
                            ProductService productService,
-                           CartItemRepository cartItemRepository){
+                           CartItemRepository cartItemRepository,
+                           OrderRepository orderRepository,
+                           OrderItemRepository orderItemRepository,
+                           VendorFeignClient vendorFeignClient){
         this.cartItemRepository=cartItemRepository;
         this.productService=productService;
         this.cartRepository=cartRepository;
+        this.orderRepository=orderRepository;
+        this.orderItemRepository=orderItemRepository;
+        this.vendorFeignClient = vendorFeignClient;
+
     }
 
+    @FeignClient(name = "vendor-service", url = "http://localhost:9090")
+    public interface VendorFeignClient {
+        @RequestMapping("/api/v1/vendor/{vendorId}")
+        public VendorDTO getVendorById(@PathVariable("vendorId") Long vendorId);
+    }
 
+    public VendorDTO getVendorById(Long vendorId){
+        return vendorFeignClient.getVendorById(vendorId);
+    }
 
-    public Cart addItemToCart(CartItem cartItem, String authorizationHeader){
-        //TODO: get user id from token
-        Long customerId = 1l;
+    public Cart addItemToCart(Long customerId, CartItem cartItem, String authorizationHeader){
         Cart newCart;
         CartItem newCartItem;
         Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         Long productId = cartItem.getProduct().getId();
-        if(cartItem.getProduct() == null
-                || productService.getProductById(productId) == null){
+        Product product = productService.getProductById(productId);
+
+        if(product == null){
             throw new ShoppingResourceNotFoundException("Product not found");
         }
-        if(cartItem.getProduct().getQuantity() <= 0){
+        if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
             throw new InvalidQuantityException("Not enough quantity");
         }
-        if(cartItem.getQuantity() <= cartItem.getProduct().getQuantity()){
-            newCartItem = cartItemRepository.save(cartItem);
-        }else{
-            throw new InvalidQuantityException("Not enough quantity");
-        }
+
+        newCartItem = cartItemRepository.save(cartItem);
 
         if(!cart.isPresent()){
             newCart = new Cart();
@@ -69,7 +92,7 @@ public class CartServiceImpl implements CartService {
             newCart = cart.get();
             //check if this item already exists in the cart
             for (CartItem item : newCart.getCartItems()) {
-                if (item.getProduct().getId() == cartItem.getProduct().getId()) {
+                if (item.getProduct().getId() == product.getId()) {
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
                     item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
                     cartItemRepository.save(item);
@@ -92,14 +115,14 @@ public class CartServiceImpl implements CartService {
         }else{
            Cart newCart = new Cart();
            newCart.setCustomerId(customerId);
-            newCart.setTotalPrice(0);
+           newCart.setTotalPrice(0);
            return cartRepository.save(newCart);
         }
     }
 
     @Override
-    public Cart removeItemFromCart(long cartId, long cartItemId,long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart removeItemFromCart(long cartItemId,long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
@@ -111,50 +134,56 @@ public class CartServiceImpl implements CartService {
                 }
             }
             return existingCart;
+        }else{
+            Cart newCart = new Cart();
+            newCart.setCustomerId(customerId);
+            newCart.setTotalPrice(0);
+            return cartRepository.save(newCart);
         }
-        Cart newCart = new Cart();
-        newCart.setCustomerId(customerId);
-        newCart.setTotalPrice(0);
-        return cartRepository.save(newCart);
-
     }
 
     @Override
-    public Cart updateCartItem(long cartId, long cartItemId, CartItem cartItem, long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart updateCartItem(long cartItemId, CartItem cartItem, long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
+        Product product;
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
                 if(item.getId() == cartItemId){
-                    if(cartItem.getQuantity() <= cartItem.getProduct().getQuantity()){
-                        item.setQuantity(cartItem.getQuantity());
-                        item.setSubTotal(item.calculateSubTotal());
-                        cartItemRepository.save(item);
-                        existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.calculateSubTotal());
-                        return cartRepository.save(existingCart);
-                    }else{
+                    product = productService.getProductById(cartItem.getProduct().getId());
+                    if(product == null){
+                        throw new ShoppingResourceNotFoundException("Product not found");
+                    }
+                    if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
                         throw new InvalidQuantityException("Not enough quantity");
                     }
-                }else{
-                    return existingCart;
+
+                    item.setQuantity(cartItem.getQuantity());
+                    item.setSubTotal(item.calculateSubTotal());
+                    cartItemRepository.save(item);
+                    existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.calculateSubTotal());
+                    return cartRepository.save(existingCart);
+                    }
                 }
-            }
+                    return existingCart;
+        }else{
+            Cart newCart = new Cart();
+            newCart.setCustomerId(customerId);
+            newCart.setTotalPrice(0);
+            return cartRepository.save(newCart);
         }
-        Cart newCart = new Cart();
-        newCart.setCustomerId(customerId);
-        newCart.setTotalPrice(0);
-        return cartRepository.save(newCart);
     }
 
     @Override
-    public Cart clearCart(long cartId, long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart clearCart(long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
                 existingCart.getCartItems().remove(item);
                 cartItemRepository.delete(item);
             }
+
             existingCart.setTotalPrice(0);
             return cartRepository.save(existingCart);
         }else{
@@ -163,5 +192,46 @@ public class CartServiceImpl implements CartService {
             newCart.setTotalPrice(0);
             return cartRepository.save(newCart);
         }
+    }
+
+
+
+    @Override
+    public Order checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds) {
+        Cart cart = cartRepository.findCartByCustomerId(customerId).orElseThrow(
+                () -> new ShoppingResourceNotFoundException("Cart not found")
+        );
+
+        Order newOrder = Order.builder()
+                .customerName(customerDTO.getFirstName() + " " + customerDTO.getLastName())
+                .customerEmail(customerDTO.getCustomerEmail())
+                .customerPhone(customerDTO.getCustomerPhone())
+                .billingAddress(customerDTO.getBillingAddress())
+                .shippingAddress((customerDTO.getShippingAddress()!= null) ? customerDTO.getShippingAddress() : customerDTO.getBillingAddress())
+                .orderDate(new Date())
+                .status(OrderStatus.PENDING)
+                .paymentMethod(PaymentMethod.MASTERCARD)
+                .totalPrice(cart.getTotalPrice())
+                .orderItems(new ArrayList<>())
+                .build();
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        for(CartItem item : cart.getCartItems()){
+            if(cartItemIds.contains(item.getId())){
+                OrderItem orderItem = OrderItem.builder()
+                        .productName(item.getProduct().getName())
+                        .quantity(item.getQuantity())
+                        .price(item.getProduct().getPrice())
+                        .vendorName(getVendorById(item.getProduct().getVendorId()).getName())
+                        .build();
+                orderItems.add(orderItem);
+
+            }
+
+        }
+
+       orderItems.forEach(orderItem -> newOrder.getOrderItems().add(orderItemRepository.save(orderItem)));
+
+        return orderRepository.save(newOrder);
     }
 }

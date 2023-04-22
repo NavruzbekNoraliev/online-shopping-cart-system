@@ -1,5 +1,7 @@
-package com.order.Entity;
+package com.order.Service.Impl;
 
+import com.order.Entity.Category;
+import com.order.Entity.CustomerComment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +22,7 @@ public class Product {
     private String description;
     private double price;
     private int quantity;
-    private int vendorId;
+    private Long vendorId;
     private String color;
     private boolean available;
 

@@ -1,7 +1,6 @@
 package com.order.Service.DTO;
 
-import com.order.Entity.Product;
-import jakarta.persistence.*;
+import com.order.Service.Impl.Product;
 
 import java.util.List;
 

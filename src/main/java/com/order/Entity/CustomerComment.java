@@ -1,5 +1,6 @@
 package com.order.Entity;
 
+import com.order.Service.Impl.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
