@@ -64,17 +64,29 @@ public class ReportsController {
 
     @GetMapping("/user/{userId}/sales/{format}")
     public String getUserOrders(@PathVariable String format, @PathVariable long userId) throws JRException, FileNotFoundException {
-        return reportService.exportUserReport(format, userId);
+        String fileName =  reportService.exportUserReport(format, userId);
+        File file = new File(reportPath + fileName);
+        amazonS3Service.uploadFileToS3(bucketName, fileName, file);
+
+        return returnUrl + fileName;
     }
 
     @GetMapping("/product/{productId}/sales/{format}")
     public String getProductSales(@PathVariable String format, @PathVariable long productId) throws JRException, FileNotFoundException {
-        return reportService.productReport(format, productId);
+        String fileName = reportService.productReport(format, productId);
+        File file = new File(reportPath + fileName);
+        amazonS3Service.uploadFileToS3(bucketName, fileName, file);
+
+        return returnUrl + fileName;
     }
 
     @GetMapping("/analysis/product/{productName}/sales/{format}")
     public String getProductSalesAnalysis(@PathVariable String format, @PathVariable String productName) throws JRException, FileNotFoundException {
-        return reportService.productAnalysisReport(format, productName);
+        String fileName =  reportService.productAnalysisReport(format, productName);
+        File file = new File(reportPath + fileName);
+        amazonS3Service.uploadFileToS3(bucketName, fileName, file);
+
+        return returnUrl + fileName;
     }
 
 }
