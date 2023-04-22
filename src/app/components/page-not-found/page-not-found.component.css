@@ -1,0 +1,7 @@
+.not-found-page { 
+    background: url("https://img.freepik.com/premium-vector/404-error-page-found-with-broken-robot_172533-242.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+}
