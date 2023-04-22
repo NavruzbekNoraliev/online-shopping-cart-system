@@ -10,9 +10,6 @@ import com.shopping.shoppingcartmodule.Repository.ProductRepo;
 import com.shopping.shoppingcartmodule.Repository.ShoppingCartRepository;
 import com.shopping.shoppingcartmodule.Service.ShoppingCartInterface;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,8 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ShoppingCartService implements ShoppingCartInterface {
-    @Autowired
-    private KafkaTemplate<String, ShoppingCartDTO> kafkaTemplate;
+
     private ProductRepo productRepository;
 
     private ShoppingCartRepository shoppingCartRepository;
@@ -85,7 +81,6 @@ public class ShoppingCartService implements ShoppingCartInterface {
 
     // @KafkaListener(topics = "topicName", groupId = "foo")
     @Override
-    @KafkaListener(topics = "userId", groupId = "groupId")
     public ShoppingCart createCart(String userid) {
         Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findByUserIdIgnoreCase(userid);
         if (optionalShoppingCart.isPresent()) return optionalShoppingCart.get();
@@ -121,11 +116,11 @@ public class ShoppingCartService implements ShoppingCartInterface {
         shoppingCart.setQuantity(0);
         return shoppingCartRepository.save(shoppingCart);
     }
-@Override
+
+    @Override
     public String checkout(long cartId) {
-       ShoppingCartDTO shoppingCartDTO=entityToDto(shoppingCartRepository.findById(cartId).orElseThrow(() -> new
+        ShoppingCartDTO shoppingCartDTO = entityToDto(shoppingCartRepository.findById(cartId).orElseThrow(() -> new
                 ShoppingCartNotFoundException("CART NOT FOUND WITH THIS ID :" + cartId)));
-       kafkaTemplate.send("shoppingcart",shoppingCartDTO);
-      return "published";
+        return "published";
     }
 }

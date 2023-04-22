@@ -7,9 +7,9 @@ spring:
       username: ${MYSQLDB_USER}
       password: ${MYSQLDB_ROOT_PASSWORD}
   jpa:
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create
     generate-ddl: true
     show-sql: true
 
-  kafka:
-    bootstrap-servers: kafka:9092
+#  kafka:
+#    bootstrap-servers: kafka:9092

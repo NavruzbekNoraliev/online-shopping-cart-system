@@ -2,7 +2,7 @@ package com.shopping.shoppingcartmodule.Controller;
 
 
 import com.shopping.shoppingcartmodule.DTO.ShoppingCartDTO;
-import com.shopping.shoppingcartmodule.Entity.Product;
+
 import com.shopping.shoppingcartmodule.Entity.ShoppingCart;
 
 import com.shopping.shoppingcartmodule.Service.Impl.ShoppingCartService;
@@ -42,11 +42,7 @@ public class ShoppingCartController {
        return shoppingCartService.getCart(id);
   }
 
-//  @GetMapping(value="/checkout/{cartid}")
-//    public void checkout(@PathVariable long cartid){
-//       shoppingCartService.checkout(cartid);
-//
-//  }
+
 @DeleteMapping(value="/removeallproduct/{cartid}")
 public ShoppingCart deleteAllProduct(@PathVariable long cartid){
     return   shoppingCartService.deleteAllProduct(cartid);
