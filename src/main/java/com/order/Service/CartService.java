@@ -8,7 +8,7 @@ import com.order.Service.DTO.CustomerDTO;
 public interface CartService {
 //    public Cart getCartById(Long id);
 
-    public Cart addItemToCart(CartItem cartItem, String authorizationHeader);
+    public Cart addItemToCart(Long customerId, CartItem cartItem, String authorizationHeader);
 
 //    public Cart saveCart(Cart cart);
 //

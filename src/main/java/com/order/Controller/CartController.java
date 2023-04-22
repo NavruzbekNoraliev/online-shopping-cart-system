@@ -22,7 +22,9 @@ public class CartController {
     @PostMapping
     public ResponseEntity<?> addItemToCart(@RequestBody CartItem cartItem,
                                            @RequestHeader("Authorization") String authorizationHeader){
-        return ResponseEntity.ok(cartService.addItemToCart(cartItem, authorizationHeader));
+        //TODO: get user id from token
+        Long customerId = 1l;
+        return ResponseEntity.ok(cartService.addItemToCart(customerId, cartItem, authorizationHeader));
     }
 
     @GetMapping

@@ -41,25 +41,21 @@ public class CartServiceImpl implements CartService {
 
 
 
-    public Cart addItemToCart(CartItem cartItem, String authorizationHeader){
-        //TODO: get user id from token
-        Long customerId = 1l;
+    public Cart addItemToCart(Long customerId, CartItem cartItem, String authorizationHeader){
         Cart newCart;
         CartItem newCartItem;
         Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         Long productId = cartItem.getProduct().getId();
-        if(cartItem.getProduct() == null
-                || productService.getProductById(productId) == null){
+        Product product = productService.getProductById(productId);
+
+        if(product == null){
             throw new ShoppingResourceNotFoundException("Product not found");
         }
-        if(cartItem.getProduct().getQuantity() <= 0){
+        if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
             throw new InvalidQuantityException("Not enough quantity");
         }
-        if(cartItem.getQuantity() <= cartItem.getProduct().getQuantity()){
-            newCartItem = cartItemRepository.save(cartItem);
-        }else{
-            throw new InvalidQuantityException("Not enough quantity");
-        }
+
+        newCartItem = cartItemRepository.save(cartItem);
 
         if(!cart.isPresent()){
             newCart = new Cart();
@@ -78,7 +74,7 @@ public class CartServiceImpl implements CartService {
             newCart = cart.get();
             //check if this item already exists in the cart
             for (CartItem item : newCart.getCartItems()) {
-                if (item.getProduct().getId() == cartItem.getProduct().getId()) {
+                if (item.getProduct().getId() == product.getId()) {
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
                     item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
                     cartItemRepository.save(item);
@@ -101,7 +97,7 @@ public class CartServiceImpl implements CartService {
         }else{
            Cart newCart = new Cart();
            newCart.setCustomerId(customerId);
-            newCart.setTotalPrice(0);
+           newCart.setTotalPrice(0);
            return cartRepository.save(newCart);
         }
     }
@@ -114,45 +110,58 @@ public class CartServiceImpl implements CartService {
             for(CartItem item : existingCart.getCartItems()){
                 if(item.getId() == cartItemId){
                     existingCart.setTotalPrice(existingCart.getTotalPrice() - item.getSubTotal());
-                    existingCart.getCartItems().remove(item);
-                    cartItemRepository.delete(item);
+                    removeItem(existingCart, item);
                     return cartRepository.save(existingCart);
                 }
             }
             return existingCart;
+        }else{
+            Cart newCart = new Cart();
+            newCart.setCustomerId(customerId);
+            newCart.setTotalPrice(0);
+            return cartRepository.save(newCart);
         }
-        Cart newCart = new Cart();
-        newCart.setCustomerId(customerId);
-        newCart.setTotalPrice(0);
-        return cartRepository.save(newCart);
-
     }
 
     @Override
     public Cart updateCartItem(long cartItemId, CartItem cartItem, long customerId) {
         Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
+        Product product;
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
                 if(item.getId() == cartItemId){
-                    if(cartItem.getQuantity() <= cartItem.getProduct().getQuantity()){
-                        item.setQuantity(cartItem.getQuantity());
-                        item.setSubTotal(item.calculateSubTotal());
-                        cartItemRepository.save(item);
-                        existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.calculateSubTotal());
-                        return cartRepository.save(existingCart);
-                    }else{
+                    product = productService.getProductById(cartItem.getProduct().getId());
+                    if(product == null){
+                        throw new ShoppingResourceNotFoundException("Product not found");
+                    }
+                    if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
                         throw new InvalidQuantityException("Not enough quantity");
                     }
-                }else{
-                    return existingCart;
+                    if(item.getQuantity()>cartItem.getQuantity()){
+                        product.setQuantity(product.getQuantity() + (item.getQuantity() - cartItem.getQuantity()));
+                        productService.updateProduct(product.getId(), product);
+                    }else if(item.getQuantity()<cartItem.getQuantity()){
+                        product.setQuantity(product.getQuantity() - (cartItem.getQuantity() - item.getQuantity()));
+                        productService.updateProduct(product.getId(), product);
+                    }else{
+                        product.setQuantity(product.getQuantity() + item.getQuantity());
+                        productService.updateProduct(product.getId(), product);
+                    }
+                    item.setQuantity(cartItem.getQuantity());
+                    item.setSubTotal(item.calculateSubTotal());
+                    cartItemRepository.save(item);
+                    existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.calculateSubTotal());
+                    return cartRepository.save(existingCart);
+                    }
                 }
-            }
+                    return existingCart;
+        }else{
+            Cart newCart = new Cart();
+            newCart.setCustomerId(customerId);
+            newCart.setTotalPrice(0);
+            return cartRepository.save(newCart);
         }
-        Cart newCart = new Cart();
-        newCart.setCustomerId(customerId);
-        newCart.setTotalPrice(0);
-        return cartRepository.save(newCart);
     }
 
     @Override
@@ -161,9 +170,9 @@ public class CartServiceImpl implements CartService {
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
-                existingCart.getCartItems().remove(item);
-                cartItemRepository.delete(item);
+                removeItem(existingCart, item);
             }
+
             existingCart.setTotalPrice(0);
             return cartRepository.save(existingCart);
         }else{
@@ -172,6 +181,17 @@ public class CartServiceImpl implements CartService {
             newCart.setTotalPrice(0);
             return cartRepository.save(newCart);
         }
+    }
+
+    private void removeItem(Cart existingCart, CartItem item) {
+        Product product;
+        product = productService.getProductById(item.getProduct().getId());
+        if(product != null){
+            product.setQuantity(product.getQuantity() + item.getQuantity());
+            productService.updateProduct(product.getId(), product);
+        }
+        existingCart.getCartItems().remove(item);
+        cartItemRepository.delete(item);
     }
 
     @Override
