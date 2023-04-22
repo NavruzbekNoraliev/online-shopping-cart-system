@@ -4,13 +4,16 @@ package com.order.Service.DTO;
 import com.order.Entity.Category;
 import com.order.Entity.Product;
 import com.order.Repository.CategoryRepo;
+import com.order.Service.Impl.GetVendorService;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ProductDTOConverter {
     private final CategoryRepo categoryRepo;
+    private final GetVendorService getVendorService;
 
     public ProductDTO toDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
@@ -20,8 +23,8 @@ public class ProductDTOConverter {
         productDTO.setPrice(product.getPrice());
         productDTO.setQuantity(product.getQuantity());
         //Vendor should use resttemplate
-        VendorDTO vendorDTO = new VendorDTO();
-        vendorDTO.setId(product.getVendorId());
+        String vendorId = String.valueOf(product.getVendorId());
+        VendorDTO vendorDTO = getVendorService.getById(vendorId);
         productDTO.setVendorDTO(vendorDTO);
         //
         productDTO.setColor(product.getColor());
