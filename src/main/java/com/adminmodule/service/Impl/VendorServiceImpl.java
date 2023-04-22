@@ -258,6 +258,7 @@ public class VendorServiceImpl implements VendorService {
             vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
             vendorAdmin.getAccount().setEmail(vendorAdmin.getAccount().getEmail());
             vendorAdmin.setAccount(accountRepository.save(vendorAdmin.getAccount()));
+            vendorAdmin.setEmail(vendorAdmin.getAccount().getEmail());
             VendorAdmin savedVendorAdmin = vendorAdminRepository.save(vendorAdmin);
             VendorAdminDTO newVendorAdminDTO = VendorAdminAdapter.toDTO(savedVendorAdmin);
             newVendorAdminDTO.getAccount().setPassword("********");

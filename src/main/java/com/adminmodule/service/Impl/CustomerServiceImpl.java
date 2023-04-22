@@ -47,7 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getAllCustomers() {
-    return customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
+        //for each customer, set the password to "********"
+        for(Customer customer: customers){
+            customer.getAccount().setPassword("********");
+        }
+        return customers;
     }
 
     @Override
