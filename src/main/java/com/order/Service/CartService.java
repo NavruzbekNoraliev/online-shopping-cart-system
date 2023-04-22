@@ -5,6 +5,8 @@ import com.order.Entity.CartItem;
 import com.order.Entity.Order;
 import com.order.Service.DTO.CustomerDTO;
 
+import java.util.List;
+
 public interface CartService {
 //    public Cart getCartById(Long id);
 
@@ -28,5 +30,5 @@ public interface CartService {
 
     Cart clearCart(long customerId);
 
-    Order checkoutCart(CustomerDTO customerDTO, Cart cart);
+    Order checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds);
 }

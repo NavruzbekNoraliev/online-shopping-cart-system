@@ -9,6 +9,7 @@ import com.order.Repository.OrderItemRepository;
 import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
 import com.order.Service.DTO.CustomerDTO;
+import com.order.Service.DTO.ProductDTOConverter;
 import com.order.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,17 +26,21 @@ public class CartServiceImpl implements CartService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
 
+    private final ProductDTOConverter productDTOConverter1;
+
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
                            ProductService productService,
                            CartItemRepository cartItemRepository,
                            OrderRepository orderRepository,
-                           OrderItemRepository orderItemRepository){
+                           OrderItemRepository orderItemRepository,
+                           ProductDTOConverter productDTOConverter){
         this.cartItemRepository=cartItemRepository;
         this.productService=productService;
         this.cartRepository=cartRepository;
         this.orderRepository=orderRepository;
         this.orderItemRepository=orderItemRepository;
+        this.productDTOConverter1=productDTOConverter;
 
     }
 
@@ -110,7 +115,8 @@ public class CartServiceImpl implements CartService {
             for(CartItem item : existingCart.getCartItems()){
                 if(item.getId() == cartItemId){
                     existingCart.setTotalPrice(existingCart.getTotalPrice() - item.getSubTotal());
-                    removeItem(existingCart, item);
+                    existingCart.getCartItems().remove(item);
+                    cartItemRepository.delete(item);
                     return cartRepository.save(existingCart);
                 }
             }
@@ -138,16 +144,7 @@ public class CartServiceImpl implements CartService {
                     if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
                         throw new InvalidQuantityException("Not enough quantity");
                     }
-                    if(item.getQuantity()>cartItem.getQuantity()){
-                        product.setQuantity(product.getQuantity() + (item.getQuantity() - cartItem.getQuantity()));
-                        productService.updateProduct(product.getId(), product);
-                    }else if(item.getQuantity()<cartItem.getQuantity()){
-                        product.setQuantity(product.getQuantity() - (cartItem.getQuantity() - item.getQuantity()));
-                        productService.updateProduct(product.getId(), product);
-                    }else{
-                        product.setQuantity(product.getQuantity() + item.getQuantity());
-                        productService.updateProduct(product.getId(), product);
-                    }
+
                     item.setQuantity(cartItem.getQuantity());
                     item.setSubTotal(item.calculateSubTotal());
                     cartItemRepository.save(item);
@@ -170,7 +167,8 @@ public class CartServiceImpl implements CartService {
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
-                removeItem(existingCart, item);
+                existingCart.getCartItems().remove(item);
+                cartItemRepository.delete(item);
             }
 
             existingCart.setTotalPrice(0);
@@ -183,25 +181,20 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    private void removeItem(Cart existingCart, CartItem item) {
-        Product product;
-        product = productService.getProductById(item.getProduct().getId());
-        if(product != null){
-            product.setQuantity(product.getQuantity() + item.getQuantity());
-            productService.updateProduct(product.getId(), product);
-        }
-        existingCart.getCartItems().remove(item);
-        cartItemRepository.delete(item);
-    }
+
 
     @Override
-    public Order checkoutCart(CustomerDTO customerDTO, Cart cart) {
+    public Order checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds) {
+        Cart cart = cartRepository.findCartByCustomerId(customerId).orElseThrow(
+                () -> new ShoppingResourceNotFoundException("Cart not found")
+        );
+
         Order newOrder = Order.builder()
                 .customerName(customerDTO.getFirstName() + " " + customerDTO.getLastName())
                 .customerEmail(customerDTO.getCustomerEmail())
                 .customerPhone(customerDTO.getCustomerPhone())
                 .billingAddress(customerDTO.getBillingAddress())
-                .shippingAddress(customerDTO.getShippingAddress())
+                .shippingAddress((customerDTO.getShippingAddress()!= null) ? customerDTO.getShippingAddress() : customerDTO.getBillingAddress())
                 .orderDate(new Date())
                 .status(OrderStatus.PENDING)
                 .paymentMethod(PaymentMethod.MASTERCARD)
@@ -211,13 +204,17 @@ public class CartServiceImpl implements CartService {
 
         List<OrderItem> orderItems = new ArrayList<>();
         for(CartItem item : cart.getCartItems()){
-            OrderItem orderItem = OrderItem.builder()
-                    .productName(item.getProduct().getName())
-                    .quantity(item.getQuantity())
-                    .price(item.getProduct().getPrice())
-                    .vendorName("vendor name")
-                    .build();
-            orderItems.add(orderItem);
+            if(cartItemIds.contains(item.getId())){
+                OrderItem orderItem = OrderItem.builder()
+                        .productName(item.getProduct().getName())
+                        .quantity(item.getQuantity())
+                        .price(item.getProduct().getPrice())
+                        .vendorName("vendor name")
+                        .build();
+                orderItems.add(orderItem);
+
+            }
+
         }
 
        orderItems.forEach(orderItem -> newOrder.getOrderItems().add(orderItemRepository.save(orderItem)));

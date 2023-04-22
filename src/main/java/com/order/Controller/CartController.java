@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/cart")
 public class CartController {
@@ -62,11 +64,12 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<?> checkoutCart(@RequestBody Cart cart,
+    public ResponseEntity<?> checkoutCart(@RequestBody List<Long> cartItemIds,
                                           @RequestHeader("Authorization") String authorizationHeader){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         CustomerDTO customerDTO = new CustomerDTO();
-        return ResponseEntity.ok(cartService.checkoutCart(customerDTO, cart));
+        Long customerId = 1l;
+        return ResponseEntity.ok(cartService.checkoutCart(customerId,customerDTO, cartItemIds));
     }
 
 
