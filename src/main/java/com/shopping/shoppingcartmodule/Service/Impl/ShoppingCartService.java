@@ -95,13 +95,13 @@ public class ShoppingCartService implements ShoppingCartInterface {
 
 
     @Override
-    public ShoppingCartDTO deleteProductFromCart(long cartid, long productid) {
+    public ShoppingCartDTO deleteProductFromCart(long cartid,long productid) {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(cartid).orElseThrow(() ->
                 new ShoppingCartNotFoundException("CART NOT FOUND WITH THIS ID:" + cartid));
+        if(!shoppingCart.getBuketProduct().containsKey(productid)) throw new  ProductNotFoundException("YOU DO NOT HAVE THAT KIND OF PRODUCT");
         int producatRemovedQuantity = shoppingCart.getBuketProduct().get(productid);
         shoppingCart.setQuantity(shoppingCart.getQuantity() - producatRemovedQuantity);
         shoppingCart.getBuketProduct().entrySet().removeIf(entry -> entry.getKey().equals(productid));
-
 
         return entityToDto(shoppingCartRepository.save(shoppingCart));
     }
