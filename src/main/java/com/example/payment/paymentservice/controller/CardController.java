@@ -36,6 +36,11 @@ public class CardController {
         return ResponseEntity.ok(cardService.addCard(cardEntity));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCard(@PathVariable Long id) {
+        return ResponseEntity.ok(cardService.removeCard(id));
+    }
+
     @GetMapping("/{number}")
     public Object getCardDetailsById(@PathVariable String number){
         try {
@@ -50,6 +55,8 @@ public class CardController {
             response.setOperationMode(cardEntity.getOperationMode());
             response.setCurrentValue(cardEntity.getCurrentValue());
             response.setIssuedValue(cardEntity.getIssuedValue());
+            response.setExpDay(cardEntity.getExpDay());
+            response.setExpMonth(cardEntity.getExpMonth());
 
 
             return response;

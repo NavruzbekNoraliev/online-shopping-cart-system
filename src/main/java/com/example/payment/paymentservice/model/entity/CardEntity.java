@@ -40,4 +40,10 @@ public class CardEntity {
     @Column(name = "operation_mode")
     private String operationMode;
 
+    @Column(name = "exp_day")
+    private String expDay;
+
+    @Column(name = "exp_month")
+    private String expMonth;
+
 }

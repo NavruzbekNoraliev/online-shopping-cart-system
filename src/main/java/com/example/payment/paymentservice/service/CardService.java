@@ -41,6 +41,11 @@ public class CardService {
         return ResponseEntity.ok("card has been added successfully, CARD ID : " + optCard.getCardId());
     }
 
+    public ResponseEntity removeCard(Long id) {
+        cardRepository.deleteById(id);
+        return ResponseEntity.ok("card has been deleted successfully");
+    }
+
 
     public CardEntity getCardById(Long id) throws ChangeSetPersister.NotFoundException {
         Optional<CardEntity> optionalCardEntity = cardRepository.findById(id);

@@ -11,9 +11,9 @@ public class TransactionDto {
     private Long id;
     private String cardNumber;
     private String transactionNumber;
-    private String transactionAddress;
     private BigDecimal transactionAmount;
     private Long vendorId;
+    private Long userId;
     private String vendorActiveIndicator;
     private Date date;
     //private TransactionStatus transactionStatus;

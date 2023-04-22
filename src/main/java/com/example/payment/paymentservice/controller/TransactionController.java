@@ -26,8 +26,17 @@ public class TransactionController {
 
 
     @GetMapping
-    public ResponseEntity readTransactions(Pageable pageable) {
-        return ResponseEntity.ok(transactionService.readTransactions(pageable));
+    public ResponseEntity readTransactions() {
+        return ResponseEntity.ok(transactionService.readTransactions());
+    }
+
+    @GetMapping("customer/{id}")
+    public ResponseEntity readTransactionsByCustomerId(@PathVariable Long id) {
+        return ResponseEntity.ok(transactionService.readTransactionsByCustomerId(id));
+    }
+    @GetMapping("vendor/{id}")
+    public ResponseEntity readTransactionsByVendorId(@PathVariable Long id) {
+        return ResponseEntity.ok(transactionService.readTransactionsByVendorId(id));
     }
 
     @PostMapping("customer")

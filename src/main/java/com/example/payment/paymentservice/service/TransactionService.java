@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,19 +77,33 @@ public class TransactionService {
         entity.setCardNumber(transactionRequest.getCardDetails().getCardNumber());
         entity.setTransactionStatus(returnedTransaction.getTransactionStatus());
         entity.setTransactionNumber(returnedTransaction.getTransactionId());
+
         if(isVendor){
             entity.setVendorId(transactionRequest.getVendorId());
             entity.setTransactionAmount(BigDecimal.valueOf(20000));
+        }else {
+            entity.setUserId(transactionRequest.getUserId());
         }
-        transactionRepository.save(entity);
+        if(returnedTransaction.getTransactionId() != null){
+            transactionRepository.save(entity);
+        }
+
 
         return ResponseEntity.ok(TransactionResponse.builder().transactionStatus(returnedTransaction.getTransactionStatus())
                 .transactionId(returnedTransaction.getTransactionId()).message(returnedTransaction.getMessage()).build());
     }
 
-    public List<TransactionDto> readTransactions(Pageable pageable) {
-        Page<TransactionEntity> allUtilPayments = transactionRepository.findAll(pageable);
+    public List<TransactionDto> readTransactions() {
+        Page<TransactionEntity> allUtilPayments = transactionRepository.findAll(PageRequest.of(0, Integer.MAX_VALUE));
         return transactionMapper.convertToDtoList(allUtilPayments.getContent());
+    }
+    public List<TransactionDto> readTransactionsByCustomerId(Long id) {
+        List<TransactionEntity> allCustomerTransactions = transactionRepository.findByUserId(id);
+        return transactionMapper.convertToDtoList(allCustomerTransactions);
+    }
+    public List<TransactionDto> readTransactionsByVendorId(Long id) {
+        List<TransactionEntity> allVendorTransactions = transactionRepository.findByVendorId(id);
+        return transactionMapper.convertToDtoList(allVendorTransactions);
     }
 
     public TransactionDto getTransactionById(Long id) throws ChangeSetPersister.NotFoundException {
