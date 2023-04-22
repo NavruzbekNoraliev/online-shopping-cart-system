@@ -1,27 +1,25 @@
 package com.example.bank.Bank_Service.service;
 
+import com.example.bank.Bank_Service.TestObjectTest;
 import com.example.bank.Bank_Service.client.PaymentClient;
 import com.example.bank.Bank_Service.model.TransactionStatus;
 import com.example.bank.Bank_Service.model.entity.MasterBalanceEntity;
 import com.example.bank.Bank_Service.model.entity.VisaBalanceEntity;
 import com.example.bank.Bank_Service.repository.MasterBalanceRepository;
 import com.example.bank.Bank_Service.repository.VisaBalanceRepository;
-import com.example.bank.Bank_Service.rest.request.BankRequest;
+import com.example.bank.Bank_Service.rest.request.RequestedCard;
 import com.example.bank.Bank_Service.rest.request.TransactionRequest;
 import com.example.bank.Bank_Service.rest.response.TransactionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -35,8 +33,14 @@ public class BankService {
     @Autowired
     private PaymentClient paymentClient;
 
-    public BankRequest getCardDetails(String cardId) {
-        BankRequest card = paymentClient.getCardDetails(cardId);
+    @KafkaListener(topics = "test-topic", groupId = "groupId")
+    public void receiveTestObject(String id, TestObjectTest testObject) {
+        System.out.println("Received TestObjectTest with id " + id + " and name " + testObject.getName());
+    }
+
+
+    public RequestedCard getCardDetails(String cardNumber) {
+        RequestedCard card = paymentClient.getCardDetails(cardNumber);
         return card;
         // do something with the balance
     }
@@ -60,12 +64,12 @@ public class BankService {
     }
 
 
-    public TransactionResponse checkCard(BankRequest request , TransactionRequest transactionRequest){
+    public TransactionResponse checkCard(RequestedCard request , TransactionRequest transactionRequest){
         String transactionNum = UUID.randomUUID().toString();
         TransactionStatus transactionStatus;
 
-        if(request.getCurrentValue().compareTo(new BigDecimal(transactionRequest.getAmount())) < 0) {
-            transactionStatus = TransactionStatus.TU;
+        if(request.getCurrentValue().compareTo(transactionRequest.getTransactionAmount()) <= 0) {
+            transactionStatus = TransactionStatus.TS;
         }else {
             transactionStatus = TransactionStatus.TF;
         }
@@ -74,7 +78,7 @@ public class BankService {
             VisaBalanceEntity entity = new VisaBalanceEntity();
             entity.setCardNumber(request.getCardNumber());
             entity.setCardBalance(request.getCurrentValue());
-            entity.setTransactionValue(transactionRequest.getAmount());
+            entity.setTransactionValue(transactionRequest.getTransactionAmount().toString());
             entity.setTransactionNumber(transactionNum);
             entity.setDate(LocalDate.now());
             entity.setTransactionStatus(transactionStatus);
@@ -85,7 +89,7 @@ public class BankService {
             MasterBalanceEntity entity = new MasterBalanceEntity();
             entity.setCardNumber(request.getCardNumber());
             entity.setCardBalance(request.getCurrentValue());
-            entity.setTransactionValue(transactionRequest.getAmount());
+            entity.setTransactionValue(transactionRequest.getTransactionAmount().toString());
             entity.setTransactionNumber(transactionNum);
             entity.setDate(LocalDate.now());
             entity.setTransactionStatus(transactionStatus);

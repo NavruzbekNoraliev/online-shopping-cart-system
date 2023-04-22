@@ -1,11 +1,6 @@
 package com.example.bank.Bank_Service.controller;
 
-import com.example.bank.Bank_Service.model.TransactionStatus;
-import com.example.bank.Bank_Service.model.entity.MasterBalanceEntity;
-import com.example.bank.Bank_Service.model.entity.VisaBalanceEntity;
-import com.example.bank.Bank_Service.repository.MasterBalanceRepository;
-import com.example.bank.Bank_Service.repository.VisaBalanceRepository;
-import com.example.bank.Bank_Service.rest.request.BankRequest;
+import com.example.bank.Bank_Service.rest.request.RequestedCard;
 import com.example.bank.Bank_Service.rest.request.TransactionRequest;
 import com.example.bank.Bank_Service.rest.response.TransactionResponse;
 import com.example.bank.Bank_Service.service.BankService;
@@ -14,11 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,12 +23,37 @@ public class BalanceController {
 
     @PostMapping
     public TransactionResponse checkCard(@RequestBody TransactionRequest transactionRequest) {
-        BankRequest request =  bankService.getCardDetails(transactionRequest.getCardId());
+        RequestedCard request;
+            request =  bankService.getCardDetails(transactionRequest.getCardDetails().getCardNumber());
 
-        TransactionResponse transactionResponse = bankService.checkCard(request , transactionRequest);
+            if(request.getCardNumber().equals("0")){
+                return TransactionResponse.builder().message("No card found with that number").build();
+            }
+
+            if(transactionRequest.getCardDetails().getCvv().toString().length() != 3){
+                return TransactionResponse.builder().message("CVV must be 3 digits").build();
+
+            }
+
+        if(!transactionRequest.getCardDetails().getCvv().toString().equals(request.getCvv())){
+            return TransactionResponse.builder().message("CVV Digits are not correct").build();
+
+        }
+
+            if(!transactionRequest.getCardDetails().getOperationMode().equals("Active")){
+                return TransactionResponse.builder().message("Card is not active").build();
+            }
+
+        if(!transactionRequest.getCardDetails().getNameOnCard().equals(request.getNameOnCard())){
+            return TransactionResponse.builder().message("Name on Card is not correct").build();
+        }
+
+            TransactionResponse transactionResponse = bankService.checkCard(request , transactionRequest);
 
 
-        return TransactionResponse.builder().transactionStatus(transactionResponse.getTransactionStatus()).transactionId(transactionResponse.getTransactionId()).build();
+            return TransactionResponse.builder().transactionStatus(transactionResponse.getTransactionStatus()).transactionId(transactionResponse.getTransactionId()).message("OK").build();
+
+
     }
     @GetMapping("/visa")
     public ResponseEntity getVisaBalances(Pageable pageable) {
