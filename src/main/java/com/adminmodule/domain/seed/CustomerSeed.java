@@ -77,8 +77,6 @@ public class CustomerSeed implements CommandLineRunner {
             customerRepository.save(customer1);
 
 
-
-
         }
     }
 }
