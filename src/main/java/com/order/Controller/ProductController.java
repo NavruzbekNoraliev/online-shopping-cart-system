@@ -1,7 +1,7 @@
 package com.order.Controller;
 
 
-import com.order.Service.Impl.Product;
+import com.order.Entity.Product;
 import com.order.ExeceptionHandling.product.ResourceNotFoundException;
 import com.order.Service.DTO.ProductDTO;
 import com.order.Service.DTO.ProductDTOConverter;
@@ -103,6 +103,25 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         try {
             Product product = productService.updateProduct(id, productDTO);
+            return ResponseEntity.ok(product);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    //update available
+    @PutMapping("/updateAvailable/{id}")
+    public ResponseEntity<Product> updateAvailableProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        try {
+            Product product = productService.updateAvailableProduct(id, productDTO);
+            return ResponseEntity.ok(product);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/updateImage/{id}")
+    public ResponseEntity<Product> updateProductImage(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        try {
+            Product product = productService.updateProductImage(id, productDTO);
             return ResponseEntity.ok(product);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();

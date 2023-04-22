@@ -1,4 +1,4 @@
-package com.order.Service.Impl;
+package com.order.Entity;
 
 import com.order.Entity.Category;
 import com.order.Entity.CustomerComment;
@@ -25,6 +25,7 @@ public class Product {
     private Long vendorId;
     private String color;
     private boolean available;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
@@ -32,7 +33,6 @@ public class Product {
    // private CategoryEnum category;
     @OneToMany(fetch = FetchType.EAGER ,orphanRemoval = true ,mappedBy = "product")
     private List<CustomerComment> commentList;
-
 
     @Override
     public String toString() {

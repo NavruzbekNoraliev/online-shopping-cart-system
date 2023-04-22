@@ -2,6 +2,7 @@ package com.order.Service.Impl;
 
 
 import com.order.Entity.CustomerComment;
+import com.order.Entity.Product;
 import com.order.Repository.CustomerCommentRepo;
 import com.order.Repository.ProductRepo;
 import com.order.Service.CustomerCommentService;

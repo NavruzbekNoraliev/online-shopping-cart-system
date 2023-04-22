@@ -14,7 +14,7 @@ public class GetVendorService {
     private static final String API_BASE_URL = "http://localhost:8080/api/v1/vendor";
     private RestTemplate restTemplate = new RestTemplate();
     //Change with vendor DTO
-    public VendorDTO getById(String id) {
+    public VendorDTO getById(String id) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);

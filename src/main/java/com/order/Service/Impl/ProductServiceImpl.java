@@ -2,6 +2,7 @@ package com.order.Service.Impl;
 
 
 import com.order.Entity.Category;
+import com.order.Entity.Product;
 import com.order.Repository.CategoryRepo;
 import com.order.Repository.ProductRepo;
 import com.order.Service.DTO.ProductDTO;
@@ -57,13 +58,25 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Long id, ProductDTO product) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
-        existingProduct.setName(product.getName());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setPrice(product.getPrice());
+        existingProduct.setName(product.getName()!=null?product.getName(): existingProduct.getName());
+        existingProduct.setDescription(product.getDescription()!=null?product.getDescription(): existingProduct.getDescription());
+        existingProduct.setPrice(product.getPrice()!=0 ? product.getPrice(): existingProduct.getPrice());
+        //always needed
         existingProduct.setQuantity(product.getQuantity());
-        //fix category and vendor or leave it cant be changed
-        //existingProduct.setCategory(product.getCategory());
-        //existingProduct.setVendorId(product.getVendorId());
+        return productRepository.save(existingProduct);
+    }
+    @Override
+    public Product updateProductImage(Long id, ProductDTO product) {
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        existingProduct.setImageUrl(product.getImageUrl());
+        return productRepository.save(existingProduct);
+    }
+    @Override
+    public Product updateAvailableProduct(Long id, ProductDTO product) {
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        existingProduct.setAvailable(product.isAvailable());
         return productRepository.save(existingProduct);
     }
 
