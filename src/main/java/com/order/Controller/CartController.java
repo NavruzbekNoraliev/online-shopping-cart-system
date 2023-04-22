@@ -3,6 +3,7 @@ package com.order.Controller;
 import com.order.Entity.Cart;
 import com.order.Entity.CartItem;
 import com.order.Service.CartService;
+import com.order.Service.DTO.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,33 +32,39 @@ public class CartController {
         return ResponseEntity.ok(cartService.getCartByCustomerId(customerId));
     }
 
-    @PutMapping("/{cartId}/item/{cartItemId}")
-    public ResponseEntity<?> updateCartItem(@PathVariable("cartId") long cartId,
-                                            @PathVariable("cartItemId") long cartItemId,
+    @PutMapping("/{cartItemId}")
+    public ResponseEntity<?> updateCartItem(@PathVariable("cartItemId") long cartItemId,
                                             @RequestBody CartItem cartItem,
                                             @RequestHeader("Authorization") String authorizationHeader){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         long customerId = 1l;
-        return ResponseEntity.ok(cartService.updateCartItem(cartId, cartItemId, cartItem, customerId));
+        return ResponseEntity.ok(cartService.updateCartItem(cartItemId, cartItem, customerId));
     }
 
-    @DeleteMapping("/{cartId}")
-    public ResponseEntity<?> clearCart(@PathVariable("cartId") long cartId,
-                                        @RequestHeader("Authorization") String authorizationHeader){
+    @DeleteMapping
+    public ResponseEntity<?> clearCart(@RequestHeader("Authorization") String authorizationHeader){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         long customerId = 1l;
-        return ResponseEntity.ok(cartService.clearCart(cartId, customerId));
+        return ResponseEntity.ok(cartService.clearCart(customerId));
 
     }
 
-    @DeleteMapping("/{cartId}/item/{cartItemId}")
-    public ResponseEntity<?> removeItemFromCart(@PathVariable("cartId") long cartId,
+    @DeleteMapping("/{cartItemId}")
+    public ResponseEntity<?> removeItemFromCart(
                                                 @PathVariable("cartItemId") long cartItemId,
                                                 @RequestHeader("Authorization") String authorizationHeader){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         long customerId = 1l;
-    return ResponseEntity.ok(cartService.removeItemFromCart(cartId, cartItemId, customerId));
+    return ResponseEntity.ok(cartService.removeItemFromCart(cartItemId, customerId));
 
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<?> checkoutCart(@RequestBody Cart cart,
+                                          @RequestHeader("Authorization") String authorizationHeader){
+//        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
+        CustomerDTO customerDTO = new CustomerDTO();
+        return ResponseEntity.ok(cartService.checkoutCart(customerDTO, cart));
     }
 
 

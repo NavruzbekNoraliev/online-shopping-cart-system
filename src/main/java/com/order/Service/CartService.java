@@ -2,6 +2,8 @@ package com.order.Service;
 
 import com.order.Entity.Cart;
 import com.order.Entity.CartItem;
+import com.order.Entity.Order;
+import com.order.Service.DTO.CustomerDTO;
 
 public interface CartService {
 //    public Cart getCartById(Long id);
@@ -20,9 +22,11 @@ public interface CartService {
 
     Cart getCartByCustomerId(long l);
 
-    Cart removeItemFromCart(long cartId, long cartItemId, long customerId);
+    Cart removeItemFromCart(long cartItemId, long customerId);
 
-    Cart updateCartItem(long cartId, long cartItemId, CartItem cartItem, long customerId);
+    Cart updateCartItem(long cartItemId, CartItem cartItem, long customerId);
 
-    Cart clearCart(long cartId, long customerId);
+    Cart clearCart(long customerId);
+
+    Order checkoutCart(CustomerDTO customerDTO, Cart cart);
 }

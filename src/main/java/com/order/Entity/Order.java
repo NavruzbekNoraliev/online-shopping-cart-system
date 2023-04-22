@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "order_table")
 @ToString
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +33,4 @@ public class Order {
     @OneToOne(cascade= CascadeType.ALL)
     private OrderAddress billingAddress;
     private PaymentMethod paymentMethod;
-
 }

@@ -1,17 +1,19 @@
 package com.order.Service.Impl;
 
-import com.order.Entity.Cart;
-import com.order.Entity.CartItem;
+import com.order.Entity.*;
 import com.order.ExeceptionHandling.shopping.InvalidQuantityException;
 import com.order.ExeceptionHandling.shopping.ShoppingResourceNotFoundException;
+import com.order.Repository.CartItemRepository;
 import com.order.Repository.CartRepository;
+import com.order.Repository.OrderItemRepository;
+import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
+import com.order.Service.DTO.CustomerDTO;
 import com.order.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -20,14 +22,21 @@ public class CartServiceImpl implements CartService {
 
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
                            ProductService productService,
-                           CartItemRepository cartItemRepository){
+                           CartItemRepository cartItemRepository,
+                           OrderRepository orderRepository,
+                           OrderItemRepository orderItemRepository){
         this.cartItemRepository=cartItemRepository;
         this.productService=productService;
         this.cartRepository=cartRepository;
+        this.orderRepository=orderRepository;
+        this.orderItemRepository=orderItemRepository;
+
     }
 
 
@@ -98,8 +107,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart removeItemFromCart(long cartId, long cartItemId,long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart removeItemFromCart(long cartItemId,long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
@@ -120,8 +129,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart updateCartItem(long cartId, long cartItemId, CartItem cartItem, long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart updateCartItem(long cartItemId, CartItem cartItem, long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
@@ -147,8 +156,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart clearCart(long cartId, long customerId) {
-        Optional<Cart> cart = cartRepository.findById(cartId);
+    public Cart clearCart(long customerId) {
+        Optional<Cart> cart = cartRepository.findCartByCustomerId(customerId);
         if(cart.isPresent()){
             Cart existingCart = cart.get();
             for(CartItem item : existingCart.getCartItems()){
@@ -163,5 +172,36 @@ public class CartServiceImpl implements CartService {
             newCart.setTotalPrice(0);
             return cartRepository.save(newCart);
         }
+    }
+
+    @Override
+    public Order checkoutCart(CustomerDTO customerDTO, Cart cart) {
+        Order newOrder = Order.builder()
+                .customerName(customerDTO.getFirstName() + " " + customerDTO.getLastName())
+                .customerEmail(customerDTO.getCustomerEmail())
+                .customerPhone(customerDTO.getCustomerPhone())
+                .billingAddress(customerDTO.getBillingAddress())
+                .shippingAddress(customerDTO.getShippingAddress())
+                .orderDate(new Date())
+                .status(OrderStatus.PENDING)
+                .paymentMethod(PaymentMethod.MASTERCARD)
+                .totalPrice(cart.getTotalPrice())
+                .orderItems(new ArrayList<>())
+                .build();
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        for(CartItem item : cart.getCartItems()){
+            OrderItem orderItem = OrderItem.builder()
+                    .productName(item.getProduct().getName())
+                    .quantity(item.getQuantity())
+                    .price(item.getProduct().getPrice())
+                    .vendorName("vendor name")
+                    .build();
+            orderItems.add(orderItem);
+        }
+
+       orderItems.forEach(orderItem -> newOrder.getOrderItems().add(orderItemRepository.save(orderItem)));
+
+        return orderRepository.save(newOrder);
     }
 }

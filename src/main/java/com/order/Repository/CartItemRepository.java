@@ -1,4 +1,4 @@
-package com.order.Service.Impl;
+package com.order.Repository;
 
 import com.order.Entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
