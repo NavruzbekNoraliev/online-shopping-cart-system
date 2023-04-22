@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Product {
 
     @Id
@@ -23,10 +21,20 @@ public class Product {
     private double price;
     private int quantity;
     private int vendorId;
+    private String color;
+    private boolean available;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
+   // private CategoryEnum category;
+    @OneToMany(fetch = FetchType.EAGER ,orphanRemoval = true ,mappedBy = "product")
+    private List<CustomerComment> commentList;
 
+
+    @Override
+    public String toString() {
+        return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", quantity=" + quantity + "]";
+    }
 
 }
