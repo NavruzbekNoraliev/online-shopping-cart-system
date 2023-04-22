@@ -29,13 +29,13 @@ public class AccountDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email);
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role : account.getRoles()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleType().toString()));
         }
-        log.info("Account: " + account.getUsername() + " " + account.getPassword());
-        return new User(account.getUsername(), account.getPassword(), authorities);
+        log.info("Account: " + account.getEmail() + " " + account.getPassword());
+        return new User(account.getEmail(), account.getPassword(), authorities);
     }
 }

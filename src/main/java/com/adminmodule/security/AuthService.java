@@ -48,20 +48,20 @@ public class AuthService {
 
         try {
             authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
+                    new UsernamePasswordAuthenticationToken(account.getEmail(), account.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            final UserDetails userDetails = accountDetailsService.loadUserByUsername(account.getUsername());
+            final UserDetails userDetails = accountDetailsService.loadUserByUsername(account.getEmail());
             final String token = jwtUtility.generateToken(userDetails);
             Map<String, Object> response = new HashMap<>();
-            CustomerDTO customerDTO = customerService.getCustomerByUsername(account.getUsername());
+            CustomerDTO customerDTO = customerService.getCustomerByUsername(account.getEmail());
             customerDTO.getAccount().setPassword("********");
             response.put("bearerToken", token);
             response.put("user", customerDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AuthenticationException e) {
             Map<String, Object> response = new HashMap<>();
-            response.put("error", "Invalid username or password");
+            response.put("error", "Invalid email or password");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
     }

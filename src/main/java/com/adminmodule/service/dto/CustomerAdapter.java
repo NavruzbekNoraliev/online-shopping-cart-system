@@ -9,10 +9,10 @@ public class CustomerAdapter {
         return new Customer(dto.getId(),
                 dto.getFirstName(),
                 dto.getLastName(),
-                dto.getEmail(),
+                dto.getAccount().getEmail(),
                 dto.getPhone(),
-                dto.getShippingAddress(),
                 dto.getBillingAddress(),
+                dto.getShippingAddress(),
                 dto.getAccount());
     }
 
@@ -20,7 +20,6 @@ public class CustomerAdapter {
         return new CustomerDTO(customer.getId(),
                 customer.getFirstName(),
                 customer.getLastName(),
-                customer.getEmail(),
                 customer.getPhone(),
                 customer.getBillingAddress(),
                 customer.getShippingAddress(),
@@ -32,7 +31,6 @@ public class CustomerAdapter {
         return new CustomerDTO1(customer.getId(),
                 customer.getFirstName(),
                 customer.getLastName(),
-                customer.getEmail(),
                 customer.getPhone(),
                 customer.getBillingAddress(),
                 customer.getShippingAddress(),

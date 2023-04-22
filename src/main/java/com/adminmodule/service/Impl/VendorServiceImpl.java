@@ -79,7 +79,7 @@ public class VendorServiceImpl implements VendorService {
         if (vendorDTO.getBillingAddress() != null) {
             vendor1.setBillingAddress(addressRepository.save(vendor1.getBillingAddress()));
         }
-        //check if account details is null
+        //check if account details is null or name of accountDetails object name does not match
         if (vendorDTO.getAccountDetails() != null) {
             vendor1.setAccountDetails(accountDetailsRepository.save(vendor1.getAccountDetails()));
         }
@@ -197,13 +197,13 @@ public class VendorServiceImpl implements VendorService {
         if (vendorAdminDTO == null) {
             throw new UserBadRequestException("VendorAdmin cannot be null");
         }
-        if (vendorAdminDTO.getEmail() == null) {
+        if (vendorAdminDTO.getAccount().getEmail() == null) {
             throw new UserBadRequestException("Email is required");
         }
         if (vendorAdminDTO.getAccount().getPassword() == null) {
             throw new UserBadRequestException("Password is required");
         }
-        if (accountRepository.existsByUsername(vendorAdminDTO.getEmail())) {
+        if (accountRepository.existsByEmail(vendorAdminDTO.getAccount().getEmail())) {
             throw new UserBadRequestException("Email already exists");
         }
 
@@ -212,7 +212,7 @@ public class VendorServiceImpl implements VendorService {
         Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
         vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
         vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
-        vendorAdmin.getAccount().setUsername(vendorAdmin.getEmail());
+        vendorAdmin.getAccount().setEmail(vendorAdmin.getAccount().getEmail());
         vendorAdmin.setAccount(accountRepository.save(vendorAdmin.getAccount()));
         VendorAdmin savedVendorAdmin = vendorAdminRepository.save(vendorAdmin);
         VendorAdminDTO newVendorAdminDTO = VendorAdminAdapter.toDTO(savedVendorAdmin);

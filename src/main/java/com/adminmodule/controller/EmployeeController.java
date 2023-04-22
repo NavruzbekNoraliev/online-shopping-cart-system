@@ -1,6 +1,5 @@
 package com.adminmodule.controller;
 
-import com.adminmodule.security.AuthService;
 import com.adminmodule.security.JWTUtility;
 import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.dto.EmployeeDTO;
@@ -29,7 +28,7 @@ public class EmployeeController {
     public ResponseEntity<?> getEmployeeById(@PathVariable("id") Long id, @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
-        EmployeeDTO employeeDTO = employeeService.getEmployeeByUsername(username);
+        EmployeeDTO employeeDTO = employeeService.getEmployeeByEmail(username);
         if (employeeDTO.getId() != id) {
             return ResponseEntity.status(403).build();
         }
@@ -44,7 +43,7 @@ public class EmployeeController {
                                             @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
-        EmployeeDTO employeeDTO1 = employeeService.getEmployeeByUsername(username);
+        EmployeeDTO employeeDTO1 = employeeService.getEmployeeByEmail(username);
         if (employeeDTO1.getId() != id) {
             return ResponseEntity.status(403).build();
         }
@@ -55,7 +54,7 @@ public class EmployeeController {
                                             @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtUtility.getUsernameFromToken(jwtToken);
-        EmployeeDTO employeeDTO1 = employeeService.getEmployeeByUsername(username);
+        EmployeeDTO employeeDTO1 = employeeService.getEmployeeByEmail(username);
         if (employeeDTO1.getId() != id) {
             return ResponseEntity.status(403).build();
         }

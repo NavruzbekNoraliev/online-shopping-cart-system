@@ -19,10 +19,8 @@ public class VendorAdminDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
     private String phone;
     private Vendor vendor;
     private Account account;
-
 
 }

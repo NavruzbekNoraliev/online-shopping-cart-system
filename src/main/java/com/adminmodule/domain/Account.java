@@ -16,7 +16,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
     private Long id;
-    private String username;
+    private String email;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -26,11 +26,11 @@ public class Account {
     private Set<Role> roles = new LinkedHashSet<>();
 
 
-    public Account(String username, String password) {
-        this.username = username;
+    public Account(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public Account(String username, Set<Role> role) {
+    public Account(String email, Set<Role> role) {
     }
 }

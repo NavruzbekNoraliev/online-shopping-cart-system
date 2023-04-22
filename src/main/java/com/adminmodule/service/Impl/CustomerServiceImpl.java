@@ -67,14 +67,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO addCustomer(CustomerDTO customerDTO) {
-        if(customerDTO.getEmail() == null){
+        if(customerDTO.getAccount().getEmail() == null){
             throw new UserBadRequestException("Email is required");
         }
         if(customerDTO.getAccount().getPassword() == null){
             throw new UserBadRequestException("Password is required");
         }
 
-        if(accountRepository.findByUsername(customerDTO.getEmail())!=null){
+        if(accountRepository.findByEmail(customerDTO.getAccount().getEmail())!=null){
             throw new UserBadRequestException("Email already exists");
         }
 
@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         customer.getAccount().setPassword(Utils.encodePassword(customer.getAccount().getPassword()));
-        customer.getAccount().setUsername(customer.getEmail());
+        customer.getAccount().setEmail(customer.getAccount().getEmail());
         Role role = roleRepository.findByRoleType(RoleType.CUSTOMER);
         customer.getAccount().setRoles(Utils.addRoles(role));
 
@@ -188,7 +188,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO verifyCustomer(Account account) {
-        Optional<Customer> customerOptional = customerRepository.findByEmail(account.getUsername());
+        Optional<Customer> customerOptional = customerRepository.findByEmail(account.getEmail());
         if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
             if (Utils.checkPassword(account.getPassword(), customer.getAccount().getPassword())) {

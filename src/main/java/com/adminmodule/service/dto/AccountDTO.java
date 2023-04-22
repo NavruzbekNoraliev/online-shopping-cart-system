@@ -11,6 +11,6 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 public class AccountDTO {
-    private String username;
+    private String email;
     private Set<Role> role;
 }

@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Role role = roleRepository.findByRoleType(RoleType.ADMIN);
         employee.getAccount().setRoles(Utils.addRoles(role));
         employee.getAccount().setPassword(Utils.encodePassword(employee.getAccount().getPassword()));
-        employee.getAccount().setUsername(employee.getEmail());
+        employee.getAccount().setEmail(employee.getEmail());
         Account account = accountRepository.save(employee.getAccount());
         employee.setAccount(account);
 
@@ -97,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO verifyEmployee(Account account) {
 
-        Optional<Employee> employeeOptional = employeeRepository.findByEmail(account.getUsername());
+        Optional<Employee> employeeOptional = employeeRepository.findByEmail(account.getEmail());
         if(employeeOptional.isPresent()){
             Employee employee = employeeOptional.get();
             if(Utils.checkPassword(account.getPassword(), employee.getAccount().getPassword())){
@@ -111,8 +111,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployeeByUsername(String username) {
-        return employeeRepository.findByEmail(username)
+    public EmployeeDTO getEmployeeByEmail(String email) {
+        return employeeRepository.findByEmail(email)
                 .map(EmployeeAdapter::toDTO)
                 .orElseThrow(() -> new UserNotFoundException("Employee not found"));
     }

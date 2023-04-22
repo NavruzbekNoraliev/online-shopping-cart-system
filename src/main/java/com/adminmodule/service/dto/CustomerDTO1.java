@@ -15,12 +15,9 @@ public class CustomerDTO1 {
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
     private String phone;
-
     private Address shippingAddress;
     private Address billingAddress;
-
     private AccountDTO accountDTO;
 
 }
