@@ -9,15 +9,13 @@ import com.example.reports.repository.TransactionRepository;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +24,9 @@ public class ReportService {
     TransactionRepository transactionRepository;
     @Autowired
     ProductSalesRepository productSalesRepository;
+
+    @Value("${report.path}")
+    private String reportPath;
 
     public String exportVendorSalesReport(String reportFormat, long vendorId) throws FileNotFoundException, JRException {
 
@@ -40,12 +41,12 @@ public class ReportService {
                 .reduce(0.0, (r, element)->r + element);
         parameters.put("title", reports.get(0).getVendorName());
         parameters.put("salesTotal", salesTotal);
-        String path = "classpath:vendorSales.jrxml";
-        String reportFileName = parameters.get("title").toString();
+        String path = "classpath:templates/vendorSales.jrxml";
+        String reportFileName = UUID.randomUUID() + "_" + parameters.get("title").toString();
 
-        initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
+        initilizeReport( parameters, reportFormat, path,  reports, reportPath + reportFileName);
 
-        return "vendor report generated";
+        return reportFileName + "." + reportFormat;
     }
 
     public String exportUserReport(String reportFormat, long userId) throws FileNotFoundException, JRException {
@@ -60,12 +61,12 @@ public class ReportService {
                 .reduce(0.0, (r, element)->r + element);
         parameters.put("title", reports.get(0).getUserName());
         parameters.put("total", salesTotal);
-        String path = "classpath:userReport.jrxml";
-        String reportFileName = parameters.get("title").toString();
+        String path = "classpath:templates/userReport.jrxml";
+        String reportFileName = UUID.randomUUID() + "_" + parameters.get("title").toString();
 
-        initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
+        initilizeReport( parameters, reportFormat, path,  reports, reportPath + reportFileName);
 
-        return "user report generated";
+        return reportFileName + "." + reportFormat;
     }
 
     public String productReport(String reportFormat, long productId) throws FileNotFoundException, JRException {
@@ -85,12 +86,12 @@ public class ReportService {
         parameters.put("title", reports.get(0).getProductName());
         parameters.put("salesTotal", salesTotal);
         parameters.put("quantityTotal", quantityTotal);
-        String path = "classpath:productReport.jrxml";
-        String reportFileName = parameters.get("title").toString();
+        String path = "classpath:templates/productReport.jrxml";
+        String reportFileName = UUID.randomUUID() + "_" + parameters.get("title").toString();
 
-        initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
+        initilizeReport( parameters, reportFormat, path,  reports, reportPath + reportFileName);
 
-        return "product report generated";
+        return reportFileName + "." + reportFormat;
     }
 
     public String productAnalysisReport(String reportFormat, String productName) throws FileNotFoundException, JRException {
@@ -131,12 +132,12 @@ public class ReportService {
                 .mapToInt(r -> r.getQuantity())
                 .reduce(0,(sum, element) -> sum + element);
         parameters.put("title", productName);
-        String path = "classpath:productSalesByVendor.jrxml";
-        String reportFileName = parameters.get("title").toString() + "Analysis";
+        String path = "classpath:templates/productSalesByVendor.jrxml";
+        String reportFileName = UUID.randomUUID() + "_" + parameters.get("title").toString() + "_Analysis";
 
-        initilizeReport( parameters, reportFormat, path,  reports, reportFileName);
+        initilizeReport( parameters, reportFormat, path,  reports, reportPath + reportFileName);
 
-        return "product analysis report generated";
+        return reportFileName + "." + reportFormat;
     }
 
 
