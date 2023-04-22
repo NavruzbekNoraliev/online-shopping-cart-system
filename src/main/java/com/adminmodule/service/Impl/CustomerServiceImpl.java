@@ -211,6 +211,4 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UserNotFoundException("Customer not found");
         }
     }
-
-
 }

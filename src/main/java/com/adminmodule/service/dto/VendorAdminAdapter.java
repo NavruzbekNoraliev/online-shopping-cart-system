@@ -8,7 +8,7 @@ public class VendorAdminAdapter {
         return new VendorAdmin(dto.getId(),
                 dto.getFirstName(),
                 dto.getLastName(),
-                dto.getAccount().getEmail(),
+                dto.getEmail(),
                 dto.getPhone(),
                 dto.getVendor(),
                 dto.getAccount());
@@ -18,6 +18,7 @@ public class VendorAdminAdapter {
     return new VendorAdminDTO(vendorAdmin.getId(),
                 vendorAdmin.getFirstName(),
                 vendorAdmin.getLastName(),
+                vendorAdmin.getEmail(),
                 vendorAdmin.getPhone(),
                 vendorAdmin.getVendor(),
                 vendorAdmin.getAccount());

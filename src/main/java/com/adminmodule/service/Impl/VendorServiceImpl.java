@@ -61,79 +61,118 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorDTO addVendor(VendorDTO vendorDTO) {
-        if (vendorRepository.findByEmail(vendorDTO.getEmail()) != null) {
+    public VendorDTO addVendor(VendorDTO vendorDTO) throws UserBadRequestException {
+//        try{
+        Vendor vendor1 = VendorAdaptor.fromDTO(vendorDTO);
+        if (vendorRepository.findByEmail(vendor1.getEmail()).isPresent()) {
             throw new UserBadRequestException("Email already exists.");
         }
-        //if username or password is null
         if (vendorDTO.getEmail() == null) {
             throw new UserBadRequestException("Email is required.");
+        } else if (vendorDTO.getName() == null) {
+            throw new UserBadRequestException("Name is required.");
+        } else if (vendorDTO.getPhone() == null) {
+            throw new UserBadRequestException("Phone is required.");
+        } else if (vendorDTO.getAccountDetails() == null) {
+            throw new UserBadRequestException("Account details are required.");
+        } else if (vendorDTO.getAddress() == null) {
+            throw new UserBadRequestException("Address is required.");
+        } else if (vendorDTO.getBillingAddress() == null) {
+            throw new UserBadRequestException("Billing address is required.");
+        } else if (vendorDTO.getAccountDetails().getAccountNumber() == null) {
+            throw new UserBadRequestException("Account number is required.");
+        } else if (vendorDTO.getAccountDetails().getBankName() == null) {
+            throw new UserBadRequestException("Bank name is required.");
+        } else if (vendorDTO.getAccountDetails().getRoutingNumber() == null) {
+            throw new UserBadRequestException("Routing number is required.");
+        } else if (vendorDTO.getAddress().getCity() == null) {
+            throw new UserBadRequestException("City is required.");
+        } else if (vendorDTO.getAddress().getState() == null) {
+            throw new UserBadRequestException("State is required.");
+        } else if (vendorDTO.getAddress().getStreet() == null) {
+            throw new UserBadRequestException("Street is required.");
+        } else if (vendorDTO.getAddress().getZip() == null) {
+            throw new UserBadRequestException("Zip is required.");
+        } else if (vendorDTO.getBillingAddress().getCity() == null) {
+            throw new UserBadRequestException("City is required.");
+        } else if (vendorDTO.getBillingAddress().getState() == null) {
+            throw new UserBadRequestException("State is required.");
+        } else if (vendorDTO.getBillingAddress().getStreet() == null) {
+            throw new UserBadRequestException("Street is required.");
+        } else if (vendorDTO.getBillingAddress().getZip() == null) {
+            throw new UserBadRequestException("Zip is required.");
         }
 
-        Vendor vendor1 = VendorAdaptor.fromDTO(vendorDTO);
-        //check if address is null
         if (vendorDTO.getAddress() != null) {
             vendor1.setAddress(addressRepository.save(vendor1.getAddress()));
+        } else if(vendorDTO.getAddress().getCity()==null || vendorDTO.getAddress().getState()==null
+                || vendorDTO.getAddress().getStreet()==null || vendorDTO.getAddress().getZip()==null) {
+            throw new UserBadRequestException("Address fields are required.");
         }
         //check if billing address is null
         if (vendorDTO.getBillingAddress() != null) {
             vendor1.setBillingAddress(addressRepository.save(vendor1.getBillingAddress()));
+        } else if(vendorDTO.getBillingAddress().getCity()==null || vendorDTO.getBillingAddress().getState()==null
+                || vendorDTO.getBillingAddress().getStreet()==null || vendorDTO.getBillingAddress().getZip()==null) {
+            throw new UserBadRequestException("Billing address is required.");
         }
         //check if account details is null or name of accountDetails object name does not match
         if (vendorDTO.getAccountDetails() != null) {
             vendor1.setAccountDetails(accountDetailsRepository.save(vendor1.getAccountDetails()));
+        } else if(vendorDTO.getAccountDetails().getAccountNumber()==null
+                || vendorDTO.getAccountDetails().getBankName()==null || vendorDTO.getAccountDetails().getRoutingNumber()==null){
+            throw new UserBadRequestException("Account details are required.");
         }
         vendor1.setStatus(Status.PENDING_APPROVAL);
         Vendor vendor = vendorRepository.save(vendor1);
-        //create vendor admin
-//        VendorAdmin vendorAdmin = vendor1.getVendorAdmins().toArray(new VendorAdmin[0])[0];
-//        VendorAdminDTO vendorAdminDTO = addVendorAdmin((long) vendor.getId(),
-//                VendorAdminAdapter.toDTO(vendorAdmin), null);
-
         return VendorAdaptor.toDTO(vendorRepository.save(vendor1));
     }
 
     @Override
     public VendorDTO updateVendor(Long id, VendorDTO vendorDTO, String authorizationHeader) {
         Optional<Vendor> existingVendor = vendorRepository.findById(id);
-        if (existingVendor.isPresent()) {
-            Vendor vendor = existingVendor.get();
-            vendor.setName(vendorDTO.getName());
-            vendor.setPhone(vendorDTO.getPhone());
-            if (vendor.getAddress() == null) {
-                Address address = addressRepository.save(vendorDTO.getAddress());
-                vendor.setAddress(address);
-            } else {
-                Optional<Address> existingAddress = addressRepository.findById(vendor.getAddress().getId());
-                if (existingAddress.isPresent()) {
-                    Address address = existingAddress.get();
-                    address.setCity(vendorDTO.getAddress().getCity());
-                    address.setState(vendorDTO.getAddress().getState());
-                    address.setStreet(vendorDTO.getAddress().getStreet());
-                    address.setZip(vendorDTO.getAddress().getZip());
-                    addressRepository.save(address);
+        try{
+            if (existingVendor.isPresent()) {
+                Vendor vendor = existingVendor.get();
+                vendor.setName(vendorDTO.getName());
+                vendor.setPhone(vendorDTO.getPhone());
+                if (vendor.getAddress() == null) {
+                    Address address = addressRepository.save(vendorDTO.getAddress());
+                    vendor.setAddress(address);
+                } else {
+                    Optional<Address> existingAddress = addressRepository.findById(vendor.getAddress().getId());
+                    if (existingAddress.isPresent()) {
+                        Address address = existingAddress.get();
+                        address.setCity(vendorDTO.getAddress().getCity());
+                        address.setState(vendorDTO.getAddress().getState());
+                        address.setStreet(vendorDTO.getAddress().getStreet());
+                        address.setZip(vendorDTO.getAddress().getZip());
+                        addressRepository.save(address);
+                    }
                 }
-            }
-            if (vendor.getBillingAddress() == null) {
-                Address address = addressRepository.save(vendorDTO.getBillingAddress());
-                vendor.setBillingAddress(address);
-            } else {
-                Optional<Address> optionalAddress = addressRepository.findById(vendor.getBillingAddress().getId());
-                if (optionalAddress.isPresent()) {
-                    Address address = optionalAddress.get();
-                    address.setCity(vendorDTO.getBillingAddress().getCity() != null ? vendorDTO.getBillingAddress().getCity() : address.getCity());
-                    address.setState(vendorDTO.getBillingAddress().getState() != null ? vendorDTO.getBillingAddress().getState() : address.getState());
-                    address.setStreet(vendorDTO.getBillingAddress().getStreet() != null ? vendorDTO.getBillingAddress().getStreet() : address.getStreet());
-                    address.setZip(vendorDTO.getBillingAddress().getZip() != null ? vendorDTO.getBillingAddress().getZip() : address.getZip());
-                    addressRepository.save(address);
+                if (vendor.getBillingAddress() == null) {
+                    Address address = addressRepository.save(vendorDTO.getBillingAddress());
+                    vendor.setBillingAddress(address);
+                } else {
+                    Optional<Address> optionalAddress = addressRepository.findById(vendor.getBillingAddress().getId());
+                    if (optionalAddress.isPresent()) {
+                        Address address = optionalAddress.get();
+                        address.setCity(vendorDTO.getBillingAddress().getCity() != null ? vendorDTO.getBillingAddress().getCity() : address.getCity());
+                        address.setState(vendorDTO.getBillingAddress().getState() != null ? vendorDTO.getBillingAddress().getState() : address.getState());
+                        address.setStreet(vendorDTO.getBillingAddress().getStreet() != null ? vendorDTO.getBillingAddress().getStreet() : address.getStreet());
+                        address.setZip(vendorDTO.getBillingAddress().getZip() != null ? vendorDTO.getBillingAddress().getZip() : address.getZip());
+                        addressRepository.save(address);
+                    }
                 }
+                Vendor savedVendor = vendorRepository.save(vendor);
+                return VendorAdaptor.toDTO(savedVendor);
+            } else {
+                throw new UserNotFoundException("Vendor not found");
             }
-
-            Vendor savedVendor = vendorRepository.save(vendor);
-            return VendorAdaptor.toDTO(savedVendor);
-        } else {
-            throw new UserNotFoundException("Vendor not found");
+        } catch (UserBadRequestException e) {
+            throw new UserBadRequestException("Error updating vendor, please give valid input");
         }
+
     }
 
     //update address, shipping address, account details for vendor
@@ -161,10 +200,14 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorAdminDTO getVendorAdminByUsername(String username) {
-        return vendorRepository.findVendorAdminByEmail(username)
-                .map(VendorAdminAdapter::toDTO)
-                .orElseThrow(() -> new UserNotFoundException("Vendor Admin not found"));
+    public VendorAdminDTO getVendorAdminByEmail(String email) {
+        try{
+            return vendorRepository.findVendorAdminByEmail(email)
+                    .map(VendorAdminAdapter::toDTO)
+                    .orElseThrow(() -> new UserNotFoundException("Vendor Admin not found"));
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException("Vendor Admin not found");
+        }
     }
 
     @Override
@@ -207,30 +250,40 @@ public class VendorServiceImpl implements VendorService {
             throw new UserBadRequestException("Email already exists");
         }
 
-        VendorAdmin vendorAdmin = VendorAdminAdapter.fromDTO(vendorAdminDTO);
-        vendorAdmin.setVendor(vendor);
-        Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
-        vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
-        vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
-        vendorAdmin.getAccount().setEmail(vendorAdmin.getAccount().getEmail());
-        vendorAdmin.setAccount(accountRepository.save(vendorAdmin.getAccount()));
-        VendorAdmin savedVendorAdmin = vendorAdminRepository.save(vendorAdmin);
-        VendorAdminDTO newVendorAdminDTO = VendorAdminAdapter.toDTO(savedVendorAdmin);
-        newVendorAdminDTO.getAccount().setPassword("********");
-        return VendorAdminAdapter.toDTO(savedVendorAdmin);
+        try{
+            VendorAdmin vendorAdmin = VendorAdminAdapter.fromDTO(vendorAdminDTO);
+            vendorAdmin.setVendor(vendor);
+            Role role = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
+            vendorAdmin.getAccount().setRoles(Utils.addRoles(role));
+            vendorAdmin.getAccount().setPassword(Utils.encodePassword(vendorAdmin.getAccount().getPassword()));
+            vendorAdmin.getAccount().setEmail(vendorAdmin.getAccount().getEmail());
+            vendorAdmin.setAccount(accountRepository.save(vendorAdmin.getAccount()));
+            VendorAdmin savedVendorAdmin = vendorAdminRepository.save(vendorAdmin);
+            VendorAdminDTO newVendorAdminDTO = VendorAdminAdapter.toDTO(savedVendorAdmin);
+            newVendorAdminDTO.getAccount().setPassword("********");
+            return VendorAdminAdapter.toDTO(savedVendorAdmin);
+        } catch (UserBadRequestException e) {
+            throw new UserBadRequestException("Some information is missing");
+        }
+
+
     }
 
     @Override
     public VendorAdminDTO updateVendorAdmin(Long vendorId, Long vendorAdminId, VendorAdminDTO vendorAdminDTO, String authorizationHeader) {
         Optional<VendorAdmin> vendorAdminOptional = vendorAdminRepository.findById(vendorAdminId);
         if(vendorAdminOptional.isPresent()) {
-            VendorAdmin vendorAdmin = vendorAdminOptional.get();
-            vendorAdmin.setFirstName(vendorAdminDTO.getFirstName());
-            vendorAdmin.setLastName(vendorAdminDTO.getLastName());
-            vendorAdmin.setPhone(vendorAdminDTO.getPhone());
-            VendorAdminDTO savedVendorAdmin = VendorAdminAdapter.toDTO(vendorAdmin);
-            savedVendorAdmin.getAccount().setPassword("********");
-            return savedVendorAdmin;
+            try{
+                VendorAdmin vendorAdmin = vendorAdminOptional.get();
+                vendorAdmin.setFirstName(vendorAdminDTO.getFirstName());
+                vendorAdmin.setLastName(vendorAdminDTO.getLastName());
+                vendorAdmin.setPhone(vendorAdminDTO.getPhone());
+                VendorAdminDTO savedVendorAdmin = VendorAdminAdapter.toDTO(vendorAdmin);
+                savedVendorAdmin.getAccount().setPassword("********");
+                return savedVendorAdmin;
+            } catch (UserBadRequestException e) {
+                throw new UserBadRequestException("Some information is missing");
+            }
         }else{
             throw new UserNotFoundException("Vendor Admin not found");
         }

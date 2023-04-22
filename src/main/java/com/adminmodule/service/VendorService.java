@@ -19,8 +19,7 @@ public interface VendorService {
 
     List<Vendor> getAllPendingPaymentVendors(String authorizationHeader);
 
-    VendorAdminDTO getVendorAdminByUsername(String username);
-
+    VendorAdminDTO getVendorAdminByEmail(String email);
 
     List<VendorAdmin> getAllVendorAdmins(String authorizationHeader);
     List<VendorAdmin> getAllVendorAdminsByVendor(Long vendorId, String authorizationHeader);

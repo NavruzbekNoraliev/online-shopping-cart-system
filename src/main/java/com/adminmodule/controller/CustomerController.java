@@ -72,11 +72,12 @@ public class CustomerController {
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO1 = customerService.getCustomerByUsername(username);
         List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (customerDTO1.getId()!=id || !roles.contains("ROLE_ADMIN")){
+        if(roles.contains("ROLE_ADMIN") || customerDTO1.getId()==id){
+            CustomerDTO newCustomer =  customerService.updateCustomer(customerDTO, id);
+            return new ResponseEntity<>(newCustomer, HttpStatus.OK);
+        }else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        CustomerDTO newCustomer =  customerService.updateCustomer(customerDTO, id);
-        return new ResponseEntity<>(newCustomer ,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -85,11 +86,12 @@ public class CustomerController {
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
         List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
+        if(roles.contains("ROLE_ADMIN") || customerDTO.getId()==id){
+            customerService.deleteCustomer(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/shipping-address/{id}")
@@ -100,10 +102,12 @@ public class CustomerController {
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
         List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
+        if(roles.contains("ROLE_ADMIN") || customerDTO.getId()==id){
+            return ResponseEntity.ok(customerService.updateShippingAddress(addressDTO, id));
+        }
+        else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return ResponseEntity.ok(customerService.updateShippingAddress(addressDTO, id));
     }
 
     @PutMapping("/billing-address/{id}")
@@ -114,9 +118,11 @@ public class CustomerController {
         String username = jwtUtility.getUsernameFromToken(jwtToken);
         CustomerDTO customerDTO = customerService.getCustomerByUsername(username);
         List<String> roles = jwtUtility.getRoleFromToken(jwtToken);
-        if (customerDTO.getId()!=id || !roles.contains("ROLE_ADMIN")){
+        if(roles.contains("ROLE_ADMIN") || customerDTO.getId()==id){
+            return ResponseEntity.ok(customerService.updateBillingAddress(addressDTO, id));
+        }
+        else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return ResponseEntity.ok(customerService.updateBillingAddress(addressDTO, id));
     }
 }

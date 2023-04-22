@@ -15,8 +15,8 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String phone;
     private String email;
+    private String phone;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

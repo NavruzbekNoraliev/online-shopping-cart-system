@@ -20,7 +20,6 @@ public class CustomerDTO {
     private String firstName;
     private String lastName;
     private String phone;
-
     private Address shippingAddress;
     private Address billingAddress;
 

@@ -17,8 +17,8 @@ import java.util.Set;
 public class VendorDTO {
     private Long id;
     private String name;
-    private String phone;
     private String email;
+    private String phone;
     private Address address;
     private Address billingAddress;
     private AccountDetails accountDetails;

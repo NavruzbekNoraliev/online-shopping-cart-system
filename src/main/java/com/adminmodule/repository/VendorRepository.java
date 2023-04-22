@@ -21,5 +21,5 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
     Optional<VendorAdmin> findVendorAdminByEmail(String email);
 
     //find vendor by email
-    public Vendor findByEmail(String email);
+    Optional<Vendor> findByEmail(String email);
 }
