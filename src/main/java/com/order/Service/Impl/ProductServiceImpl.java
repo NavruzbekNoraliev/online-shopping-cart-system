@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -27,9 +29,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDTOConverter productDTOConverter;
 
     @Override
-    public Page<Product> getAllProducts(int pageNumber, int pageSize) {
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, boolean available) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findAll(pageable);
+        return productRepository.findAllByAvailable(pageable, available);
     }
     //make pageable
     @Override
@@ -63,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(product.getPrice()!=0 ? product.getPrice(): existingProduct.getPrice());
         //always needed
         existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setImageUrl(product.getImageUrl());
         productRepository.save(existingProduct);
         return productDTOConverter.toDTO(existingProduct);
     }
@@ -131,6 +134,12 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByNameAndCategoryAndPriceBetweenAndAvailable(name, category, min, max, true, pageable);
     }
+
+    @Override
+    public Optional<Product> findByCategoryName(String name) {
+        return productRepository.findByCategoryName(name);
+    }
+
     public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
         return productRepository.findAllByAvailable(pageable, true);
@@ -140,5 +149,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
         return productRepository.findAll(pageable);
     }
+
+
 
 }

@@ -6,8 +6,10 @@ import com.order.Entity.Product;
 import com.order.Service.DTO.ProductDTO;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 public interface ProductService {
-    Page<Product> getAllProducts(int pageNumber, int pageSize);
+    Page<Product> getAllProducts(int pageNumber, int pageSize, boolean available);
     Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize);
     Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize);
     Page<Product> getProductsByVendor(int vendorId, int pageNumber, int pageSize);
@@ -24,4 +26,5 @@ public interface ProductService {
     Page<Product> getProductsByPriceAndCategory(long categoryId, double min, double max, int pageNumber, int pageSize);
     Page<Product> getProductsByNameAndPriceAndCategory(String name, long categoryId, double min, double max, int pageNumber, int pageSize);
 
+    Optional<Product> findByCategoryName(String name);
 }

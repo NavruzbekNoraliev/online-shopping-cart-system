@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
@@ -24,9 +26,10 @@ public class ProductController {
     //get all products
     @GetMapping("/all")
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
-                                                           @RequestParam(defaultValue = "10") int pageSize) {
+                                                           @RequestParam(defaultValue = "10") int pageSize,
+                                                           @RequestParam(defaultValue = "true") boolean available) {
         try {
-            Page<Product> productPage = productService.getAllProducts(pageNumber, pageSize);
+            Page<Product> productPage = productService.getAllProducts(pageNumber, pageSize, available);
             Page<ProductDTO> productDtoPage = productPage.map(product -> productDTOConverter.toDTO(product));
             return ResponseEntity.ok(productDtoPage);
         } catch (Exception e) {
@@ -120,15 +123,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/updateImage/{id}")
-    public ResponseEntity<Product> updateProductImage(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        try {
-            Product product = productService.updateProductImage(id, productDTO);
-            return ResponseEntity.ok(product);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
     //delete product
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
@@ -150,6 +144,17 @@ public class ProductController {
             return ResponseEntity.ok(productDtoPage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //get product by category name
+    @GetMapping("/category/name/{name}")
+    public ResponseEntity<?> getProductByCategoryName(@PathVariable String name) {
+        try{
+            Optional<Product> product = productService.findByCategoryName(name);
+            return ResponseEntity.ok(product);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
