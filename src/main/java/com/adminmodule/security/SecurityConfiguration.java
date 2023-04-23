@@ -69,6 +69,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth").permitAll()
+                .antMatchers("/api/v1/vendor/order/**").permitAll()
                 .antMatchers( "api/v1/vendor/**/vendor-admin").permitAll()
                 .antMatchers("/api/v1/employee/**").hasRole("ADMIN")
 //                .antMatchers(HttpMethod.GET, "/api/v1/vendor-admin/all").hasRole("ADMIN")
