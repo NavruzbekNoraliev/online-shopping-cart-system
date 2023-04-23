@@ -75,7 +75,6 @@ public class CartServiceImpl implements CartService {
         }
         cartItem.setProduct(product);
         newCartItem = cartItemRepository.save(cartItem);
-
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
