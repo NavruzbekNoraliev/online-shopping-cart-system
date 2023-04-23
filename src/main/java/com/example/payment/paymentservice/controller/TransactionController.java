@@ -29,6 +29,20 @@ public class TransactionController {
     public ResponseEntity readTransactions() {
         return ResponseEntity.ok(transactionService.readTransactions());
     }
+    @GetMapping("vendor/revenue")
+    public Object getAllVendorRevenues() {
+        return transactionService.readAllVendorsRevenues();
+    }
+    @GetMapping("vendor/revenue/{id}")
+    public Object getVendorRevenuesById(@PathVariable Long id) {
+        return transactionService.readVendorsRevenuesById(id);
+    }
+
+    @GetMapping("client/revenue")
+    public Object getClientRevenues() {
+        return transactionService.readClientRevenue();
+    }
+
 
     @GetMapping("customer/{id}")
     public ResponseEntity readTransactionsByCustomerId(@PathVariable Long id) {
