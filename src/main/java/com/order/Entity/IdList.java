@@ -5,5 +5,5 @@ import java.util.List;
 
 public class IdList {
 
-    public List<Long> idList = new ArrayList<Long>();
+    public List<Long> idList = new ArrayList<>();
 }
