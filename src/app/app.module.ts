@@ -25,6 +25,7 @@ import { MenuItems } from './shared/menu-items';
 import { ResponseInterceptor } from './core/services/interceptors/response.interceptor';
 import { HeaderComponent } from './components/layouts/full/header/header.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

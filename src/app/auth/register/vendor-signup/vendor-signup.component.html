@@ -95,182 +95,339 @@
 
 </div> -->
 
+<div
+  class="vendor-register"
+  style="
+    background-image: url(https://img.freepik.com/free-photo/flat-lay-black-friday-tags-with-shopping-cart_23-2148285102.jpg?w=2000&t=st=1682005954~exp=1682006554~hmac=664fc7bdf7409ce79d2fae1d9e252666ebdd4039919ed992d5a34bd487062eed);
+  "
+>
+  <div class="vendor-register-box">
+    <mat-card>
+      <mat-card-content>
+        <mat-stepper orientation="horizontal" linear #stepper>
+          <mat-step [stepControl]="formGroup1">
+            <form [formGroup]="formGroup1" >
+              <ng-template matStepLabel>Fill out Vendor details:</ng-template>
+              <div fxLayout="row wrap" fxLayoutGap="4">
+                <!-- col full-->
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-md=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>Company Full Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Company Name"
+                      formControlName="name"
+                    />
+                  </mat-form-field>
+                </div>
+                <!-- col full-->
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>Email </mat-label>
+                    <input
+                      matInput
+                      placeholder="Email*"
+                      formControlName="email"
+                    />
+                  </mat-form-field>
+                </div>
 
-<!-- <div class="user-register container">
-    <div class="row ">
-        <div class="col-md-10 mx-auto ">
-            <div class="sign-in">
-                <h2>Sign-Up As Customer!
-                </h2>
-                <p>
-                    Please enter your details to register.
-                </p>
-            </div>
-            <form action="" class="form-inline">
-                <div class="fomr-group title">
-                    <label for="details">General details:</label>
+                <!-- col full-->
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>Phone Number</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Phone Number"
+                      formControlName="phone"
+                    />
+                  </mat-form-field>
                 </div>
-                <div class="form-group">
-                    <label for="name">First Name</label>
-                    <input type="text" class="form-control">
+
+                <div
+                  formGroupName="address"
+                  fxLayout="row wrap"
+                  fxLayoutGap="4"
+                >
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 100" fxFlex.gt-xs=" 100" fxFlex=" 100">
+                    <p>Company Address:</p>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>Street Address</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Street Address"
+                        formControlName="street"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>City</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="City"
+                        formControlName="city"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>State</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="State"
+                        formControlName="state"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 20" fxFlex.gt-xs=" 20" fxFlex=" 20">
+                    <mat-form-field>
+                      <mat-label>Zipcode</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Zipcode"
+                        formControlName="zip"
+                      />
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="name">Last Name</label>
-                    <input type="text" class="form-control">
+
+                <div
+                  formGroupName="billingAddress"
+                  fxLayout="row wrap"
+                  fxLayoutGap="4"
+                >
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 100" fxFlex.gt-xs=" 100" fxFlex=" 100">
+                    <p>Billing Address:</p>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>Street Address</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Street Address"
+                        formControlName="street"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>City</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="City"
+                        formControlName="city"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                    <mat-form-field>
+                      <mat-label>State</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="State"
+                        formControlName="state"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 20" fxFlex.gt-xs=" 20" fxFlex=" 20">
+                    <mat-form-field>
+                      <mat-label>Zipcode</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Zipcode"
+                        formControlName="zip"
+                      />
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control">
+
+                <div
+                  formGroupName="accountDetails"
+                  fxLayout="row wrap"
+                  fxLayoutGap="4"
+                >
+                  <div fxFlex.gt-sm=" 100" fxFlex.gt-xs=" 100" fxFlex=" 100">
+                    <p>Account details:</p>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 30" fxFlex.gt-xs=" 30" fxFlex=" 30">
+                    <mat-form-field>
+                      <mat-label>Bank Name</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Bank name"
+                        formControlName="bankName"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 31" fxFlex.gt-xs=" 31" fxFlex=" 31">
+                    <mat-form-field>
+                      <mat-label>Routing Number</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Routing Number"
+                        formControlName="routingNumber"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <!-- col full-->
+                  <div fxFlex.gt-sm=" 30" fxFlex.gt-xs=" 30" fxFlex=" 30">
+                    <mat-form-field>
+                      <mat-label>Bank Account Number</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Account number"
+                        formControlName="accountNumber"
+                      />
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Primary Phone</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group title">
-                    <label for="shipping-address">Shipping Address:</label>
-                </div>
-                <div class="form-group">
-                    <label for="address">Street Address</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="state">State</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="zipcode">Zipcode</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group title">
-                    <label for="shipping-address">Billing Address:</label>
-                </div>
-                <div class="form-group">
-                    <label for="address">Street Address</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="state">State</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="zipcode">Zipcode</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mt-4">
-                    <button (click)="navigateToLogin()" type="submit" class="btn">Sign up</button>
-                </div>
+              </div>
+
+              <div>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  mat-button
+                  matStepperNext
+                  (click)="onSubmitVendor()"
+                >
+                  Next
+                </button>
+              </div>
             </form>
-        </div>
+          </mat-step>
 
-    </div>
+          <mat-step [stepControl]="formGroup2">
+            <form [formGroup]="formGroup2" >
+              <ng-template matStepLabel
+                >Fill out your Vendor Admin information:</ng-template
+              >
+              <div fxLayout="row wrap" fxLayoutGap="4">
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-md=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>First Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Company Name"
+                      formControlName="firstName"
+                    />
+                  </mat-form-field>
+                </div>
 
-</div> -->
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-md=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>Last Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Company Name"
+                      formControlName="lastName"
+                    />
+                  </mat-form-field>
+                </div>
 
+                <div fxFlex.gt-sm=" 25" fxFlex.gt-xs=" 25" fxFlex=" 25">
+                  <mat-form-field>
+                    <mat-label>Phone Number</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Phone Number"
+                      formControlName="vendorAdminPhone"
+                    />
+                  </mat-form-field>
+                </div>
 
-<div class="login-register" style="background-image:url(https://img.freepik.com/free-photo/flat-lay-black-friday-tags-with-shopping-cart_23-2148285102.jpg?w=2000&t=st=1682005954~exp=1682006554~hmac=664fc7bdf7409ce79d2fae1d9e252666ebdd4039919ed992d5a34bd487062eed);">
-    <div class="customer-register-box">
-        <mat-card>
-            <mat-card-content>
-                <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div
-                        class="text-center">
-                        <!-- <img alt="homepage" src="assets/images/logo-icon.png"> -->
-                        <h2 style="text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.34);">Vendor
-                            <b>Register</b>
-                        </h2>
-                    </div>
+                <div
+                  formGroupName="account"
+                  fxLayout="row wrap"
+                  fxLayoutGap="4"
+                >
+                  <div fxFlex.gt-sm=" 100" fxFlex.gt-xs=" 100" fxFlex=" 100">
+                    <p>Vendor Admin Account Details:</p>
+                  </div>
 
-                    <div
-                        fxlayout="row wrap">
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-md="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Company Full Name</mat-label>
-                                <input matinput type="text" placeholder="First Name" formcontrolname="first-name">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Email</mat-label>
-                                <input matinput placeholder="Email*" formcontrolname="email">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Password</mat-label>
-                                <input matinput type="password" placeholder="Password*" formcontrolname="password">
-                            </mat-form-field>
-                        </div>
-                         <!-- col full-->
-                         <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Phone Number</mat-label>
-                                <input matinput type="text" placeholder="Phone Number" formcontrolname="phone-number">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Company Address:</mat-label>
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Street Address</mat-label>
-                                <input matinput type="text" placeholder="Street Address" formcontrolname="street-address">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>City</mat-label>
-                                <input matinput type="text" placeholder="City" formcontrolname="city">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>State</mat-label>
-                                <input matinput type="text" placeholder="State" formcontrolname="state">
-                            </mat-form-field>
-                        </div>
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Zipcode</mat-label>
-                                <input matinput type="text" placeholder="Zipcode" formcontrolname="zipcode">
-                            </mat-form-field>
-                        </div>
+                  <div fxFlex.gt-xs="36" fxFlex.gt-xs="36" fxFlex="36">
+                    <mat-form-field>
+                      <mat-label>Email</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Username"
+                        formControlName="email"
+                      />
+                    </mat-form-field>
+                  </div>
 
+                  <div fxFlex.gt-xs=" 20" fxFlex.gt-xs=" 20" fxFlex=" 20">
+                    <mat-form-field>
+                      <mat-label>Password</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        placeholder="Password"
+                        formControlName="password"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  mat-button
+                  matStepperNext
+                  (click)="onSubmitVendorAdmin()"
+                >
+                  Next
+                </button>
+              </div>
+            </form>
+          </mat-step>
 
-                        <!-- col full-->
-                        <div fxflex.gt-sm="100" fxflex.gt-xs="100" fxflex="100">
-                            <mat-progress-bar class="m-t-20" mode="indeterminate" *ngIf="requesting$ | async"></mat-progress-bar>
-                            <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit" [disabled]="!form.valid || (requesting$ | async)">
-                                Register
-                            </button>
-                        </div>
-
-                    </div>
-                </form>
-            </mat-card-content>
-        </mat-card>
-    </div>
+          <mat-step>
+            <ng-template matStepLabel>Register</ng-template>
+            <p>Vendor and Vendor-admin are registered.</p>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+          </mat-step>
+        </mat-stepper>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 
 <ng-container *ngIf="request$ | async"></ng-container>

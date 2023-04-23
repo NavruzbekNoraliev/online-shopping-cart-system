@@ -7,8 +7,7 @@ import { RouterModule } from '@angular/router';
 import { authRoutes } from './auth.routing';
 import { AllMaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -18,8 +17,7 @@ import { MatInputModule } from '@angular/material/input';
     RouterModule.forChild(authRoutes),
     ReactiveFormsModule,
     AllMaterialModule,
-    MatFormFieldModule,
-    MatInputModule
+    FlexLayoutModule
   ],
   declarations: [
     LoginComponent,

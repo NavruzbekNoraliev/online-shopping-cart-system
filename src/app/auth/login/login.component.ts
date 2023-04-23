@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private authAPI: AuthService
   ) {
     this.form = this.fb.group({
-      username: [null, Validators.required],
+      email: [null, Validators.required],
       password: [null, Validators.required]
     });
   }
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const values = this.form.value;
     this.requesting.next(true);
-    this.request$ = this.authAPI.login(values.username, values.password).pipe(
+    this.request$ = this.authAPI.login(values.email, values.password).pipe(
       tap(_ => {
         this.requesting.next(false);
         this.router.navigate(['/main']);
