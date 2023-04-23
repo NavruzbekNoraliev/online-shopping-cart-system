@@ -1,3 +1,99 @@
-<p>
-  onetime-payment works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Make Onetime Payment</mat-card-title>
+    <mat-card-subtitle>to access all <code>features</code></mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10" class="otp-container">
+        <div fxFlex="35">
+          <h2>Card Details</h2>
+          <div formGroupName="cardDetails" fxLayout="column" fxFlexAlign="start" fxLayoutGap="5">
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>Card Number</mat-label>
+                <input matInput placeholder="4600 0009 9990 3434" type="tel" formControlName="cardNumber">
+                <mat-icon matSuffix>credit_card</mat-icon>
+              </mat-form-field>
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>Name on card</mat-label>
+                <input matInput placeholder="John Doe" type="tel" formControlName="nameOnCard">
+              </mat-form-field>
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>Expiry Date</mat-label>
+                <input matInput placeholder="02/23" type="tel" formControlName="expDate">
+                <mat-hint>MM/YY</mat-hint>
+              </mat-form-field>
+
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>CVV</mat-label>
+                <input matInput placeholder="243" type="tel" formControlName="cvv">
+                <mat-icon matSuffix>pin</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="35">
+          <h2>Shipping Address</h2>
+          <div formGroupName="billingAddress" fxLayout="column" fxFlexAlign="center" fxLayoutGap="5">
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>Street</mat-label>
+                <input matInput placeholder="4600 0009 9990 3434" type="tel" formControlName="street">
+              </mat-form-field>
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="John Doe" type="tel" formControlName="city">
+              </mat-form-field>
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>State</mat-label>
+                <input matInput placeholder="02/23" type="tel" formControlName="state">
+                <mat-hint>MM/YY</mat-hint>
+              </mat-form-field>
+
+            </div>
+            <div fxFlex="33">
+              <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>zipcode</mat-label>
+                <input matInput placeholder="243" type="tel" formControlName="zipCode">
+              </mat-form-field>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="disclaimer">
+        <p>
+          Dear valued vendor, please note that the following disclaimer is being provided to you regarding the sale of
+          your products through our system. We would like to inform you that an amount of $20,000 will be allocated to our
+          system as a registration charge. Moreover, 20% of your earned revenue will be collected by our system and 80%
+          will be retained by you as the vendor. We appreciate your cooperation and understanding with this matter. If you
+          have any questions or concerns, please do not hesitate to reach out to us. Thank you for your continued
+          partnership.
+        </p> 
+      </div>
+  
+      <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-form-field appearance="fill" fxFlex="35">
+          <mat-label>Amount</mat-label>
+          <input matInput type="tel" formControlName="amount" value="20000" [disabled]="true">
+        </mat-form-field>
+      </div>
+
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end" class="p-10">
+    <button class="pay-btn" color="primary" mat-stroked-button (click)="makeOneTimePayment()">Pay</button>
+  </mat-card-actions>
+</mat-card>

@@ -14,7 +14,7 @@ import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
     NgxSandCreditCardsModule,
   ],
   declarations: [
-    OnetimePaymentComponent,
+    // OnetimePaymentComponent,
     // PaymentComponent,
     PaymentConfirmComponent,
   ],

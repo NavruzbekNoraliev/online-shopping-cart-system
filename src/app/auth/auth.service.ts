@@ -70,9 +70,17 @@ export class AuthService extends CoreHTTPService {
         localStorage.setItem('username', `${value.first_name} ${value.last_name}`);
     }
 
-  get username(): any | null {
-    return localStorage.getItem("username");
-  }
+    get roleType(): any| null {
+        return localStorage.getItem('roleType')
+    }
+    set roleType(value: any | null) {
+        if (value === null) { value = ''; }
+        localStorage.setItem('roleType', value);
+    }
+
+    get username(): any | null {
+        return localStorage.getItem('username');
+    }
 
   set role(value: string | null) {
     if (value === null) {

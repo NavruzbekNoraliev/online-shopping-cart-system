@@ -1,21 +1,28 @@
-<div fxFlex="100" fxLayoutAlign="start center" fxLayout="row">    
-    <div fxFlex.gt-md=33 fxFlex=33>
-        <button mat-icon-button class="m-r-5" (click)="redirectToCart()"> <mat-icon matbadge="15" matbadgecolor="warn" class="mat-icon notranslate mat-badge mat-badge-warn material-icons mat-icon-no-color mat-badge-overlap mat-badge-above mat-badge-after mat-badge-medium">
-            shopping_cart
-            <span id="mat-badge-content-2" aria-hidden="true" class="mat-badge-content mat-badge-active">15</span>
-        </mat-icon></button>
+<section>
+    <div fxFlex="100" fxLayout="row" fxLayoutAlign = "center center">
+        <div class="input-group prefix">
+            <span class="input-group-addon">
+                <mat-icon>search</mat-icon>
+            </span>
+            <input type="text" placeholder="Search product" name="input">
+        </div>
+        <button mat-icon-button class="m-r-5" (click)="redirectToCart()"> <mat-icon matbadge="15" matbadgecolor="warn"
+                class="mat-icon notranslate mat-badge mat-badge-warn material-icons mat-icon-no-color mat-badge-overlap mat-badge-above mat-badge-after mat-badge-medium">
+                shopping_cart
+                <span id="mat-badge-content-2" aria-hidden="true" class="mat-badge-content mat-badge-active">15</span>
+            </mat-icon></button>
         <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <mat-icon>person</mat-icon></button>
         <mat-menu #profile="matMenu" class="mymegamenu">
-         <button mat-menu-item>
-             <mat-icon>settings</mat-icon> Settings </button>
-         <button mat-menu-item>
-             <mat-icon>account_box</mat-icon> Profile </button>
-             <button mat-menu-item>
+            <button mat-menu-item>
+                <mat-icon>settings</mat-icon> Settings </button>
+            <button mat-menu-item>
+                <mat-icon>account_box</mat-icon> Profile </button>
+            <button mat-menu-item>
                 <mat-icon>favorites</mat-icon> Favorites </button>
-         <button mat-menu-item>
-             <mat-icon>history</mat-icon> Order History </button>
-         <button mat-menu-item (click)="logOut()">
-             <mat-icon>exit_to_app</mat-icon> Sign Out </button>
+            <button mat-menu-item>
+                <mat-icon>history</mat-icon> Order History </button>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>exit_to_app</mat-icon> Sign Out </button>
         </mat-menu>
     </div>
-</div>
+</section>
