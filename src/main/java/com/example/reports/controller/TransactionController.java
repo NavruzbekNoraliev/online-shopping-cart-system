@@ -2,6 +2,7 @@ package com.example.reports.controller;
 
 import com.example.reports.dto.Mapper;
 import com.example.reports.dto.TransactionDTO;
+import com.example.reports.dto.TransactionRequest;
 import com.example.reports.model.Transaction;
 import com.example.reports.service.TransactionNotificationService;
 import com.example.reports.service.TransactionService;
@@ -37,7 +38,7 @@ public class TransactionController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<TransactionDTO> notify(@RequestBody TransactionDTO transactionDto){
+    public ResponseEntity<TransactionRequest> notify(@RequestBody TransactionRequest transactionDto){
         System.out.println("test");
         transactionNotificationService.broadcastPaymentComplete(transactionDto);
         return ResponseEntity.ok(transactionDto);

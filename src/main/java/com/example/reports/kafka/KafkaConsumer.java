@@ -1,7 +1,6 @@
-package com.example.reports.listener;
+package com.example.reports.kafka;
 
 import com.example.reports.dto.Mapper;
-import com.example.reports.dto.TransactionDTO;
 import com.example.reports.dto.TransactionRequest;
 import com.example.reports.model.Transaction;
 import com.example.reports.service.TransactionService;

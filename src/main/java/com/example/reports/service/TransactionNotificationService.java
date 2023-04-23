@@ -1,7 +1,7 @@
 package com.example.reports.service;
 
-import com.example.reports.dto.TransactionDTO;
-import com.example.reports.listener.KafkaProducer;
+import com.example.reports.dto.TransactionRequest;
+import com.example.reports.kafka.KafkaProducer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class TransactionNotificationService {
     private final KafkaProducer kafkaProducer;
 
-    public void broadcastPaymentComplete(TransactionDTO transactionDto){
+    public void broadcastPaymentComplete(TransactionRequest transactionDto){
         //Object object = new Object(transactionDto);
         ObjectMapper om = new ObjectMapper();
         String transactionJson = null;

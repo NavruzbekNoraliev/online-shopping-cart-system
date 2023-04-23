@@ -20,4 +20,5 @@ public class CardEntity {
     private String operationMode;
     private String expDay;
     private String expMonth;
+    private String expYear;
 }
