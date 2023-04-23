@@ -16,4 +16,11 @@ public class CustomerDTO {
     private OrderAddress shippingAddress;
     private OrderAddress billingAddress;
 
+
+    public CustomerDTO(String firstName, String lastName, String customerEmail) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.customerEmail = customerEmail;
+
+    }
 }

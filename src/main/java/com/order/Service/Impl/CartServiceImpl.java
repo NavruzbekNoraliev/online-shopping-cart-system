@@ -10,6 +10,7 @@ import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
 import com.order.Service.DTO.*;
 import com.order.Service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.*;
 
 @Service
+@Slf4j
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
@@ -73,34 +75,36 @@ public class CartServiceImpl implements CartService {
         if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
             throw new InvalidQuantityException("Not enough quantity");
         }
+
         cartItem.setProduct(product);
         cartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
+
+
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
-//            cartItem.setProduct(product);
-//            cartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
-            cartItem.setCart(newCart);
-            newCartItem = cartItemRepository.save(cartItem);
-            newCart.setCartItems(new ArrayList<>());
-            newCart.getCartItems().add(newCartItem);
-            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();            ;
+            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();
             newCart.setTotalPrice((double) Math.round(totalPrice * 100) / 100);
-            return cartRepository.save(newCart);
+            Cart newCart1 = cartRepository.save(newCart);
+
+            newCartItem = cartItemRepository.save(cartItem);
+            newCart1.setCartItems(new ArrayList<>());
+            newCart1.getCartItems().add(newCartItem);
+            return cartRepository.save(newCart1);
+
         }else if(cart.get().getCartItems().isEmpty()) {
             newCart = cart.get();
-            cartItem.setCart(newCart);
-//            cartItem.setProduct(product);
-//            cartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
-            newCartItem = cartItemRepository.save(cartItem);
-            newCart.setCartItems(new ArrayList<>());
-            newCart.getCartItems().add(newCartItem);
-            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();            ;
+            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();
             newCart.setTotalPrice((double) Math.round(totalPrice * 100) / 100);
-            return cartRepository.save(newCart);
+            Cart newCart1 = cartRepository.save(newCart);
+//            cartItem.setCart(newCart1);
+
+            newCartItem = cartItemRepository.save(cartItem);
+            newCart1.setCartItems(new ArrayList<>());
+            newCart1.getCartItems().add(newCartItem);
+            return cartRepository.save(newCart1);
         }else {
             newCart = cart.get();
-            cartItem.setCart(newCart);
             //check if this item already exists in the cart
             for (CartItem item : newCart.getCartItems()) {
                 if (item.getProduct().getId() == product.getId()) {
@@ -109,18 +113,17 @@ public class CartServiceImpl implements CartService {
                     double subTotal = newQuantity * product.getPrice();
                     item.setQuantity(newQuantity);
                     item.setSubTotal(subTotal);
-                    cartItemRepository.save(cartItemRepository.save(item));
-                    double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();            ;
+                    cartItemRepository.save(item);
+                    double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();
                     newCart.setTotalPrice((double) Math.round(totalPrice * 100) / 100);
                     return cartRepository.save(newCart);
                 }
             }
 
-
-            cartItem.setCart(newCart);
-            newCartItem = cartItemRepository.save(cartItem);
-            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();            ;
+            double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();
             newCart.setTotalPrice((double) Math.round(totalPrice * 100) / 100);
+
+            newCartItem = cartItemRepository.save(cartItem);
             newCart.getCartItems().add(newCartItem);
             return cartRepository.save(newCart);
         }
@@ -235,45 +238,48 @@ public class CartServiceImpl implements CartService {
                 .orderItem(new ArrayList<>())
                 .build();
 
-        return orderDTO;
 
-//        double addSubTotal = 0;
-//        OrderItemDto orderItemDto = new OrderItemDto();
-//        Product product;
-//        VendorDTO vendorDTO;
-//        for (CartItem item : cart.getCartItems()){
-//            if(cartItemIds.idList.contains(item.getId())){
-//                product = productService.getProductById(item.getProduct().getId());
-//                if(product != null && product.getQuantity() > 0 && product.getQuantity() >= item.getQuantity()){
-//                    orderItemDto.setProductId(product.getId());
-//                    orderItemDto.setQuantity(item.getQuantity());
-//                    orderItemDto.setPrice(product.getPrice());
-//                    orderItemDto.setDescription(product.getDescription());
-//                    orderItemDto.setCategoryName(product.getCategory().getName());
-//                    orderItemDto.setProductName(product.getName());
-//                    orderItemDto.setVendorId(product.getVendorId());
-////                    try{
-////                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
-////                    }catch (Exception e){
-////                        throw new ShoppingResourceNotFoundException(e.getMessage());
-////                    }
-////                    orderItemDto.setVendorName(vendorDTO.getName());
-//                    orderDTO.getOrderItem().add(orderItemDto);
-//                    addSubTotal += (item.getQuantity()*product.getPrice());
-//                    product.setQuantity(product.getQuantity() - item.getQuantity());
-//                    productService.updateProduct(product.getId(),productDTOConverter.toDTO(product));
-//                    cart.setTotalPrice(cart.getTotalPrice() - item.getSubTotal());
-//                    cart.getCartItems().remove(item);
-//                    cartItemRepository.delete(item);
-//                    orderDTO.getOrderItem().add(orderItemDto);
-//                }
-//            }
-//
-//        }
-//        orderDTO.setTransactionAmount(200);
-//
-//
-//        return orderDTO;
+
+        double addSubTotal = 0;
+        OrderItemDto orderItemDto = new OrderItemDto();
+        Product product;
+        VendorDTO vendorDTO;
+        for (CartItem item : cart.getCartItems()){
+            if(cartItemIds.idList.contains(item.getId())){
+                log.info("item id: " + item.getId());
+                product = productService.getProductById(item.getProduct().getId());
+                if(product != null && product.getQuantity() > 0 && product.getQuantity() >= item.getQuantity()){
+                    orderItemDto.setProductId(product.getId());
+                    orderItemDto.setQuantity(item.getQuantity());
+                    orderItemDto.setPrice(product.getPrice());
+                    orderItemDto.setDescription(product.getDescription());
+                    orderItemDto.setCategoryName(product.getCategory().getName());
+                    orderItemDto.setProductName(product.getName());
+                    orderItemDto.setVendorId(product.getVendorId());
+//                    try{
+//                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
+//                    }catch (Exception e){
+//                        throw new ShoppingResourceNotFoundException(e.getMessage());
+//                    }
+//                    orderItemDto.setVendorName(vendorDTO.getName());
+                    orderDTO.getOrderItem().add(orderItemDto);
+                    addSubTotal += (item.getQuantity()*product.getPrice());
+                    product.setQuantity(product.getQuantity() - item.getQuantity());
+                    productService.updateProduct(product.getId(),productDTOConverter.toDTO(product));
+                    cart.setTotalPrice(cart.getTotalPrice() - item.getSubTotal());
+
+
+                }
+
+            }
+
+
+        }
+
+        orderDTO.setTransactionAmount(addSubTotal);
+
+
+        return orderDTO;
 
 
     }

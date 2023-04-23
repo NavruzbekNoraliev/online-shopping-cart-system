@@ -18,6 +18,6 @@ public class Cart {
     private long id;
     private long customerId;
     private double totalPrice;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL )
     private List<CartItem> cartItems;
 }
