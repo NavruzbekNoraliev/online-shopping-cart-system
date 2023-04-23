@@ -15,6 +15,9 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     //findByVendor
     Page<Product> findAllByVendorId(int vendorId, Pageable page);
 
+    Page<Product> findAllByAvailable(boolean available, Pageable page);
+
+
     Page<Product> findByCategoryAndAvailable(Category category, boolean available, Pageable page);
 
     Page<Product> findByNameAndAvailable(String name,boolean available, Pageable page);

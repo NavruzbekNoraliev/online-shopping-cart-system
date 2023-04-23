@@ -29,9 +29,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDTOConverter productDTOConverter;
 
     @Override
-    public Page<Product> getAllProducts(int pageNumber, int pageSize) {
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, boolean available) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return productRepository.findAll(pageable);
+        return productRepository.findAllByAvailable(pageable, available);
     }
     //make pageable
     @Override

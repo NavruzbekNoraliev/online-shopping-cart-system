@@ -26,9 +26,10 @@ public class ProductController {
     //get all products
     @GetMapping("/all")
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
-                                                           @RequestParam(defaultValue = "10") int pageSize) {
+                                                           @RequestParam(defaultValue = "10") int pageSize,
+                                                           @RequestParam(defaultValue = "true") boolean available) {
         try {
-            Page<Product> productPage = productService.getAllProducts(pageNumber, pageSize);
+            Page<Product> productPage = productService.getAllProducts(pageNumber, pageSize, available);
             Page<ProductDTO> productDtoPage = productPage.map(product -> productDTOConverter.toDTO(product));
             return ResponseEntity.ok(productDtoPage);
         } catch (Exception e) {

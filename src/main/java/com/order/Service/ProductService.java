@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 public interface ProductService {
-    Page<Product> getAllProducts(int pageNumber, int pageSize);
+    Page<Product> getAllProducts(int pageNumber, int pageSize, boolean available);
     Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize);
     Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize);
     Page<Product> getProductsByVendor(int vendorId, int pageNumber, int pageSize);
