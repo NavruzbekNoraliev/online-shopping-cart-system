@@ -29,17 +29,18 @@ public class Vendor {
     @OneToOne
     private AccountDetails accountDetails;
 
-    private VendorStatus status;
+    private VendorStatus vendorStatus;
+
 
 //    @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
 //    private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
 
 
 
-    public Vendor(String name, String phone, String email, VendorStatus status) {
+    public Vendor(String name, String phone, String email, VendorStatus vendorStatus) {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.status = status;
+        this.vendorStatus = vendorStatus;
     }
 }

@@ -132,7 +132,7 @@ public class VendorServiceImpl implements VendorService {
                 || vendorDTO.getAccountDetails().getBankName()==null || vendorDTO.getAccountDetails().getRoutingNumber()==null){
             throw new UserBadRequestException("Account details are required.");
         }
-        vendor1.setStatus(VendorStatus.PENDING_APPROVAL);
+        vendor1.setVendorStatus(VendorStatus.PENDING_APPROVAL);
         Vendor vendor = vendorRepository.save(vendor1);
         return VendorAdaptor.toDTO(vendorRepository.save(vendor1));
     }
@@ -195,7 +195,7 @@ public class VendorServiceImpl implements VendorService {
     public void approveVendor(Long id, String authorizationHeader) {
         Vendor existingVendor = vendorRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
-        existingVendor.setStatus(VendorStatus.APPROVED);
+        existingVendor.setVendorStatus(VendorStatus.APPROVED);
         vendorRepository.save(existingVendor);
     }
     @Override

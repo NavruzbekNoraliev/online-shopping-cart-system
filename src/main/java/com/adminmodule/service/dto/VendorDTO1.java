@@ -1,8 +1,5 @@
 package com.adminmodule.service.dto;
 
-import com.adminmodule.domain.AccountDetails;
-import com.adminmodule.domain.Address;
-import com.adminmodule.domain.Enum.Status;
 import lombok.*;
 
 @Setter

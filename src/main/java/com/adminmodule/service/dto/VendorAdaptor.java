@@ -13,7 +13,7 @@ public class VendorAdaptor {
                 vendor.getAddress(),
                 vendor.getBillingAddress(),
                 vendor.getAccountDetails(),
-                vendor.getStatus());
+                vendor.getVendorStatus());
     }
 
     public static Vendor fromDTO(VendorDTO dto){
@@ -24,6 +24,6 @@ public class VendorAdaptor {
                 dto.getAddress(),
                 dto.getBillingAddress(),
                 dto.getAccountDetails(),
-                dto.getStatus());
+                dto.getVendorStatus());
     }
 }

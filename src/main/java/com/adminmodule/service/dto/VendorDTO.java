@@ -18,7 +18,7 @@ public class VendorDTO {
     private Address address;
     private Address billingAddress;
     private AccountDetails accountDetails;
-    private VendorStatus status;
+    private VendorStatus vendorStatus;
     
     public VendorDTO(Long id, String name, String phone, String email) {
         this.id = id;
