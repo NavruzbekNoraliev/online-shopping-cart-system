@@ -1,7 +1,7 @@
 package com.example.bank.Bank_Service.rest.request;
 
 import com.example.bank.Bank_Service.model.CardDto;
-import com.example.bank.Bank_Service.model.ProductDto;
+import com.example.bank.Bank_Service.model.OrderItemDto;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 public class TransactionRequest {
     private BigDecimal transactionAmount;
+    private Long customerId;
     private Long vendorId;
-    private Long userId;
-    private String vendorActiveIndicator;
-    private List<ProductDto> products;
+    private String customerName;
+    private List<OrderItemDto> orderItem;
     private CardDto cardDetails;
     private Date date;
 }

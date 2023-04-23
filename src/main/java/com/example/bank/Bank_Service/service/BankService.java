@@ -2,6 +2,7 @@ package com.example.bank.Bank_Service.service;
 
 import com.example.bank.Bank_Service.TestObjectTest;
 import com.example.bank.Bank_Service.client.PaymentClient;
+import com.example.bank.Bank_Service.model.OrderItemDto;
 import com.example.bank.Bank_Service.model.TransactionStatus;
 import com.example.bank.Bank_Service.model.entity.MasterBalanceEntity;
 import com.example.bank.Bank_Service.model.entity.VisaBalanceEntity;
@@ -19,8 +20,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -30,6 +30,8 @@ public class BankService {
 
     private final VisaBalanceRepository visaBalanceRepository;
     private final MasterBalanceRepository masterBalanceRepository;
+
+
     @Autowired
     private PaymentClient paymentClient;
 
@@ -62,6 +64,8 @@ public class BankService {
         // Mastercard numbers start with 51 through 55, or 2221 through 2720 and are 16 digits long
         return cardNumber.matches("^5[1-5][0-9]{14}$|^2(2(2[1-9]|[3-9][0-9])|[3-6][0-9]{2}|7(0[0-9]|1[0-9]|2[0-0]))[0-9]{11}$");
     }
+
+
 
 
     public TransactionResponse checkCard(RequestedCard request , TransactionRequest transactionRequest){
