@@ -2,12 +2,8 @@ package com.adminmodule.service.dto;
 
 import com.adminmodule.domain.AccountDetails;
 import com.adminmodule.domain.Address;
-import com.adminmodule.domain.Enum.Status;
-import com.adminmodule.domain.VendorAdmin;
+import com.adminmodule.domain.Enum.VendorStatus;
 import lombok.*;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -22,7 +18,7 @@ public class VendorDTO {
     private Address address;
     private Address billingAddress;
     private AccountDetails accountDetails;
-    private Status status;
+    private VendorStatus status;
     
     public VendorDTO(Long id, String name, String phone, String email) {
         this.id = id;

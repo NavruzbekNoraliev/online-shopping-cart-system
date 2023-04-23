@@ -1,6 +1,6 @@
 package com.adminmodule.domain;
 
-import com.adminmodule.domain.Enum.Status;
+import com.adminmodule.domain.Enum.VendorStatus;
 import javax.persistence.*;
 import lombok.*;
 
@@ -29,14 +29,14 @@ public class Vendor {
     @OneToOne
     private AccountDetails accountDetails;
 
-    private Status status;
+    private VendorStatus status;
 
 //    @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
 //    private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
 
 
 
-    public Vendor(String name, String phone, String email, Status status) {
+    public Vendor(String name, String phone, String email, VendorStatus status) {
         this.name = name;
         this.phone = phone;
         this.email = email;

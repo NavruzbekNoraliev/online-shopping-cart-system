@@ -2,7 +2,7 @@ package com.adminmodule.service.Impl;
 
 import com.adminmodule.domain.Address;
 import com.adminmodule.domain.Enum.RoleType;
-import com.adminmodule.domain.Enum.Status;
+import com.adminmodule.domain.Enum.VendorStatus;
 import com.adminmodule.domain.Role;
 import com.adminmodule.domain.Vendor;
 import com.adminmodule.domain.VendorAdmin;
@@ -125,7 +125,7 @@ public class VendorServiceImpl implements VendorService {
                 || vendorDTO.getAccountDetails().getBankName()==null || vendorDTO.getAccountDetails().getRoutingNumber()==null){
             throw new UserBadRequestException("Account details are required.");
         }
-        vendor1.setStatus(Status.PENDING_APPROVAL);
+        vendor1.setStatus(VendorStatus.PENDING_APPROVAL);
         Vendor vendor = vendorRepository.save(vendor1);
         return VendorAdaptor.toDTO(vendorRepository.save(vendor1));
     }
@@ -188,17 +188,18 @@ public class VendorServiceImpl implements VendorService {
     public void approveVendor(Long id, String authorizationHeader) {
         Vendor existingVendor = vendorRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
-        existingVendor.setStatus(Status.APPROVED);
+        existingVendor.setStatus(VendorStatus.APPROVED);
         vendorRepository.save(existingVendor);
     }
     @Override
     public List<Vendor> getAllPendingApprovalVendors(String authorizationHeader) {
-        return vendorRepository.findAllPendingApprovalVendors();
+//        List<Vendor> vendor = vendorRepository.findAllPendingApprovalVendors();
+        return vendorRepository.findVendorByVendorStatus(VendorStatus.PENDING_APPROVAL);
     }
 
     @Override
     public List<Vendor> getAllPendingPaymentVendors(String authorizationHeader) {
-        return vendorRepository.findAllPendingPaymentVendors();
+        return vendorRepository.findVendorByVendorStatus(VendorStatus.PENDING_APPROVAL);
     }
 
     @Override

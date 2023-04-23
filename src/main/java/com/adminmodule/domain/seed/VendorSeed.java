@@ -2,7 +2,7 @@ package com.adminmodule.domain.seed;
 
 import com.adminmodule.domain.*;
 import com.adminmodule.domain.Enum.RoleType;
-import com.adminmodule.domain.Enum.Status;
+import com.adminmodule.domain.Enum.VendorStatus;
 import com.adminmodule.repository.*;
 import com.adminmodule.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class VendorSeed implements CommandLineRunner {
             Role roleV = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
             String password = Utils.encodePassword("Aa@12345");
             // First, create a vendor object and set its properties
-            Vendor vendorA = new Vendor("ABC Company", "555-9876", "abc@example.com", Status.PENDING_PAYMENT);
+            Vendor vendorA = new Vendor("ABC Company", "555-9876", "abc@example.com", VendorStatus.PENDING_PAYMENT);
 //            vendorA.setAddress(addressRepository.save(new Address("456 Oak St", "Smallville", "NY", "67890")));
 //            vendorA.setBillingAddress(addressRepository.save(new Address("456 Oak St", "Smallville", "NY", "67890")));
             vendorA.setAccountDetails(accountDetailsRep.save(new AccountDetails("2552336", "East Coast", "98765432")));
@@ -79,7 +79,7 @@ public class VendorSeed implements CommandLineRunner {
 // Finally, save the vendor admin object to the repository
             vendorAdminRepository.save(adminA);
 
-            Vendor vendorB = new Vendor("XYZ Corporation", "555-1234", "xyz@example.com", Status.ACTIVE);
+            Vendor vendorB = new Vendor("XYZ Corporation", "555-1234", "xyz@example.com", VendorStatus.ACTIVE);
 //            vendorB.setAddress(addressRepository.save(new Address("789 Main St", "Bigtown", "CA", "12345")));
 //            vendorB.setBillingAddress(addressRepository.save(new Address("789 Main St", "Bigtown", "CA", "12345")));
             vendorB.setAccountDetails(accountDetailsRep.save(new AccountDetails("3566221", "West Coast", "78901234")));
@@ -92,7 +92,7 @@ public class VendorSeed implements CommandLineRunner {
             adminB.setVendor(vendorRepository.save(vendorB));
             vendorAdminRepository.save(adminB);
 
-            Vendor vendorC = new Vendor("Acme Inc.", "555-5678", "acme@example.com", Status.ACTIVE);
+            Vendor vendorC = new Vendor("Acme Inc.", "555-5678", "acme@example.com", VendorStatus.ACTIVE);
 //            vendorC.setAddress(addressRepository.save(new Address("123 1st St", "Anytown", "TX", "54321")));
 //            vendorC.setBillingAddress(addressRepository.save(new Address("123 1st St", "Anytown", "TX", "54321")));
             vendorC.setAccountDetails(accountDetailsRep.save(new AccountDetails("456123", "Southwest", "24680975")));
@@ -105,7 +105,7 @@ public class VendorSeed implements CommandLineRunner {
             adminC.setVendor(vendorRepository.save(vendorC));
             vendorAdminRepository.save(adminC);
 
-            Vendor vendorD = new Vendor("Acme Ltd.", "555-4321", "acmeltd@example.com", Status.PENDING_APPROVAL);
+            Vendor vendorD = new Vendor("Acme Ltd.", "555-4321", "acmeltd@example.com", VendorStatus.PENDING_APPROVAL);
 //            vendorD.setAddress(addressRepository.save(new Address("321 Elm St", "Somewhere", "FL", "24680")));
 //            vendorD.setBillingAddress(addressRepository.save(new Address("321 Elm St", "Somewhere", "FL", "24680")));
             vendorD.setAccountDetails(accountDetailsRep.save(new AccountDetails("123456", "Southeast", "13579024")));
@@ -119,7 +119,7 @@ public class VendorSeed implements CommandLineRunner {
             vendorAdminRepository.save(adminD);
 
             // Vendor 5
-            Vendor vendorE = new Vendor("123 Enterprises", "555-5678", "123@example.com", Status.PENDING_PAYMENT);
+            Vendor vendorE = new Vendor("123 Enterprises", "555-5678", "123@example.com", VendorStatus.PENDING_PAYMENT);
 //            vendorE.setAddress(addressRepository.save(new Address("321 Elm St", "Bigcity", "TX", "54321")));
 //            vendorE.setBillingAddress(addressRepository.save(new Address("321 Elm St", "Bigcity", "TX", "54321")));
             vendorE.setAccountDetails(accountDetailsRep.save(new AccountDetails("44332211", "Southwest", "87654321")));
