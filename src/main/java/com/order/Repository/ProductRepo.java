@@ -31,5 +31,11 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByAvailable(Pageable page, boolean available);
 
+    //find by category name
+    Page<Product> findAllByCategoryName(String name, Pageable page);
+
+    //find single product by category name
+    Optional<Product> findByCategoryName(String name);
+
 //    Page<Product> findAll(Sort sort, Pageable page);
 }

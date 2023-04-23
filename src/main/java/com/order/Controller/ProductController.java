@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
@@ -150,6 +152,17 @@ public class ProductController {
             return ResponseEntity.ok(productDtoPage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //get product by category name
+    @GetMapping("/category/name/{name}")
+    public ResponseEntity<?> getProductByCategoryName(@PathVariable String name) {
+        try{
+            Optional<Product> product = productService.findByCategoryName(name);
+            return ResponseEntity.ok(product);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

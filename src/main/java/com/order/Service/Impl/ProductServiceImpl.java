@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -131,6 +133,12 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return productRepository.findByNameAndCategoryAndPriceBetweenAndAvailable(name, category, min, max, true, pageable);
     }
+
+    @Override
+    public Optional<Product> findByCategoryName(String name) {
+        return productRepository.findByCategoryName(name);
+    }
+
     public Page<Product> getAllProductsSortedByPriceAsc(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending());
         return productRepository.findAllByAvailable(pageable, true);
@@ -140,5 +148,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
         return productRepository.findAll(pageable);
     }
+
+
 
 }

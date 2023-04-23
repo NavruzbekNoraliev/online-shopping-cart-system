@@ -94,6 +94,7 @@ public class CartServiceImpl implements CartService {
 //            cartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
             newCartItem = cartItemRepository.save(cartItem);
             newCart.setCartItems(new ArrayList<>());
+            newCartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
             newCart.getCartItems().add(newCartItem);
             double totalPrice = newCart.getTotalPrice() + cartItem.getSubTotal();            ;
             newCart.setTotalPrice((double) Math.round(totalPrice * 100) / 100);
