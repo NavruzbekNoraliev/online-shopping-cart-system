@@ -256,31 +256,30 @@ public class CartServiceImpl implements CartService {
                     orderItemDto.setCategoryName(product.getCategory().getName());
                     orderItemDto.setProductName(product.getName());
                     orderItemDto.setVendorId(product.getVendorId());
-//                    try{
-//                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
-//                    }catch (Exception e){
-//                        throw new ShoppingResourceNotFoundException(e.getMessage());
-//                    }
-//                    orderItemDto.setVendorName(vendorDTO.getName());
+                    try{
+                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
+                    }catch (Exception e){
+                        throw new ShoppingResourceNotFoundException(e.getMessage());
+                    }
+                    orderItemDto.setVendorName(vendorDTO.getName());
                     orderDTO.getOrderItem().add(orderItemDto);
                     addSubTotal += (item.getQuantity()*product.getPrice());
                     product.setQuantity(product.getQuantity() - item.getQuantity());
                     productService.updateProduct(product.getId(),productDTOConverter.toDTO(product));
                     cart.setTotalPrice(cart.getTotalPrice() - item.getSubTotal());
-
-
                 }
-
             }
-
-
         }
 
         orderDTO.setTransactionAmount(addSubTotal);
 
-
+        //then remove each item from cartItem table
+        for (CartItem item : cart.getCartItems()){
+            if(cartItemIds.idList.contains(item.getId())){
+                cart.getCartItems().remove(item);
+                cartItemRepository.delete(item);
+            }
+        }
         return orderDTO;
-
-
     }
 }

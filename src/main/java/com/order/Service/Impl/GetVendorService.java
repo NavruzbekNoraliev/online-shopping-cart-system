@@ -11,7 +11,7 @@ import java.util.Collections;
 @Service
 public class GetVendorService {
     //Address for vendor
-    private static final String API_BASE_URL = "http://localhost:8080/api/v1/vendor";
+    private static final String API_BASE_URL = "http://localhost:8083/api/v1/vendor";
     private RestTemplate restTemplate = new RestTemplate();
     //Change with vendor DTO
     public VendorDTO getById(String id) throws Exception {

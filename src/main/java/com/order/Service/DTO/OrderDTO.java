@@ -19,6 +19,5 @@ public class OrderDTO {
     private Long customerId;
     private String customerName;
     private List<OrderItemDto> orderItem;
-    private Long productId;
     private Date date;
 }
