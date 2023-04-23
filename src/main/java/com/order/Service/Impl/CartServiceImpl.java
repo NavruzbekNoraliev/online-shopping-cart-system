@@ -73,7 +73,7 @@ public class CartServiceImpl implements CartService {
         if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
             throw new InvalidQuantityException("Not enough quantity");
         }
-
+        cartItem.setProduct(product);
         newCartItem = cartItemRepository.save(cartItem);
 
         if(!cart.isPresent()){
@@ -81,34 +81,30 @@ public class CartServiceImpl implements CartService {
             newCart.setCustomerId(customerId);
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
-            newCart.setTotalPrice(cartItem.calculateSubTotal());
-            cartRepository.save(newCart);
-            return getCartByCustomerId(customerId);
+            newCart.setTotalPrice(newCartItem.getQuantity()*product.getPrice());
+            return cartRepository.save(newCart);
         }else if(cart.get().getCartItems().isEmpty()) {
             newCart = cart.get();
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
-            newCart.setTotalPrice(cartItem.calculateSubTotal());
-            cartRepository.save(newCart);
-            return getCartByCustomerId(customerId);
+            newCart.setTotalPrice(newCartItem.getQuantity()*product.getPrice());
+            return cartRepository.save(newCart);
         }else {
             newCart = cart.get();
             //check if this item already exists in the cart
             for (CartItem item : newCart.getCartItems()) {
                 if (item.getProduct().getId() == product.getId()) {
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
-                    item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
+                    item.setSubTotal(newCartItem.getQuantity()*product.getPrice());
                     cartItemRepository.save(item);
-                    newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
-                    cartRepository.save(newCart);
-                    return getCartByCustomerId(customerId);
+                    newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getSubTotal());
+                    return cartRepository.save(newCart);
                 }
             }
 
-            newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
+            newCart.setTotalPrice(newCart.getTotalPrice() + newCartItem.getQuantity()*product.getPrice());
             newCart.getCartItems().add(newCartItem);
-            cartRepository.save(newCart);
-            return getCartByCustomerId(customerId);
+            return cartRepository.save(newCart);
         }
     }
 
@@ -164,9 +160,9 @@ public class CartServiceImpl implements CartService {
                     }
 
                     item.setQuantity(cartItem.getQuantity());
-                    item.setSubTotal(item.calculateSubTotal());
+                    item.setSubTotal(item.getQuantity()*product.getPrice());
                     cartItemRepository.save(item);
-                    existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.calculateSubTotal());
+                    existingCart.setTotalPrice(existingCart.getTotalPrice() + item.getQuantity()*product.getPrice());
                     return cartRepository.save(existingCart);
                     }
                 }
@@ -237,7 +233,7 @@ public class CartServiceImpl implements CartService {
                     }
                     orderItemDto.setVendorName(vendorDTO.getName());
                     orderDTO.getOrderItem().add(orderItemDto);
-                    addSubTotal += item.calculateSubTotal();
+                    addSubTotal += (item.getQuantity()*product.getPrice());
                     product.setQuantity(product.getQuantity() - item.getQuantity());
                     productService.updateProduct(product.getId(),productDTOConverter.toDTO(product));
                     cart.setTotalPrice(cart.getTotalPrice() - item.getSubTotal());
