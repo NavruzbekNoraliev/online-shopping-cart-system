@@ -82,13 +82,15 @@ public class CartServiceImpl implements CartService {
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
             newCart.setTotalPrice(cartItem.calculateSubTotal());
-            return cartRepository.save(newCart);
+            cartRepository.save(newCart);
+            return getCartByCustomerId(customerId);
         }else if(cart.get().getCartItems().isEmpty()) {
             newCart = cart.get();
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
             newCart.setTotalPrice(cartItem.calculateSubTotal());
-            return cartRepository.save(newCart);
+            cartRepository.save(newCart);
+            return getCartByCustomerId(customerId);
         }else {
             newCart = cart.get();
             //check if this item already exists in the cart
@@ -98,13 +100,15 @@ public class CartServiceImpl implements CartService {
                     item.setSubTotal(item.calculateSubTotal() + cartItem.calculateSubTotal());
                     cartItemRepository.save(item);
                     newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
-                    return cartRepository.save(newCart);
+                    cartRepository.save(newCart);
+                    return getCartByCustomerId(customerId);
                 }
             }
 
             newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.calculateSubTotal());
             newCart.getCartItems().add(newCartItem);
-            return cartRepository.save(newCart);
+            cartRepository.save(newCart);
+            return getCartByCustomerId(customerId);
         }
     }
 
