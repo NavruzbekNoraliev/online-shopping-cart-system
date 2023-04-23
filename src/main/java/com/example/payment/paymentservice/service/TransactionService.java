@@ -2,6 +2,7 @@ package com.example.payment.paymentservice.service;
 
 import com.example.payment.paymentservice.KafkaProducer;
 import com.example.payment.paymentservice.client.BankClient;
+import com.example.payment.paymentservice.model.TransactionStatus;
 import com.example.payment.paymentservice.model.dto.TransactionDto;
 import com.example.payment.paymentservice.model.entity.CardEntity;
 import com.example.payment.paymentservice.model.entity.TransactionEntity;
@@ -19,9 +20,9 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,16 +47,16 @@ public class TransactionService {
 
     private final KafkaProducer kafkaProducer;
 
-    public void broadcastPaymentComplete(TransactionDto transactionDto){
+    public void broadcastPaymentComplete(TransactionRequest transactionRequest){
         ObjectMapper om = new ObjectMapper();
         String transactionJson = null;
         try {
-            transactionJson = om.writeValueAsString(transactionDto);
+            transactionJson = om.writeValueAsString(transactionRequest);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         System.out.println("Service message: \n"+transactionJson);
-        kafkaProducer.sendMessage("my-topic", transactionJson);
+        kafkaProducer.sendMessage("transactions", transactionJson);
     }
 
 
@@ -70,6 +71,10 @@ public class TransactionService {
     public ResponseEntity utilPayment(TransactionRequest transactionRequest , Boolean isVendor){
         log.info("Transaction processing {}", transactionRequest.toString());
 
+        if(isVendor){
+            transactionRequest.setTransactionAmount(BigDecimal.valueOf(20000));
+        }
+
         TransactionResponse returnedTransaction = checkCard(transactionRequest);
 
         TransactionEntity entity = new TransactionEntity();
@@ -82,11 +87,19 @@ public class TransactionService {
             entity.setVendorId(transactionRequest.getVendorId());
             entity.setTransactionAmount(BigDecimal.valueOf(20000));
         }else {
-            entity.setUserId(transactionRequest.getUserId());
+            entity.setUserId(transactionRequest.getCustomerId());
         }
         if(returnedTransaction.getTransactionId() != null){
+            if(returnedTransaction.getTransactionStatus() == TransactionStatus.TS){
+                cardService.deductFromCardTotalAmount(entity.getCardNumber() , entity.getTransactionAmount());
+            }
+
             transactionRepository.save(entity);
         }
+
+
+
+       // broadcastPaymentComplete(transactionRequest);
 
 
         return ResponseEntity.ok(TransactionResponse.builder().transactionStatus(returnedTransaction.getTransactionStatus())

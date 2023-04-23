@@ -49,11 +49,11 @@ public class TransactionController {
     }
 
 
-    @PostMapping("/kafka")
-    public ResponseEntity<TransactionDto> notify(@RequestBody TransactionDto transactionDto){
-        transactionService.broadcastPaymentComplete(transactionDto);
-        return ResponseEntity.ok(transactionDto);
-    }
+//    @PostMapping("/kafka")
+//    public ResponseEntity<TransactionDto> notify(@RequestBody TransactionDto transactionDto){
+//        transactionService.broadcastPaymentComplete(transactionDto);
+//        return ResponseEntity.ok(transactionDto);
+//    }
 
     @GetMapping("/{id}")
     public Object getTransactionById(@PathVariable Long id){

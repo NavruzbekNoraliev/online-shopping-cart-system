@@ -1,22 +1,12 @@
 package com.example.payment.paymentservice.controller;
-
-import com.example.payment.paymentservice.model.TransactionStatus;
 import com.example.payment.paymentservice.model.entity.CardEntity;
-import com.example.payment.paymentservice.model.entity.TransactionEntity;
 import com.example.payment.paymentservice.rest.response.BankResponse;
-import com.example.payment.paymentservice.rest.response.TransactionResponse;
 import com.example.payment.paymentservice.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/cards")
@@ -55,7 +45,7 @@ public class CardController {
             response.setOperationMode(cardEntity.getOperationMode());
             response.setCurrentValue(cardEntity.getCurrentValue());
             response.setIssuedValue(cardEntity.getIssuedValue());
-            response.setExpDay(cardEntity.getExpDay());
+            response.setExpYear(cardEntity.getExpYear());
             response.setExpMonth(cardEntity.getExpMonth());
 
 

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,10 +42,25 @@ public class CardService {
         return ResponseEntity.ok("card has been added successfully, CARD ID : " + optCard.getCardId());
     }
 
+
+    public boolean deductFromCardTotalAmount(String cardNumber , BigDecimal deduct) {
+        Optional<CardEntity> cardOptional = cardRepository.findByCardNumber(cardNumber);
+        if (cardOptional.isPresent()) {
+            CardEntity cardEntity = cardOptional.get();
+            BigDecimal currentTotalAmount = cardEntity.getCurrentValue();
+                cardEntity.setCurrentValue(currentTotalAmount.subtract(deduct));
+                cardRepository.save(cardEntity);
+                return true;
+        }
+        return false;
+    }
+
     public ResponseEntity removeCard(Long id) {
         cardRepository.deleteById(id);
         return ResponseEntity.ok("card has been deleted successfully");
     }
+
+
 
 
     public CardEntity getCardById(Long id) throws ChangeSetPersister.NotFoundException {

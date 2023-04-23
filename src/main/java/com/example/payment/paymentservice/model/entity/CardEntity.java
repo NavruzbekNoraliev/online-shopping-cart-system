@@ -40,8 +40,8 @@ public class CardEntity {
     @Column(name = "operation_mode")
     private String operationMode;
 
-    @Column(name = "exp_day")
-    private String expDay;
+    @Column(name = "exp_year")
+    private String expYear;
 
     @Column(name = "exp_month")
     private String expMonth;

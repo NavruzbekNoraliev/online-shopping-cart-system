@@ -15,7 +15,7 @@ public class ShoppingCartDto {
     private String userId;
     private double totalPrice;
     private int quantity;
-    private List<ProductDto> products =new ArrayList<>();
+    private List<OrderItemDto> products =new ArrayList<>();
 
     public ShoppingCartDto(long id, String userId, double totalPrice, int quantity) {
         this.id = id;
