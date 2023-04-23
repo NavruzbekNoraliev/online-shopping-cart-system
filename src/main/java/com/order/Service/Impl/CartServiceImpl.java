@@ -155,7 +155,7 @@ public class CartServiceImpl implements CartService {
             for(CartItem item : existingCart.getCartItems()){
                 if(item.getId() == cartItemId){
 
-                    int newQuantity = cartItem.getQuantity()+item.getQuantity();
+
 
                     product = productService.getProductById(cartItem.getProduct().getId());
                     if(product == null){
@@ -164,9 +164,9 @@ public class CartServiceImpl implements CartService {
                     if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
                         throw new InvalidQuantityException("Not enough quantity");
                     }
-
-                    item.setQuantity(newQuantity);
-                    item.setSubTotal(newQuantity*product.getPrice());
+                    existingCart.setTotalPrice(existingCart.getTotalPrice() - item.getSubTotal());
+                    item.setQuantity(cartItem.getQuantity());
+                    item.setSubTotal(cartItem.getQuantity()*product.getPrice());
                     cartItemRepository.save(item);
                     existingCart.setTotalPrice(existingCart.getTotalPrice() + cartItem.getQuantity()*product.getPrice());
                     return cartRepository.save(existingCart);
