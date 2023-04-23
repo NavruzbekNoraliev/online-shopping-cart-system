@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/banking")
+@RequestMapping(value = "api/v1/banking")
 public class BalanceController {
 
 
@@ -22,6 +22,7 @@ public class BalanceController {
     private final BankService bankService;
 
     @PostMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public TransactionResponse checkCard(@RequestBody TransactionRequest transactionRequest) {
         RequestedCard request;
             request =  bankService.getCardDetails(transactionRequest.getCardDetails().getCardNumber());
@@ -65,10 +66,12 @@ public class BalanceController {
 
     }
     @GetMapping("/visa")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity getVisaBalances(Pageable pageable) {
         return ResponseEntity.ok(bankService.readVisaBalances(pageable));
     }
     @GetMapping("master")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity getMasterBalances(Pageable pageable) {
         return ResponseEntity.ok(bankService.readMasterBalances(pageable));
     }
