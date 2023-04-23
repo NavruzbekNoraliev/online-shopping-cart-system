@@ -97,9 +97,8 @@ public class VendorController {
     //add vendor-admin
     @PostMapping("/{vendorId}/vendor-admin")
     public ResponseEntity<?> addVendorAdmin(@PathVariable Long vendorId,
-                                            @RequestBody VendorAdminDTO vendorAdminDTO,
-                                            @RequestHeader("Authorization") String authorizationHeader) {
-        return ResponseEntity.ok(vendorService.addVendorAdmin(vendorId, vendorAdminDTO, authorizationHeader));
+                                            @RequestBody VendorAdminDTO vendorAdminDTO) {
+        return ResponseEntity.ok(vendorService.addVendorAdmin(vendorId, vendorAdminDTO));
     }
     @PutMapping("/{vendorId}/vendor-admin/{vendorAdminId}")
     public ResponseEntity<?> updateVendorAdmin(@PathVariable Long vendorId,
