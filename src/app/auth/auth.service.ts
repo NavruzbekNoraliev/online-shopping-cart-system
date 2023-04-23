@@ -39,6 +39,15 @@ export class AuthService extends CoreHTTPService {
     );
   }
 
+  registerVendorAdmin(value: any) {
+    return this.post("vendor/" + this.vendorId + "/vendor-admin", value).pipe(
+      tap((result) => {
+        this.username = result.email;
+        this.vendorId = result.id;
+      })
+    );
+  }
+
   set vendorId (value: any | null) {
     if(value === null) {
       value = "";
