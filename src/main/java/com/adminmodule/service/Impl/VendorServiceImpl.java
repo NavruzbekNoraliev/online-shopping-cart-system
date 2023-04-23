@@ -233,7 +233,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO, String authorizationHeader) {
+    public VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new UserNotFoundException("Vendor not found"));
 

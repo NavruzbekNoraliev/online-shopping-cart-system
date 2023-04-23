@@ -23,7 +23,7 @@ public interface VendorService {
 
     List<VendorAdmin> getAllVendorAdmins(String authorizationHeader);
     List<VendorAdmin> getAllVendorAdminsByVendor(Long vendorId, String authorizationHeader);
-    VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO, String authorizationHeader);
+    VendorAdminDTO addVendorAdmin(Long vendorId, VendorAdminDTO vendorAdminDTO);
     VendorAdminDTO updateVendorAdmin(Long vendorId, Long vendorAdminId, VendorAdminDTO vendorAdminDTO, String authorizationHeader);
 
     void deleteVendorAdmin(Long vendorId, Long vendorAdminId, String authorizationHeader);
