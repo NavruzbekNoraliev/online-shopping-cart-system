@@ -16,6 +16,7 @@ public class ProductDTO {
         private VendorDTO vendorDTO;
         private String color;
         private boolean available;
+        private int categoryId;
         private String categoryName;
         private String imageUrl;
 

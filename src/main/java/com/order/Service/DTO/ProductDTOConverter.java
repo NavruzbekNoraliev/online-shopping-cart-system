@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +39,7 @@ public class ProductDTOConverter {
         productDTO.setImageUrl(product.getImageUrl());
         //Get Category
         productDTO.setCategoryName(product.getCategory().getName());
+        productDTO.setCategoryId(product.getCategory().getId());
         return productDTO;
     }
 
@@ -57,10 +57,10 @@ public class ProductDTOConverter {
         //Set category by name check for exception
         Category category;
         try {
-            category = categoryRepo.findByName(productDTO.getCategoryName()).get();
+            category = categoryRepo.findById(Long.valueOf(productDTO.getCategoryId())).get();
             product.setCategory(category);
         }catch (NoSuchElementException e){
-            System.out.println("Category with name "+productDTO.getCategoryName()+" not found:"+e.getMessage());
+            System.out.println("Category with id "+productDTO.getCategoryId()+" not found:"+e.getMessage());
         }
         return product;
     }
