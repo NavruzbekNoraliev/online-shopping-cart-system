@@ -1,5 +1,6 @@
 .addToCart {
   border-radius: 30px;
+  margin-bottom: 10px;
   border-color: black !important;
 }
 
@@ -12,9 +13,6 @@
   margin-right: auto;
   margin-bottom: 10%;
 }
-.ic {
-    /* background-color: rgb(222, 221, 221); */
-}
 .f-right {
     float: right;
 }
@@ -22,6 +20,11 @@
     position: absolute;
     float: right;
     right: 8px;
+    color: rgb(255, 179, 0);
     top:8px;
+    cursor: pointer;
     z-index: 999;
+}
+.rating {
+  margin-top: 10px;
 }

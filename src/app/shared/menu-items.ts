@@ -35,7 +35,13 @@ const MENUITEMS = [
     name: 'Approve Product',
     type: 'link',
     icon: 'inventory'
-  },{
+  }, {
+    state: 'payment',
+    name: 'One-time payment',
+    type: 'link',
+    icon: 'attach_money'
+  },
+  {
     state: 'reports',
     name: 'Reports',
     type: 'link',

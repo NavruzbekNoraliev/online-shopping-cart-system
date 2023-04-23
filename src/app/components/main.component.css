@@ -1,8 +1,8 @@
 body {
     font-family: 'lato';
 }
-.mt-5{
-    margin-top: 5px !important;
+.mt-10{
+    margin-top: 10px !important;
 }
 .mat-toolbar.mat-primary {
     background: rgb(53, 39, 39);

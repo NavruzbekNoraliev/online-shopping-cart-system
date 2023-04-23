@@ -5,5 +5,4 @@ import { ListVendorsComponent } from "./list-vendors/list-vendors.component";
 export const vendorRoutes: Routes = [
     { path: '', component: ListVendorsComponent},
     { path: 'approve', component: ApproveVendorsComponent },
-
 ]

@@ -1,7 +1,7 @@
 <div class="main-container">
     <div>
         <mat-toolbar color="primary" class="topbar telative" fxFlex="100" fxLayout="row" fxLayoutAlign="start start">
-            <div>
+            <div *ngIf="authorized()">
                 <button mat-icon-button #sidebarbtn id="sidebarbtn" value="sidebarclosed">
                     <mat-icon>menu</mat-icon>
                 </button>

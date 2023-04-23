@@ -50,20 +50,16 @@ export class AuthService extends CoreHTTPService {
     return localStorage.getItem("vendorId");
   }
 
-  registerVendorAdmin(value: any) {
-    return this.post("vendor/" + this.vendorId + "/vendor-admin", value).pipe(
-      tap((result) => {
-        this.username = result.account.email;
-      })
-    );
-  }
-
-  set username(value: any | null) {
-    if (value === null) {
-      value = "";
+    get isAuthorized(): boolean{
+        if(this.role && this.username && this.token) {
+            return true;
+        }
+        else return false;
     }
-    localStorage.setItem("username", `${value.first_name} ${value.last_name}`);
-  }
+    set username(value: any | null) {
+        if (value === null) { value = ''; }
+        localStorage.setItem('username', `${value.first_name} ${value.last_name}`);
+    }
 
   get username(): any | null {
     return localStorage.getItem("username");
@@ -94,5 +90,4 @@ export class AuthService extends CoreHTTPService {
     localStorage.clear();
     this.router.navigate(["auth"]);
   }
-  
 }

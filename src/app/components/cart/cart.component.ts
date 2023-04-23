@@ -5,11 +5,11 @@ import { CartService } from 'src/app/core/services/cart.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
 
-  public productsInCart: any = [];
+  public productsInCart: any = [1];
   public grandTotal: number = 0;
 
   constructor(private route: Router, private cartService: CartService) { }
@@ -32,9 +32,7 @@ export class CartComponent implements OnInit {
   navigateToMain() {
     this.route.navigateByUrl("/");
   }
-
   navigateToPayment() {
     this.route.navigateByUrl("payment");
   }
-
 }
