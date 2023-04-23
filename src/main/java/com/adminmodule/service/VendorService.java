@@ -28,5 +28,5 @@ public interface VendorService {
 
     void deleteVendorAdmin(Long vendorId, Long vendorAdminId, String authorizationHeader);
     
-    VendorDTO getVendorForOrderById();
+    VendorDTO getVendorForOrderById(Long vendorId, String authorizationHeader);
 }

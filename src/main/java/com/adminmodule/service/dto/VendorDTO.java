@@ -24,7 +24,8 @@ public class VendorDTO {
     private AccountDetails accountDetails;
     private Status status;
     
-    public VendorDTO(String name, String phone, String email) {
+    public VendorDTO(Long id, String name, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;

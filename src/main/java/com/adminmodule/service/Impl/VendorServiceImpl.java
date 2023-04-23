@@ -297,5 +297,13 @@ public class VendorServiceImpl implements VendorService {
         vendorAdminRepository.deleteById(vendorAdminId);
     }
 
+    @Override
+    public VendorDTO getVendorForOrderById(Long vendorId, String authorizationHeader) {
+        VendorDTO vendorDTO = VendorAdaptor.toDTO(vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new UserNotFoundException("Vendor not found")));
+        VendorDTO vendorDTO1 = new VendorDTO(vendorDTO.getId(), vendorDTO.getName(), vendorDTO.getPhone(), vendorDTO.getEmail());
+        return vendorDTO1;
+    }
+
 
 }
