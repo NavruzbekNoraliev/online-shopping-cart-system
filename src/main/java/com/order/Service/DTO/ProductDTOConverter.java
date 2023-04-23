@@ -8,6 +8,9 @@ import com.order.Service.Impl.GetVendorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductDTOConverter {
@@ -36,7 +39,7 @@ public class ProductDTOConverter {
         productDTO.setAvailable(product.isAvailable());
         productDTO.setImageUrl(product.getImageUrl());
         //Get Category
-        productDTO.setCategoryId(product.getCategory().getId());
+        productDTO.setCategoryName(product.getCategory().getName());
         return productDTO;
     }
 
@@ -51,10 +54,14 @@ public class ProductDTOConverter {
         product.setColor(productDTO.getColor());
         product.setAvailable(productDTO.isAvailable());
         product.setImageUrl(productDTO.getImageUrl());
-        //Set category by id can check for exception
-        Long categoryId = Long.valueOf(productDTO.getCategoryId());
-        Category category = categoryRepo.findById(categoryId).get();
-        product.setCategory(category);
+        //Set category by name check for exception
+        Category category;
+        try {
+            category = categoryRepo.findByName(productDTO.getCategoryName()).get();
+            product.setCategory(category);
+        }catch (NoSuchElementException e){
+            System.out.println("Category with name "+productDTO.getCategoryName()+" not found:"+e.getMessage());
+        }
         return product;
     }
 
