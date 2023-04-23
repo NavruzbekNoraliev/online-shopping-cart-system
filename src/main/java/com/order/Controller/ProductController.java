@@ -123,15 +123,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/updateImage/{id}")
-    public ResponseEntity<Product> updateProductImage(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        try {
-            Product product = productService.updateProductImage(id, productDTO);
-            return ResponseEntity.ok(product);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
     //delete product
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {

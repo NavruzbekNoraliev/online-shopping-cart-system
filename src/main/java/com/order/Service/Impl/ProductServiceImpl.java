@@ -65,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(product.getPrice()!=0 ? product.getPrice(): existingProduct.getPrice());
         //always needed
         existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setImageUrl(product.getImageUrl());
         productRepository.save(existingProduct);
         return productDTOConverter.toDTO(existingProduct);
     }
