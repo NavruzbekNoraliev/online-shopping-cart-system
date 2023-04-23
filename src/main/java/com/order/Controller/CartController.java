@@ -2,6 +2,7 @@ package com.order.Controller;
 
 import com.order.Entity.Cart;
 import com.order.Entity.CartItem;
+import com.order.Entity.IdList;
 import com.order.Service.CartService;
 import com.order.Service.DTO.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,12 +66,12 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<?> checkoutCart(@RequestBody List<Long> cartItemIds,
+    public ResponseEntity<?> checkoutCart(@RequestBody IdList cartItemIds,
                                           @RequestHeader("Authorization") String authorizationHeader){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         CustomerDTO customerDTO = new CustomerDTO();
         Long customerId = 1l;
-        return ResponseEntity.ok(cartService.checkoutCart(customerId,customerDTO, cartItemIds));
+        return ResponseEntity.ok(cartService.checkoutCart(customerId,customerDTO,cartItemIds));
     }
 
 

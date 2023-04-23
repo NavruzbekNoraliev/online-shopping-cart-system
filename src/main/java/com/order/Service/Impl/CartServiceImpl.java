@@ -164,6 +164,7 @@ public class CartServiceImpl implements CartService {
                     if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
                         throw new InvalidQuantityException("Not enough quantity");
                     }
+
                     existingCart.setTotalPrice(existingCart.getTotalPrice() - item.getSubTotal());
                     item.setQuantity(cartItem.getQuantity());
                     item.setSubTotal(cartItem.getQuantity()*product.getPrice());
@@ -204,7 +205,7 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public OrderDTO checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds)  {
+    public OrderDTO checkoutCart(Long customerId, CustomerDTO customerDTO, IdList cartItemIds)  {
         Cart cart = cartRepository.findCartByCustomerId(customerId).orElseThrow(
                 () -> new ShoppingResourceNotFoundException("Cart not found")
         );
@@ -222,7 +223,7 @@ public class CartServiceImpl implements CartService {
         Product product;
         VendorDTO vendorDTO;
         for (CartItem item : cart.getCartItems()){
-            if(cartItemIds.contains(item.getId())){
+            if(cartItemIds.idList.contains(item.getId())){
                 product = productService.getProductById(item.getProduct().getId());
                 if(product != null && product.getQuantity() > 0 && product.getQuantity() >= item.getQuantity()){
                     orderItemDto.setProductId(product.getId());
@@ -232,12 +233,12 @@ public class CartServiceImpl implements CartService {
                     orderItemDto.setCategoryName(product.getCategory().getName());
                     orderItemDto.setProductName(product.getName());
                     orderItemDto.setVendorId(product.getVendorId());
-                    try{
-                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
-                    }catch (Exception e){
-                        throw new ShoppingResourceNotFoundException(e.getMessage());
-                    }
-                    orderItemDto.setVendorName(vendorDTO.getName());
+//                    try{
+//                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
+//                    }catch (Exception e){
+//                        throw new ShoppingResourceNotFoundException(e.getMessage());
+//                    }
+//                    orderItemDto.setVendorName(vendorDTO.getName());
                     orderDTO.getOrderItem().add(orderItemDto);
                     addSubTotal += (item.getQuantity()*product.getPrice());
                     product.setQuantity(product.getQuantity() - item.getQuantity());
