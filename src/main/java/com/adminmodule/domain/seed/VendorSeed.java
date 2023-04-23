@@ -59,7 +59,7 @@ public class VendorSeed implements CommandLineRunner {
         }
         if (vendorRepository.count() == 0) {
             Role roleV = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
-
+            String password = Utils.encodePassword("Aa@12345");
             // First, create a vendor object and set its properties
             Vendor vendorA = new Vendor("ABC Company", "555-9876", "abc@example.com", Status.PENDING_PAYMENT);
 //            vendorA.setAddress(addressRepository.save(new Address("456 Oak St", "Smallville", "NY", "67890")));
@@ -69,7 +69,7 @@ public class VendorSeed implements CommandLineRunner {
 
 // Next, create a vendor admin object and set its properties
             VendorAdmin adminA = new VendorAdmin("Alice", "Smith", "alice@example.com", "1252352156");
-            Account accountA = new Account(adminA.getEmail(), Utils.encodePassword("Aa@12345"));
+            Account accountA = new Account(adminA.getEmail(), password);
             accountA.setRoles(Set.of(roleV));
             adminA.setAccount(accountRepository.save(accountA));
 
@@ -86,7 +86,7 @@ public class VendorSeed implements CommandLineRunner {
             vendorRepository.save(vendorB);
 
             VendorAdmin adminB = new VendorAdmin("Bob", "Johnson", "bob@example.com", "9876543210");
-            Account accountB = new Account(adminB.getEmail(), Utils.encodePassword("Bb@12345"));
+            Account accountB = new Account(adminB.getEmail(), password);
             accountB.setRoles(Set.of(roleV));
             adminB.setAccount(accountRepository.save(accountB));
             adminB.setVendor(vendorRepository.save(vendorB));
@@ -99,7 +99,7 @@ public class VendorSeed implements CommandLineRunner {
             vendorRepository.save(vendorC);
 
             VendorAdmin adminC = new VendorAdmin("Charlie", "Davis", "charlie@example.com", "3698521470");
-            Account accountC = new Account(adminC.getEmail(), Utils.encodePassword("Cc@12345"));
+            Account accountC = new Account(adminC.getEmail(), password);
             accountC.setRoles(Set.of(roleV));
             adminC.setAccount(accountRepository.save(accountC));
             adminC.setVendor(vendorRepository.save(vendorC));
@@ -112,7 +112,7 @@ public class VendorSeed implements CommandLineRunner {
             vendorRepository.save(vendorD);
 
             VendorAdmin adminD = new VendorAdmin("David", "Lee", "david@example.com", "1472583690");
-            Account accountD = new Account(adminD.getEmail(), Utils.encodePassword("Dd@12345"));
+            Account accountD = new Account(adminD.getEmail(), password);
             accountD.setRoles(Set.of(roleV));
             adminD.setAccount(accountRepository.save(accountD));
             adminD.setVendor(vendorRepository.save(vendorD));
@@ -126,7 +126,7 @@ public class VendorSeed implements CommandLineRunner {
             vendorRepository.save(vendorE);
 
             VendorAdmin adminE = new VendorAdmin("Emma", "Taylor", "emma@example.com", "9012345678");
-            Account accountE = new Account(adminE.getEmail(), Utils.encodePassword("Ee@12345"));
+            Account accountE = new Account(adminE.getEmail(), password);
             accountE.setRoles(Set.of(roleV));
             adminE.setAccount(accountRepository.save(accountE));
             adminE.setVendor(vendorRepository.save(vendorE));

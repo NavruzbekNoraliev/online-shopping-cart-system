@@ -4,6 +4,7 @@ import com.adminmodule.domain.Vendor;
 import com.adminmodule.domain.VendorAdmin;
 import com.adminmodule.service.dto.VendorAdminDTO;
 import com.adminmodule.service.dto.VendorDTO;
+import com.adminmodule.service.dto.VendorDTO1;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface VendorService {
     VendorAdminDTO updateVendorAdmin(Long vendorId, Long vendorAdminId, VendorAdminDTO vendorAdminDTO, String authorizationHeader);
 
     void deleteVendorAdmin(Long vendorId, Long vendorAdminId, String authorizationHeader);
+    
+    VendorDTO1 getVendorForOrderById(Long vendorId, String authorizationHeader);
 }

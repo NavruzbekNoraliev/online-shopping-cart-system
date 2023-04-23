@@ -10,10 +10,7 @@ import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
 import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.repository.*;
 import com.adminmodule.service.VendorService;
-import com.adminmodule.service.dto.VendorAdaptor;
-import com.adminmodule.service.dto.VendorAdminAdapter;
-import com.adminmodule.service.dto.VendorAdminDTO;
-import com.adminmodule.service.dto.VendorDTO;
+import com.adminmodule.service.dto.*;
 import com.adminmodule.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +55,16 @@ public class VendorServiceImpl implements VendorService {
         Optional<Vendor> vendor = vendorRepository.findById(id);
         if (vendor.isPresent()) {
             return VendorAdaptor.toDTO(vendor.get());
+        }
+        throw new UserNotFoundException("Vendor not found");
+    }
+
+    @Override
+    public VendorDTO1 getVendorForOrderById(Long vendorId, String authorizationHeader) {
+        Optional<Vendor> vendor = vendorRepository.findById(vendorId);
+        if (vendor.isPresent()) {
+            VendorDTO vendorDTO = VendorAdaptor.toDTO(vendor.get());
+            return new VendorDTO1(vendorDTO.getId(), vendorDTO.getName(), vendorDTO.getPhone(), vendorDTO.getEmail());
         }
         throw new UserNotFoundException("Vendor not found");
     }
@@ -296,6 +303,8 @@ public class VendorServiceImpl implements VendorService {
     public void deleteVendorAdmin(Long vendorId, Long vendorAdminId, String authorizationHeader) {
         vendorAdminRepository.deleteById(vendorAdminId);
     }
+
+
 
 
 }
