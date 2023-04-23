@@ -22,7 +22,7 @@ public class CardEntity {
     @Column(name = "card_id")
     private String cardId;
 
-    @Column(name = "card_number")
+    @Column(name = "card_number" , unique = true)
     private String cardNumber;
 
     @Column(name = "name_on_card")
