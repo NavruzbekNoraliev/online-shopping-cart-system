@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/cards")
+@RequestMapping(value = "api/v1/cards")
 public class CardController {
 
 
@@ -17,21 +17,25 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity readCards(Pageable pageable) {
         return ResponseEntity.ok(cardService.readCards(pageable));
     }
 
     @PostMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity addCard(@RequestBody CardEntity cardEntity) {
         return ResponseEntity.ok(cardService.addCard(cardEntity));
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity deleteCard(@PathVariable Long id) {
         return ResponseEntity.ok(cardService.removeCard(id));
     }
 
     @GetMapping("/{number}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public Object getCardDetailsById(@PathVariable String number){
         try {
             CardEntity cardEntity = cardService.getCardByNumber(number);

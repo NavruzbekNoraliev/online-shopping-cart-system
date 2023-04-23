@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/transactions")
+@RequestMapping(value = "api/v1/transactions")
 public class TransactionController {
 
 
@@ -26,38 +26,46 @@ public class TransactionController {
 
 
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity readTransactions() {
         return ResponseEntity.ok(transactionService.readTransactions());
     }
     @GetMapping("vendor/revenue")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public Object getAllVendorRevenues() {
         return transactionService.readAllVendorsRevenues();
     }
     @GetMapping("vendor/revenue/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public Object getVendorRevenuesById(@PathVariable Long id) {
         return transactionService.readVendorsRevenuesById(id);
     }
 
     @GetMapping("client/revenue")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public Object getClientRevenues() {
         return transactionService.readClientRevenue();
     }
 
 
     @GetMapping("customer/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity readTransactionsByCustomerId(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.readTransactionsByCustomerId(id));
     }
     @GetMapping("vendor/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity readTransactionsByVendorId(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.readTransactionsByVendorId(id));
     }
 
     @PostMapping("customer")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity processTransaction(@RequestBody TransactionRequest transactionRequest) throws ChangeSetPersister.NotFoundException, IOException {
         return ResponseEntity.ok(transactionService.utilPayment(transactionRequest , false));
     }
     @PostMapping("vendor")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity processTransactionVendor(@RequestBody TransactionRequest transactionRequest) throws ChangeSetPersister.NotFoundException, IOException {
         return ResponseEntity.ok(transactionService.utilPayment(transactionRequest , true));
     }
@@ -70,6 +78,7 @@ public class TransactionController {
 //    }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public Object getTransactionById(@PathVariable Long id){
         try {
             TransactionDto transaction = transactionService.getTransactionById(id);
