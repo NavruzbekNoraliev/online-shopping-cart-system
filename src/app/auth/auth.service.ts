@@ -16,8 +16,10 @@ export class AuthService extends CoreHTTPService {
     return this.post("auth", { email, password }).pipe(
       tap((result) => {
         this.token = result.bearerToken;
-        this.username = result.user;
-        this.role = result.user.account.roles[0];
+        this.email = result.user.email;
+        this.roleId = result.user.account.roles[0].id;
+        this.roleType = result.user.account.roles[0].roleType;
+
       })
     );
   }
@@ -25,7 +27,7 @@ export class AuthService extends CoreHTTPService {
   registerCustomer(value: any) {
     return this.post("customer", value).pipe(
       tap((result) => {
-        this.username = result.account.email;
+        this.email = result.account.email;
       })
     );
   }
@@ -33,7 +35,7 @@ export class AuthService extends CoreHTTPService {
   registerVendor(value: any) {
     return this.post("vendor", value).pipe(
       tap((result) => {
-        this.username = result.email;
+        this.email = result.email;
         this.vendorId = result.id;
       })
     );
@@ -42,57 +44,61 @@ export class AuthService extends CoreHTTPService {
   registerVendorAdmin(value: any) {
     return this.post("vendor/" + this.vendorId + "/vendor-admin", value).pipe(
       tap((result) => {
-        this.username = result.email;
+       
+        this.email = result.user.email;
         this.vendorId = result.id;
       })
     );
   }
 
-  set vendorId (value: any | null) {
-    if(value === null) {
+  set vendorId(value: any | null) {
+    if (value === null) {
       value = "";
     }
     localStorage.setItem("vendorId", value);
   }
 
-  get vendorId (): any | null {
+  get vendorId(): any | null {
     return localStorage.getItem("vendorId");
   }
 
-    get isAuthorized(): boolean{
-        if(this.role && this.username && this.token) {
-            return true;
-        }
-        else return false;
+  get isAuthorized(): boolean {
+    if (this.roleId && this.email && this.token) {
+      return true;
     }
-    set username(value: any | null) {
-        if (value === null) { value = ''; }
-        localStorage.setItem('username', `${value.first_name} ${value.last_name}`);
-    }
+    else return false;
+  }
+  set email(value: string) {
+    if (value === null) { value = ''; }
+    localStorage.setItem('email', value);
+  }
 
-    get roleType(): any| null {
-        return localStorage.getItem('roleType')
-    }
-    set roleType(value: any | null) {
-        if (value === null) { value = ''; }
-        localStorage.setItem('roleType', value);
-    }
+  
+  get email(): any | null {
+    return localStorage.getItem('email');
+  }
 
-    get username(): any | null {
-        return localStorage.getItem('username');
-    }
-
-  set role(value: string | null) {
+  set roleId(value: string | null) {
     if (value === null) {
       value = "";
     }
-    localStorage.setItem("role", value);
+    localStorage.setItem("roleId", value);
   }
 
-  get role(): string | null {
-    return localStorage.getItem("role");
+  get roleId(): string {
+    return localStorage.getItem("roleId") as string;
   }
 
+  set roleType(value: string | null) {
+    if (value === null) {
+      value = "";
+    }
+    localStorage.setItem("roleType", value);
+  }
+
+  get roleType(): string | null {
+    return localStorage.getItem("roleType");
+  }
   set token(value: string | null) {
     if (value === null) value = "";
     localStorage.setItem("token", value);

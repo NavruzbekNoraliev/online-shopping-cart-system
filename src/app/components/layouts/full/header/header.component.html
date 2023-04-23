@@ -1,12 +1,12 @@
 <section>
     <div fxFlex="100" fxLayout="row" fxLayoutAlign = "center center">
-        <div class="input-group prefix">
+        <div class="input-group prefix" *ngIf="role=='CUSTOMER'">
             <span class="input-group-addon">
                 <mat-icon>search</mat-icon>
             </span>
             <input type="text" placeholder="Search product" name="input">
         </div>
-        <button mat-icon-button class="m-r-5" (click)="redirectToCart()"> <mat-icon matbadge="15" matbadgecolor="warn"
+        <button mat-icon-button class="m-r-5" (click)="redirectToCart()" *ngIf="role=='CUSTOMER'"> <mat-icon matbadge="15" matbadgecolor="warn"
                 class="mat-icon notranslate mat-badge mat-badge-warn material-icons mat-icon-no-color mat-badge-overlap mat-badge-above mat-badge-after mat-badge-medium">
                 shopping_cart
                 <span id="mat-badge-content-2" aria-hidden="true" class="mat-badge-content mat-badge-active">15</span>

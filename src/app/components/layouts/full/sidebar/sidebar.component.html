@@ -1,20 +1,18 @@
-<div class="user-profile" style="background: url(assets/images/background/user-info.jpg) no-repeat;">
+<div class="user-profile" style="background: url(assets/images/background/hm-cover.jpeg) no-repeat; background-size: cover;">
     <div class="profile-img"> <img src="assets/images/users/navruzbek.jpg" alt="user"> </div>
-    <div class="profile-text"><a [matMenuTriggerFor]="sdprofile" class=""> Navruzbek Noraliev <i class="ti-angle-down font-12 m-l-5"></i></a></div>
+    <div class="profile-text"><a [matMenuTriggerFor]="sdprofile" class="pt-2"> Navruzbek Noraliev <i class="ti-angle-down font-12 m-l-5"></i></a></div>
     <mat-menu #sdprofile="matMenu" class="mymegamenu">
         <button mat-menu-item>
             <mat-icon>settings</mat-icon> Settings </button>
         <button mat-menu-item>
             <mat-icon>account_box</mat-icon> Profile </button>
         <button mat-menu-item>
-            <mat-icon>notifications_off</mat-icon> Disable notifications </button>
-        <button mat-menu-item>
             <mat-icon>exit_to_app</mat-icon> Sign Out </button>
     </mat-menu>
 </div>
 <mat-nav-list appAccordion>
     <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected" group="{{menuitem.state}}">
-        <a class="d-flex" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
+        <a class="d-flex" appAccordionToggle  (click)="openRoute(menuitem.state)" *ngIf="menuitem.type === 'link'">
             <mat-icon class="m-r-5 s-icon">{{ menuitem.icon }}</mat-icon> 
             <span class="item-name">{{ menuitem.name }}</span> 
             <span fxFlex></span> 

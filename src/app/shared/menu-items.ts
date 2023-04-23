@@ -35,17 +35,12 @@ export class MenuItems {
   constructor(private authService: AuthService) {
     if(this.authService.roleType == 'ADMIN'){
       MENUITEMS.push({
-        state: 'vendor',
+        state: 'vendor/approve',
         name: 'Approve Vendor',
         type: 'link',
         icon: 'how_to_reg'
-      }, {
-        state: 'onetime-payment',
-        name: 'One-time payment',
-        type: 'link',
-        icon: 'attach_money'
       },{
-        state: 'approve_product',
+        state: 'product/management/approve',
         name: 'Approve Product',
         type: 'link',
         icon: 'inventory'
@@ -55,9 +50,14 @@ export class MenuItems {
         type: 'link',
         icon: 'bar_chart_4_bars'
       })
-    } else if(this.authService.roleType == 'VENDOR'){
-      MENUITEMS.push( {
-        state: 'payment',
+    } else if(this.authService.roleType == 'VENDOR_ADMIN'){
+      MENUITEMS.push(  {
+        state: 'product/management',
+        name: 'Products',
+        type: 'link',
+        icon: 'storefront',
+      },{
+        state: 'payment/onetime',
         name: 'One-time payment',
         type: 'link',
         icon: 'attach_money'

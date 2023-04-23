@@ -1,0 +1,27 @@
+
+#addBtn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+  }
+  
+.mat-column-description {
+  max-width: 175px;
+}
+
+.dotted-underline {
+  text-decoration: underline dotted rgba($color: black, $alpha: 0.7);
+  cursor: pointer;
+  &:hover {
+    text-decoration-color: rgba($color: black, $alpha: 0.3)
+  }
+
+  .dark & {
+    text-decoration-color: rgba($color: white, $alpha: 0.6);
+
+    &:hover {
+      text-decoration-color: rgba($color: white, $alpha: 0.3)
+    }
+  }
+}

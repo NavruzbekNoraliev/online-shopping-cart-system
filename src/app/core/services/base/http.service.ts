@@ -13,11 +13,11 @@ export abstract class CoreHTTPService {
   protected get(relativeURL: string, params?: HttpParams | {
     [param: string]: string | string[];
   }): Observable<any> {
-    return this.http.get(this.baseURL + relativeURL + '/', { params });
+    return this.http.get(this.baseURL + relativeURL, { params });
   }
 
   protected put(relativeURL: string, body: any) {
-    return this.http.put(this.baseURL + relativeURL + '/', body);
+    return this.http.put(this.baseURL + relativeURL, body);
   }
 
   protected patch(relativeURL: string, body: any) {

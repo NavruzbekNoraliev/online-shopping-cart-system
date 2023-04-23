@@ -15,9 +15,7 @@ import { MenuItems } from './shared/menu-items';
 import { ResponseInterceptor } from './core/services/interceptors/response.interceptor';
 import { HeaderComponent } from './components/layouts/full/header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { OnetimePaymentComponent } from './components/payment/onetime-payment/onetime-payment.component';
-import { NgxSandCreditCardsComponent, NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
-
+import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
 
 @NgModule({
   declarations: [
@@ -25,11 +23,11 @@ import { NgxSandCreditCardsComponent, NgxSandCreditCardsModule } from 'ngx-sand-
     FilterPipe,
     FullComponent,
     SidebarComponent,
-    OnetimePaymentComponent,
     HeaderComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     FlexLayoutModule,
     ReactiveFormsModule,
@@ -37,8 +35,7 @@ import { NgxSandCreditCardsComponent, NgxSandCreditCardsModule } from 'ngx-sand-
     MainModule,
     NgxSandCreditCardsModule,
     AllMaterialModule,
-    RouterModule.forRoot(routes),
-    BrowserAnimationsModule
+    RouterModule.forRoot(routes)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [ 

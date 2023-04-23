@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+import { VendorService } from 'src/app/core/services/vendor.service';
 
 @Component({
   selector: 'app-approve-vendors',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./approve-vendors.component.scss']
 })
 export class ApproveVendorsComponent implements OnInit {
-
-  constructor() { }
+  request$?: Observable<any>;
+  constructor(private vendorAPI: VendorService) {
+    this.getAll()
+  }
 
   ngOnInit() {
+  }
+
+  getAll(){
+    this.request$ = this.vendorAPI.getAllPendingApprovalVendors().pipe(tap(res => {
+      console.log(res)
+    }))
   }
 
 }

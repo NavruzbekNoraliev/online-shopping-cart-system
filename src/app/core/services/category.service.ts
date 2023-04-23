@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService extends CoreHTTPService{
+export class CategoryService extends CoreHTTPService{
 
   constructor(http: HttpClient) { super(http) }
 
-  processOneTimePayment(body: any): Observable<any>{
-    return this.post('transactions/vendor', body)
+  getAllCategories(): Observable<any>{
+    return this.get('category')
   }
 }

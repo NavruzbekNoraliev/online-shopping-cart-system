@@ -20,6 +20,10 @@ export class VendorService extends CoreHTTPService {
   update(id: string, vendor: any): Observable<any> {
     return this.put('vendor', { id, vendor })
   }
+
+  getAllPendingApprovalVendors(){
+    return this.get('vendor/pending-approval', )
+  }
   // deleteVendor(id: string): Observable <any> {
   //   return this.delete('vendor', id)
   // }
