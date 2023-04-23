@@ -74,19 +74,20 @@ public class CartServiceImpl implements CartService {
             throw new InvalidQuantityException("Not enough quantity");
         }
         cartItem.setProduct(product);
+        cartItem.setSubTotal(cartItem.getQuantity()*product.getPrice());
         newCartItem = cartItemRepository.save(cartItem);
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
-            newCart.setTotalPrice(newCartItem.getQuantity()*product.getPrice());
+            newCart.setTotalPrice(cartItem.getQuantity()*product.getPrice());
             return cartRepository.save(newCart);
         }else if(cart.get().getCartItems().isEmpty()) {
             newCart = cart.get();
             newCart.setCartItems(new ArrayList<>());
             newCart.getCartItems().add(newCartItem);
-            newCart.setTotalPrice(newCartItem.getQuantity()*product.getPrice());
+            newCart.setTotalPrice(cartItem.getQuantity()*product.getPrice());
             return cartRepository.save(newCart);
         }else {
             newCart = cart.get();
@@ -94,14 +95,14 @@ public class CartServiceImpl implements CartService {
             for (CartItem item : newCart.getCartItems()) {
                 if (item.getProduct().getId() == product.getId()) {
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
-                    item.setSubTotal(newCartItem.getQuantity()*product.getPrice());
+                    item.setSubTotal((item.getQuantity()+cartItem.getQuantity())*product.getPrice());
                     cartItemRepository.save(item);
                     newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getSubTotal());
                     return cartRepository.save(newCart);
                 }
             }
 
-            newCart.setTotalPrice(newCart.getTotalPrice() + newCartItem.getQuantity()*product.getPrice());
+            newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getQuantity()*product.getPrice());
             newCart.getCartItems().add(newCartItem);
             return cartRepository.save(newCart);
         }
