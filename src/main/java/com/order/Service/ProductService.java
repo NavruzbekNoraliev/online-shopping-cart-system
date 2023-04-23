@@ -13,7 +13,7 @@ public interface ProductService {
     Page<Product> getProductsByVendor(int vendorId, int pageNumber, int pageSize);
     Product getProductById(Long id);
     ProductDTO addProduct(ProductDTO productDTO);
-    Product updateProduct(Long id, ProductDTO productDTO);
+    ProductDTO updateProduct(Long id, ProductDTO productDTO);
     Product updateAvailableProduct(Long id, ProductDTO productDTO);
     Product updateProductImage(Long id, ProductDTO product);
     void deleteProduct(Long id);

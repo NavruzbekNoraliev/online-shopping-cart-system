@@ -51,11 +51,11 @@ public class ProductServiceImpl implements ProductService {
         }
         Product product = productDTOConverter.toEntity(productDTO);
         productRepository.save(product);
-        return productDTO;
+        return productDTOConverter.toDTO(product);
     }
 
     @Override
-    public Product updateProduct(Long id, ProductDTO product) {
+    public ProductDTO updateProduct(Long id, ProductDTO product) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
         existingProduct.setName(product.getName()!=null?product.getName(): existingProduct.getName());
@@ -63,7 +63,8 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(product.getPrice()!=0 ? product.getPrice(): existingProduct.getPrice());
         //always needed
         existingProduct.setQuantity(product.getQuantity());
-        return productRepository.save(existingProduct);
+        productRepository.save(existingProduct);
+        return productDTOConverter.toDTO(existingProduct);
     }
     @Override
     public Product updateProductImage(Long id, ProductDTO product) {
