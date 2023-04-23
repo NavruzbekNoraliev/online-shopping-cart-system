@@ -16,7 +16,7 @@ public class CartItem {
     private long id;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Cart cart;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Product product;
     private int quantity;
     private double subTotal;

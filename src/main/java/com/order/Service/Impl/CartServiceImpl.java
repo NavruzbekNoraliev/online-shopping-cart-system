@@ -73,9 +73,8 @@ public class CartServiceImpl implements CartService {
         if(product.getQuantity() <= 0 || product.getQuantity() < cartItem.getQuantity()){
             throw new InvalidQuantityException("Not enough quantity");
         }
-
+        cartItem.setProduct(product);
         newCartItem = cartItemRepository.save(cartItem);
-
         if(!cart.isPresent()){
             newCart = new Cart();
             newCart.setCustomerId(customerId);
