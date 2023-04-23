@@ -29,4 +29,10 @@ public class VendorAdmin {
     @OneToOne
     private Account account;
 
+    public VendorAdmin(String firstName, String lastName, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+    }
 }

@@ -18,9 +18,14 @@ public class AccountDetails {
     private String routingNumber;
     private String bankName;
 
-    public AccountDetails(String accountNumber, String routingNumber, String bankName) {
-    }
 
+
+
+    public AccountDetails(String accountNumber, String bankName, String routingNumber) {
+        this.accountNumber = accountNumber;
+        this.bankName = bankName;
+        this.routingNumber = routingNumber;
+    }
 
 //    @OneToOne
 //    @JoinColumn(name = "address_id")

@@ -34,22 +34,12 @@ public class Vendor {
 //    @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
 //    private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
 
-    public Vendor(String name, String email, String phone,
-                  Address address, Address billingAddress,
-                  AccountDetails accountDetails, Status status) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.billingAddress = billingAddress;
-        this.accountDetails = accountDetails;
-        this.status = status;
-    }
 
-    //create a constructor without id, with name, email, phone
-    public Vendor(String name, String email, String phone) {
+
+    public Vendor(String name, String phone, String email, Status status) {
         this.name = name;
-        this.email = email;
         this.phone = phone;
+        this.email = email;
+        this.status = status;
     }
 }

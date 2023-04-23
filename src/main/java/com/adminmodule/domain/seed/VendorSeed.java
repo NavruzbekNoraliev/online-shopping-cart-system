@@ -1,87 +1,139 @@
-//package com.adminmodule.domain.seed;
-//
-//import com.adminmodule.domain.AccountDetails;
-//import com.adminmodule.domain.Address;
-//import com.adminmodule.domain.Enum.Status;
-//import com.adminmodule.domain.Vendor;
-//import com.adminmodule.repository.AccountDetailsRepository;
-//import com.adminmodule.repository.AddressRepository;
-//import com.adminmodule.repository.VendorRepository;
-//import com.adminmodule.utils.Utils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.stereotype.Component;
-//
-//@Component
-//public class VendorSeed implements CommandLineRunner {
-//
-//    private final VendorRepository vendorRepository;
-//    private final AccountDetailsRepository accountDetailsRepository;
-//    private final AddressRepository addressRepository;
-//
-//    @Autowired
-//    public VendorSeed(VendorRepository vendorRepository,
-//                      AccountDetailsRepository accountDetailsRepository,
-//                      AddressRepository addressRepository) {
-//        this.vendorRepository = vendorRepository;
-//        this.accountDetailsRepository = accountDetailsRepository;
-//        this.addressRepository = addressRepository;
-//    }
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//        loadData();
-//    }
-//
-//    private void loadData() {
-//        if (vendorRepository.count() == 0) {
-//            String phone = "1234567890";
-//
-//            Address address = new Address("100 Main St", "Fairfield", "IA", "52557");
-//            Address billingAddress = new Address("200 Main St", "Fairfield", "IA", "52557");
-//            AccountDetails accountDetails = new AccountDetails("1234567890", "987654321", "Bank of Fairfield");
-////        AccountDetails accountDetails1 =  accountDetailsRepository.save(accountDetails);
-////        Address address1 = addressRepository.save(address);
-////        Address billingAddress1 = addressRepository.save(billingAddress);
-//            Vendor vendor = new Vendor( "John Dae", "johndoe@example.com", phone);
-//            vendor.setAddress(addressRepository.save(address));
-//            vendor.setBillingAddress(addressRepository.save(address));
-//            vendor.setAccountDetails(accountDetailsRepository.save(accountDetails));
-//            vendorRepository.save(vendor);
-//        }
-//
-////        Address address2 = new Address("200 Main St", "Fairfield", "IA", "52557");
-////        Address billingAddress2 = new Address("300 Main St", "Fairfield", "IA", "52557");
-////        AccountDetails accountDetails2 = new AccountDetails("1111111111", "2222222222", "Bank of America");
-////
-////        AccountDetails accountDetails3 =  accountDetailsRepository.save(accountDetails2);
-////        Address address3 = addressRepository.save(address2);
-////        Address billingAddress3 = addressRepository.save(billingAddress2);
-////        Vendor vendor2 = new Vendor("Jane Doe", "janedoe@example.com", phone, address3, billingAddress3, accountDetails3, Status.ACTIVE);
-////        vendorRepository.save(vendor2);
-////
-////        // For INACTIVE status
-////        Vendor vendor3 = new Vendor("Alice Smith", "alicesmith@example.com", phone, address3, billingAddress3, accountDetails3, Status.INACTIVE);
-////        vendorRepository.save(vendor3);
-////
-////        // For DELETED status
-////        Vendor vendor4 = new Vendor("Bob Johnson", "bobjohnson@example.com", phone, address, billingAddress3, accountDetails3, Status.DELETED);
-////        vendorRepository.save(vendor4);
-////
-////        // For PENDING_PAYMENT status
-////        Vendor vendor5 = new Vendor("Emily Brown", "emilybrown@example.com", phone, address, billingAddress, accountDetails, Status.PENDING_PAYMENT);
-////        vendorRepository.save(vendor5);
-////
-////        // For REJECTED status
-////        Vendor vendor6 = new Vendor("Samuel Green", "samuelgreen@example.com", phone, address3, billingAddress, accountDetails, Status.REJECTED);
-////        vendorRepository.save(vendor6);
-////
-////        // For APPROVED status
-////        Vendor vendor7 = new Vendor("Olivia White", "oliviawhite@example.com", phone, address, billingAddress, accountDetails3, Status.APPROVED);
-////        vendorRepository.save(vendor7);
-////
-////        Vendor vendor8 = new Vendor("Robert Smith", "robertsmith@example.com", phone, address3, billingAddress, accountDetails, Status.BLOCKED);
-////        vendorRepository.save(vendor3);
-//
-//    }
-//}
+package com.adminmodule.domain.seed;
+
+import com.adminmodule.domain.*;
+import com.adminmodule.domain.Enum.RoleType;
+import com.adminmodule.domain.Enum.Status;
+import com.adminmodule.repository.*;
+import com.adminmodule.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+import static com.adminmodule.domain.Enum.RoleType.*;
+
+@Component
+public class VendorSeed implements CommandLineRunner {
+
+    private final AddressRepository addressRepository;
+    private final VendorRepository vendorRepository;
+    private final AccountDetailsRepository accountDetailsRep;
+
+    private final VendorAdminRepository vendorAdminRepository;
+    private final RoleRepository roleRepository;
+    private final AccountRepository accountRepository;
+
+    @Autowired
+    public VendorSeed(AddressRepository addressRepository,
+                      VendorRepository vendorRepository,
+                      AccountDetailsRepository accountDetailsRep,
+                      VendorAdminRepository vendorAdminRepository,
+                      RoleRepository roleRepository,
+                      AccountRepository accountRepository){
+        this.addressRepository = addressRepository;
+        this.vendorRepository = vendorRepository;
+        this.accountDetailsRep = accountDetailsRep;
+        this.vendorAdminRepository = vendorAdminRepository;
+        this.roleRepository = roleRepository;
+
+        this.accountRepository = accountRepository;
+    }
+
+
+    @Override
+    public void run(String... args) throws Exception {
+        loadData();
+    }
+
+    private void loadData() {
+        if (roleRepository.count() == 0) {
+            Role data1 = new Role(ADMIN);
+            Role data2 = new Role(CUSTOMER);
+            Role data3 = new Role(VENDOR_ADMIN);
+
+            roleRepository.save(data1);
+            roleRepository.save(data2);
+            roleRepository.save(data3);
+
+        }
+        if (vendorRepository.count() == 0) {
+            Role roleV = roleRepository.findByRoleType(RoleType.VENDOR_ADMIN);
+
+            // First, create a vendor object and set its properties
+            Vendor vendorA = new Vendor("ABC Company", "555-9876", "abc@example.com", Status.PENDING_PAYMENT);
+//            vendorA.setAddress(addressRepository.save(new Address("456 Oak St", "Smallville", "NY", "67890")));
+//            vendorA.setBillingAddress(addressRepository.save(new Address("456 Oak St", "Smallville", "NY", "67890")));
+            vendorA.setAccountDetails(accountDetailsRep.save(new AccountDetails("2552336", "East Coast", "98765432")));
+            vendorRepository.save(vendorA);
+
+// Next, create a vendor admin object and set its properties
+            VendorAdmin adminA = new VendorAdmin("Alice", "Smith", "alice@example.com", "1252352156");
+            Account accountA = new Account(adminA.getEmail(), Utils.encodePassword("Aa@12345"));
+            accountA.setRoles(Set.of(roleV));
+            adminA.setAccount(accountRepository.save(accountA));
+
+// Set the vendor property of the admin object to the previously created vendor object
+            adminA.setVendor(vendorRepository.save(vendorA));
+
+// Finally, save the vendor admin object to the repository
+            vendorAdminRepository.save(adminA);
+
+            Vendor vendorB = new Vendor("XYZ Corporation", "555-1234", "xyz@example.com", Status.ACTIVE);
+//            vendorB.setAddress(addressRepository.save(new Address("789 Main St", "Bigtown", "CA", "12345")));
+//            vendorB.setBillingAddress(addressRepository.save(new Address("789 Main St", "Bigtown", "CA", "12345")));
+            vendorB.setAccountDetails(accountDetailsRep.save(new AccountDetails("3566221", "West Coast", "78901234")));
+            vendorRepository.save(vendorB);
+
+            VendorAdmin adminB = new VendorAdmin("Bob", "Johnson", "bob@example.com", "9876543210");
+            Account accountB = new Account(adminB.getEmail(), Utils.encodePassword("Bb@12345"));
+            accountB.setRoles(Set.of(roleV));
+            adminB.setAccount(accountRepository.save(accountB));
+            adminB.setVendor(vendorRepository.save(vendorB));
+            vendorAdminRepository.save(adminB);
+
+            Vendor vendorC = new Vendor("Acme Inc.", "555-5678", "acme@example.com", Status.ACTIVE);
+//            vendorC.setAddress(addressRepository.save(new Address("123 1st St", "Anytown", "TX", "54321")));
+//            vendorC.setBillingAddress(addressRepository.save(new Address("123 1st St", "Anytown", "TX", "54321")));
+            vendorC.setAccountDetails(accountDetailsRep.save(new AccountDetails("456123", "Southwest", "24680975")));
+            vendorRepository.save(vendorC);
+
+            VendorAdmin adminC = new VendorAdmin("Charlie", "Davis", "charlie@example.com", "3698521470");
+            Account accountC = new Account(adminC.getEmail(), Utils.encodePassword("Cc@12345"));
+            accountC.setRoles(Set.of(roleV));
+            adminC.setAccount(accountRepository.save(accountC));
+            adminC.setVendor(vendorRepository.save(vendorC));
+            vendorAdminRepository.save(adminC);
+
+            Vendor vendorD = new Vendor("Acme Ltd.", "555-4321", "acmeltd@example.com", Status.PENDING_APPROVAL);
+//            vendorD.setAddress(addressRepository.save(new Address("321 Elm St", "Somewhere", "FL", "24680")));
+//            vendorD.setBillingAddress(addressRepository.save(new Address("321 Elm St", "Somewhere", "FL", "24680")));
+            vendorD.setAccountDetails(accountDetailsRep.save(new AccountDetails("123456", "Southeast", "13579024")));
+            vendorRepository.save(vendorD);
+
+            VendorAdmin adminD = new VendorAdmin("David", "Lee", "david@example.com", "1472583690");
+            Account accountD = new Account(adminD.getEmail(), Utils.encodePassword("Dd@12345"));
+            accountD.setRoles(Set.of(roleV));
+            adminD.setAccount(accountRepository.save(accountD));
+            adminD.setVendor(vendorRepository.save(vendorD));
+            vendorAdminRepository.save(adminD);
+
+            // Vendor 5
+            Vendor vendorE = new Vendor("123 Enterprises", "555-5678", "123@example.com", Status.PENDING_PAYMENT);
+//            vendorE.setAddress(addressRepository.save(new Address("321 Elm St", "Bigcity", "TX", "54321")));
+//            vendorE.setBillingAddress(addressRepository.save(new Address("321 Elm St", "Bigcity", "TX", "54321")));
+            vendorE.setAccountDetails(accountDetailsRep.save(new AccountDetails("44332211", "Southwest", "87654321")));
+            vendorRepository.save(vendorE);
+
+            VendorAdmin adminE = new VendorAdmin("Emma", "Taylor", "emma@example.com", "9012345678");
+            Account accountE = new Account(adminE.getEmail(), Utils.encodePassword("Ee@12345"));
+            accountE.setRoles(Set.of(roleV));
+            adminE.setAccount(accountRepository.save(accountE));
+            adminE.setVendor(vendorRepository.save(vendorE));
+            vendorAdminRepository.save(adminE);
+
+        }
+    }
+}
+
+
