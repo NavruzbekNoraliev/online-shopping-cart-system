@@ -8,8 +8,7 @@ import com.order.Repository.CartRepository;
 import com.order.Repository.OrderItemRepository;
 import com.order.Repository.OrderRepository;
 import com.order.Service.CartService;
-import com.order.Service.DTO.CustomerDTO;
-import com.order.Service.DTO.VendorDTO;
+import com.order.Service.DTO.*;
 import com.order.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,10 +27,10 @@ public class CartServiceImpl implements CartService {
     private final ProductService productService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private GetVendorService getVendorService;
+    private ProductDTOConverter productDTOConverter;
 
 
-
-    private VendorFeignClient vendorFeignClient;
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository,
@@ -39,13 +38,15 @@ public class CartServiceImpl implements CartService {
                            CartItemRepository cartItemRepository,
                            OrderRepository orderRepository,
                            OrderItemRepository orderItemRepository,
-                           VendorFeignClient vendorFeignClient){
+                           GetVendorService getVendorService,
+                           ProductDTOConverter productDTOConverter ){
         this.cartItemRepository=cartItemRepository;
         this.productService=productService;
         this.cartRepository=cartRepository;
         this.orderRepository=orderRepository;
         this.orderItemRepository=orderItemRepository;
-        this.vendorFeignClient = vendorFeignClient;
+        this.getVendorService = getVendorService;
+        this.productDTOConverter = productDTOConverter;
 
     }
 
@@ -55,9 +56,9 @@ public class CartServiceImpl implements CartService {
         public VendorDTO getVendorById(@PathVariable("vendorId") Long vendorId);
     }
 
-    public VendorDTO getVendorById(Long vendorId){
-        return vendorFeignClient.getVendorById(vendorId);
-    }
+//    public VendorDTO getVendorById(Long vendorId){
+//        return vendorFeignClient.getVendorById(vendorId);
+//    }
 
     public Cart addItemToCart(Long customerId, CartItem cartItem, String authorizationHeader){
         Cart newCart;
@@ -197,41 +198,57 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public Order checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds) {
+    public OrderDTO checkoutCart(Long customerId, CustomerDTO customerDTO, List<Long> cartItemIds)  {
         Cart cart = cartRepository.findCartByCustomerId(customerId).orElseThrow(
                 () -> new ShoppingResourceNotFoundException("Cart not found")
         );
 
-        Order newOrder = Order.builder()
+        OrderDTO orderDTO = OrderDTO.builder()
+                .customerId(customerId)
                 .customerName(customerDTO.getFirstName() + " " + customerDTO.getLastName())
                 .customerEmail(customerDTO.getCustomerEmail())
-                .customerPhone(customerDTO.getCustomerPhone())
-                .billingAddress(customerDTO.getBillingAddress())
-                .shippingAddress((customerDTO.getShippingAddress()!= null) ? customerDTO.getShippingAddress() : customerDTO.getBillingAddress())
-                .orderDate(new Date())
-                .status(OrderStatus.PENDING)
-                .paymentMethod(PaymentMethod.MASTERCARD)
-                .totalPrice(cart.getTotalPrice())
-                .orderItems(new ArrayList<>())
+                .date(new Date())
+                .orderItem(new ArrayList<>())
                 .build();
 
-        List<OrderItem> orderItems = new ArrayList<>();
-        for(CartItem item : cart.getCartItems()){
+        double addSubTotal = 0;
+        OrderItemDto orderItemDto = new OrderItemDto();
+        Product product;
+        VendorDTO vendorDTO;
+        for (CartItem item : cart.getCartItems()){
             if(cartItemIds.contains(item.getId())){
-                OrderItem orderItem = OrderItem.builder()
-                        .productName(item.getProduct().getName())
-                        .quantity(item.getQuantity())
-                        .price(item.getProduct().getPrice())
-                        .vendorName(getVendorById(item.getProduct().getVendorId()).getName())
-                        .build();
-                orderItems.add(orderItem);
-
+                product = productService.getProductById(item.getProduct().getId());
+                if(product != null && product.getQuantity() > 0 && product.getQuantity() >= item.getQuantity()){
+                    orderItemDto.setProductId(product.getId());
+                    orderItemDto.setQuantity(item.getQuantity());
+                    orderItemDto.setPrice(product.getPrice());
+                    orderItemDto.setDescription(product.getDescription());
+                    orderItemDto.setCategoryName(product.getCategory().getName());
+                    orderItemDto.setProductName(product.getName());
+                    orderItemDto.setVendorId(product.getVendorId());
+                    try{
+                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
+                    }catch (Exception e){
+                        throw new ShoppingResourceNotFoundException(e.getMessage());
+                    }
+                    orderItemDto.setVendorName(vendorDTO.getName());
+                    orderDTO.getOrderItem().add(orderItemDto);
+                    addSubTotal += item.calculateSubTotal();
+                    product.setQuantity(product.getQuantity() - item.getQuantity());
+                    productService.updateProduct(product.getId(),productDTOConverter.toDTO(product));
+                    cart.setTotalPrice(cart.getTotalPrice() - item.getSubTotal());
+                    cart.getCartItems().remove(item);
+                    cartItemRepository.delete(item);
+                    orderDTO.getOrderItem().add(orderItemDto);
+                }
             }
 
         }
+        orderDTO.setTransactionAmount(addSubTotal);
 
-       orderItems.forEach(orderItem -> newOrder.getOrderItems().add(orderItemRepository.save(orderItem)));
 
-        return orderRepository.save(newOrder);
+        return orderDTO;
+
+
     }
 }
