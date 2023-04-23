@@ -15,6 +15,7 @@ import com.adminmodule.service.dto.VendorAdminAdapter;
 import com.adminmodule.service.dto.VendorAdminDTO;
 import com.adminmodule.service.dto.VendorDTO;
 import com.adminmodule.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class VendorServiceImpl implements VendorService {
 
 
