@@ -98,12 +98,14 @@ public class ProductController {
         }
     }
 
+    //HttpStatus.BAD_REQUEST is code 400
+
     //update product
     @PutMapping("/update/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         try {
-            Product product = productService.updateProduct(id, productDTO);
-            return ResponseEntity.ok(product);
+            ProductDTO productDTO1 = productService.updateProduct(id, productDTO);
+            return ResponseEntity.ok(productDTO1);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
@@ -127,7 +129,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
     //delete product
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
@@ -137,7 +138,6 @@ public class ProductController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @GetMapping("/category/{id}")

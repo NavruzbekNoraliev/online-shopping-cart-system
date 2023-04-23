@@ -43,7 +43,6 @@ public class ProductDTOConverter {
 
     public Product toEntity(ProductDTO productDTO) {
         Product product = new Product();
-        product.setId(productDTO.getId());
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
