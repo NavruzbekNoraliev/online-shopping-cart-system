@@ -176,7 +176,7 @@ public class TransactionService {
 
 
 
-        broadcastPaymentComplete(transactionRequest);
+       // broadcastPaymentComplete(transactionRequest);
 
 
         return ResponseEntity.ok(TransactionResponse.builder().transactionStatus(returnedTransaction.getTransactionStatus())
