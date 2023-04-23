@@ -257,7 +257,7 @@ public class CartServiceImpl implements CartService {
                     orderItemDto.setProductName(product.getName());
                     orderItemDto.setVendorId(product.getVendorId());
                     try{
-                        vendorDTO = getVendorService.getById(product.getVendorId().toString());
+                        vendorDTO = getVendorService.getById(product.getVendorId());
                     }catch (Exception e){
                         throw new ShoppingResourceNotFoundException(e.getMessage());
                     }

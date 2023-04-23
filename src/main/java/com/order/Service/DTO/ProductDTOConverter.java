@@ -27,7 +27,7 @@ public class ProductDTOConverter {
         String vendorId = String.valueOf(product.getVendorId());
         VendorDTO vendorDTO = null;
         try {
-            vendorDTO = getVendorService.getById(vendorId);
+            vendorDTO = getVendorService.getById(Long.valueOf(vendorId));
         } catch (Exception e) {
             vendorDTO = new VendorDTO();
             vendorDTO.setId(product.getVendorId());
