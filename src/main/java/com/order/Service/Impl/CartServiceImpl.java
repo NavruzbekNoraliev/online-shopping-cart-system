@@ -94,8 +94,11 @@ public class CartServiceImpl implements CartService {
             //check if this item already exists in the cart
             for (CartItem item : newCart.getCartItems()) {
                 if (item.getProduct().getId() == product.getId()) {
+                    int quantity = item.getQuantity();
+                    int newQuantity = quantity + cartItem.getQuantity();
+                    double subTotal = newQuantity * product.getPrice();
                     item.setQuantity(item.getQuantity() + cartItem.getQuantity());
-                    item.setSubTotal((item.getQuantity()+cartItem.getQuantity())*product.getPrice());
+                    item.setSubTotal(subTotal);
                     cartItemRepository.save(item);
                     newCart.setTotalPrice(newCart.getTotalPrice() + cartItem.getSubTotal());
                     return cartRepository.save(newCart);
