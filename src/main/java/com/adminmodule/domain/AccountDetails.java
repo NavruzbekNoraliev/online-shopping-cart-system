@@ -18,6 +18,10 @@ public class AccountDetails {
     private String routingNumber;
     private String bankName;
 
+    public AccountDetails(String accountNumber, String routingNumber, String bankName) {
+    }
+
+
 //    @OneToOne
 //    @JoinColumn(name = "address_id")
 //    private Address bankAddress;

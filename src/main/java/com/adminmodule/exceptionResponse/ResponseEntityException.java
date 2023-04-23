@@ -25,9 +25,9 @@ public class ResponseEntityException extends ResponseEntityExceptionHandler {
     })
     public ResponseEntity<ExceptionResponse> UserNotFoundException(Exception e, WebRequest request){
        ExceptionResponse message = new ExceptionResponse(
-               new Date(), HttpStatus.BAD_REQUEST, e.getMessage()
+               new Date(), HttpStatus.NOT_FOUND, e.getMessage()
        );
-       return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+       return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
     public ResponseEntity<ExceptionResponse> UserBadRequestException(Exception e, WebRequest request){
         ExceptionResponse message = new ExceptionResponse(

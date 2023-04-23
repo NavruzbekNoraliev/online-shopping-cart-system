@@ -20,16 +20,13 @@ public class Vendor {
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
     private Address address;
 
     //add billing address
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "billing_address_id")
     private Address billingAddress;
 
     @OneToOne
-    @JoinColumn(name = "account_detail_id")
     private AccountDetails accountDetails;
 
     private Status status;
@@ -37,15 +34,22 @@ public class Vendor {
 //    @OneToMany(mappedBy = "vendor", fetch = FetchType.EAGER)
 //    private Set<VendorAdmin> vendorAdmins = new LinkedHashSet<>();
 
-    public Vendor(Long id, String name, String email, String phone,
+    public Vendor(String name, String email, String phone,
                   Address address, Address billingAddress,
-                  AccountDetails accountDetails) {
-        this.id = id;
+                  AccountDetails accountDetails, Status status) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.billingAddress = billingAddress;
         this.accountDetails = accountDetails;
+        this.status = status;
+    }
+
+    //create a constructor without id, with name, email, phone
+    public Vendor(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 }

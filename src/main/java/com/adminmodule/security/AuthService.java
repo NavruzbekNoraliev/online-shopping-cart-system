@@ -2,6 +2,7 @@ package com.adminmodule.security;
 
 import com.adminmodule.domain.Account;
 import com.adminmodule.exceptionResponse.userException.UserBadRequestException;
+import com.adminmodule.exceptionResponse.userException.UserNotFoundException;
 import com.adminmodule.service.CustomerService;
 import com.adminmodule.service.EmployeeService;
 import com.adminmodule.service.VendorService;
@@ -80,12 +81,12 @@ public class AuthService {
                 response.put("user", vendorService.getVendorAdminByEmail(account.getEmail()));
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }else{
-                throw new UserBadRequestException("Invalid user");
+                throw new UserNotFoundException("Invalid user");
             }
         } catch (AuthenticationException e) {
             Map<String, Object> response = new HashMap<>();
             response.put("error", "Invalid email or password");
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 }

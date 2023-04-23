@@ -22,7 +22,6 @@ public class VendorAdminAdapter {
                 vendorAdmin.getPhone(),
                 vendorAdmin.getVendor(),
                 vendorAdmin.getAccount());
-
     }
 
 
