@@ -14,6 +14,6 @@ public class RequestedCard {
     private BigDecimal IssuedValue;
     private BigDecimal CurrentValue;
     private String operationMode;
-    private String expDay;
+    private String expYear;
     private String expMonth;
 }

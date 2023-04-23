@@ -40,7 +40,7 @@ public class BalanceController {
 
         }
 
-            if(!transactionRequest.getCardDetails().getOperationMode().equals("Active")){
+            if(!request.getOperationMode().equals("Active")){
                 return TransactionResponse.builder().message("Card is not active").build();
             }
 
@@ -48,10 +48,12 @@ public class BalanceController {
             return TransactionResponse.builder().message("Name on Card is not correct").build();
         }
 
-        if(!transactionRequest.getCardDetails().getExpDay().equals(request.getExpDay())){
+        if(!transactionRequest.getCardDetails().getExpYear().equals(request.getExpYear())){
+            System.out.println(request);
             return TransactionResponse.builder().message("Card Expiration date is Wrong").build();
         }
         if(!transactionRequest.getCardDetails().getExpMonth().equals(request.getExpMonth())){
+            System.out.println(transactionRequest.getCardDetails().getExpMonth() + " " + request.getExpMonth() );
             return TransactionResponse.builder().message("Card Expiration date is Wrong").build();
         }
 

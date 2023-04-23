@@ -68,7 +68,7 @@ public class BankService {
         String transactionNum = UUID.randomUUID().toString();
         TransactionStatus transactionStatus;
 
-        if(request.getCurrentValue().compareTo(transactionRequest.getTransactionAmount()) <= 0) {
+        if(request.getCurrentValue().compareTo(transactionRequest.getTransactionAmount()) >= 0) {
             transactionStatus = TransactionStatus.TS;
         }else {
             transactionStatus = TransactionStatus.TF;
