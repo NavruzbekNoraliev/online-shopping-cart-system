@@ -133,13 +133,13 @@ class TransactionServiceImplTest {
                 .build();
         ProductSales productSales3 = ProductSales.builder()
                 .transaction(transaction)
-                .productId(4)
+                .productId(2)
                 .productName("Iphone")
                 .category("Electronics")
                 .pricePerUnit(1000)
                 .quantity(3)
                 .vendorId(1)
-                .vendorName("Samsung")
+                .vendorName("Apple")
                 .total(3000)
                 .build();
 
