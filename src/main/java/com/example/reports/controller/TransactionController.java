@@ -32,7 +32,7 @@ public class TransactionController {
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/v1/user/{userId}/history")
+    @GetMapping("/user/{userId}/history")
     public ResponseEntity<?> userHistory(@PathVariable long userId){
         List<Transaction> transactionList = transactionServiceImpl.createOrderHistory(userId);
         return new ResponseEntity<>(transactionList, HttpStatus.OK);
