@@ -32,7 +32,7 @@ import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
     FlexLayoutModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MainModule,
+
     NgxSandCreditCardsModule,
     AllMaterialModule,
     RouterModule.forRoot(routes)

@@ -5,6 +5,7 @@ import { ProductPageModule } from "../pages/product/product-page.module";
 import { AllMaterialModule } from "../shared/material.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { ProductListComponent } from "./product/product-list/product-list.component";
 
 @NgModule({
   imports: [
@@ -13,6 +14,6 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
     AllMaterialModule,
     FlexLayoutModule,
   ],
-  declarations: [MainComponent, PageNotFoundComponent],
+  declarations: [MainComponent, PageNotFoundComponent, ProductListComponent],
 })
 export class MainModule {}

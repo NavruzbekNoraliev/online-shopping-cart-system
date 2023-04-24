@@ -20,7 +20,6 @@ import { ApproveProductComponent } from "./product-management/approve-product/ap
   ],
   declarations: [
     AddProductComponent,
-    ProductListComponent,
     ApproveProductComponent,
     ListProductComponent,
   ],
