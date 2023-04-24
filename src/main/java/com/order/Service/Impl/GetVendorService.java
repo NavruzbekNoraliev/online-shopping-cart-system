@@ -15,21 +15,15 @@ public class GetVendorService {
     private RestTemplate restTemplate = new RestTemplate();
     //Change with vendor DTO
     public VendorDTO getById(Long id) throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//        headers.setBearerAuth("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXZAZ21haWwuY29tIiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifV0sImV4cCI6MTY4MjM4MzYyOSwiaWF0IjoxNjgyMjAzNjI5fQ.SuJ94NS-wDzADbrcygMXtDJg1m3SGq8MTxCdrD1Rz11w0m3KG835OSBwwb3uW5W8_697NXcKMbLUZNt3P1XgiQ");
-
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
-        String apiUrl = String.format("%s/%s", API_BASE_URL, id);
-        //Change with vendor DTO
-        ResponseEntity<VendorDTO> response = restTemplate.exchange(
-                apiUrl,
-                HttpMethod.GET,
-                entity,
-                VendorDTO.class);
-
-        return response.getBody();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            HttpEntity<VendorDTO> entity = new HttpEntity<>(headers);
+            ResponseEntity<VendorDTO> response = restTemplate.exchange(API_BASE_URL + "/" + id, HttpMethod.GET, entity, VendorDTO.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw new Exception("Error in getting vendor by id");
+        }
     }
 }
 
