@@ -248,7 +248,8 @@ public class CartServiceImpl implements CartService {
             if(cartItemIds.idList.contains(item.getId())){
                 log.info("item id: " + item.getId());
                 product = productService.getProductById(item.getProduct().getId());
-                if(product != null && product.getQuantity() > 0 && product.getQuantity() >= item.getQuantity()){
+                if(product != null && product.getQuantity() > 0
+                        && product.getQuantity() >= item.getQuantity()){
                     orderItemDto.setProductId(product.getId());
                     orderItemDto.setQuantity(item.getQuantity());
                     orderItemDto.setPrice(product.getPrice());
@@ -256,12 +257,12 @@ public class CartServiceImpl implements CartService {
                     orderItemDto.setCategoryName(product.getCategory().getName());
                     orderItemDto.setProductName(product.getName());
                     orderItemDto.setVendorId(product.getVendorId());
-                    try{
-                        vendorDTO = getVendorService.getById(product.getVendorId());
-                    }catch (Exception e){
-                        throw new ShoppingResourceNotFoundException(e.getMessage());
-                    }
-                    orderItemDto.setVendorName(vendorDTO.getName());
+//                    try{
+//                        vendorDTO = getVendorService.getById(product.getVendorId());
+//                    }catch (Exception e){
+//                        throw new ShoppingResourceNotFoundException(e.getMessage());
+//                    }
+//                    orderItemDto.setVendorName(vendorDTO.getName());
                     orderDTO.getOrderItem().add(orderItemDto);
                     addSubTotal += (item.getQuantity()*product.getPrice());
                     product.setQuantity(product.getQuantity() - item.getQuantity());
@@ -274,12 +275,17 @@ public class CartServiceImpl implements CartService {
         orderDTO.setTransactionAmount(addSubTotal);
 
         //then remove each item from cartItem table
+        List<CartItem> itemsToRemove = new ArrayList<>();
         for (CartItem item : cart.getCartItems()){
             if(cartItemIds.idList.contains(item.getId())){
-                cart.getCartItems().remove(item);
-                cartItemRepository.delete(item);
+                itemsToRemove.add(item);
             }
         }
+        for (CartItem item : itemsToRemove) {
+            cart.getCartItems().remove(item);
+            cartItemRepository.delete(item);
+        }
+
         return orderDTO;
     }
 }
