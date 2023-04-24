@@ -101,8 +101,6 @@ public class ProductController {
         }
     }
 
-    //HttpStatus.BAD_REQUEST is code 400
-
     //update product
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
