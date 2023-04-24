@@ -44,9 +44,8 @@ public class VendorController {
     
     //get vendor for order service
     @GetMapping("/order/{vendorId}")
-    public ResponseEntity<?> getVendorForOrderById(@PathVariable Long vendorId,
-                                           @RequestHeader("Authorization") String authorizationHeader) {
-        return ResponseEntity.ok(vendorService.getVendorForOrderById(vendorId, authorizationHeader));
+    public ResponseEntity<?> getVendorForOrderById(@PathVariable Long vendorId){
+        return ResponseEntity.ok(vendorService.getVendorForOrderById(vendorId));
     }
 
     //add vendor

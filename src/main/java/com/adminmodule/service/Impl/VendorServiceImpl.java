@@ -60,7 +60,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorDTO1 getVendorForOrderById(Long vendorId, String authorizationHeader) {
+    public VendorDTO1 getVendorForOrderById(Long vendorId) {
         Optional<Vendor> vendor = vendorRepository.findById(vendorId);
         if (vendor.isPresent()) {
             VendorDTO vendorDTO = VendorAdaptor.toDTO(vendor.get());
