@@ -9,6 +9,8 @@ import { VendorService } from 'src/app/core/services/vendor.service';
 })
 export class ApproveVendorsComponent implements OnInit {
   request$?: Observable<any>;
+  displayedColumns: string[] = ['name', 'phone', 'status', 'email', 'address', 'approve'];
+  vendorsToApprove:any = []
   constructor(private vendorAPI: VendorService) {
     this.getAll()
   }
@@ -18,7 +20,13 @@ export class ApproveVendorsComponent implements OnInit {
 
   getAll(){
     this.request$ = this.vendorAPI.getAllPendingApprovalVendors().pipe(tap(res => {
-      console.log(res)
+      this.vendorsToApprove = res
+    }))
+  }
+
+  approve(id: string){
+    this.request$ = this.vendorAPI.approveVendor(id).pipe(tap(_ => {
+      this.vendorsToApprove = this.vendorsToApprove.filter((v:any) => v.id != id);
     }))
   }
 

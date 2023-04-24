@@ -75,11 +75,6 @@ export class MenuItems {
         type: 'link',
         icon: 'history'
       },{
-        state: 'payment',
-        name: 'One-time payment',
-        type: 'link',
-        icon: 'attach_money'
-      },{
         state: 'settings',
         name: 'Settings',
         type: 'link',

@@ -3,15 +3,21 @@ import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse } fr
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
 
-  constructor(private snackbar: MatSnackBar) { }
+  constructor(
+    private authApi: AuthService,
+    private snackbar: MatSnackBar) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+  
+    req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
     const modified = req.clone({ 
-      setHeaders: {"Access-Control-Allow-Origin": "*" } 
+      setHeaders:this.addRequestHeaders() 
     });
     return next.handle(modified).pipe(tap(event => {
 
@@ -23,5 +29,13 @@ export class ResponseInterceptor implements HttpInterceptor {
         }
       }
     }));
+
+    
+  }
+  addRequestHeaders(){
+    let headers:any = {}
+    if (this.authApi.token) headers["Authorization"] = `Bearer ${this.authApi.token}`
+    headers["Access-Control-Allow-Origin"] = "*"
+    return headers
   }
 }
