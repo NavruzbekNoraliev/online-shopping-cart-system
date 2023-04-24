@@ -66,13 +66,10 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<?> checkoutCart(@RequestBody IdList cartItemIds,
-                                          @RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<?> checkoutCart(@RequestBody IdList cartItemIds){
 //        long customerId = cartService.getCustomerIdFromToken(authorizationHeader);
         CustomerDTO customerDTO = new CustomerDTO("fname", "lname", "email@gmail" );
         Long customerId = 1l;
         return ResponseEntity.ok(cartService.checkoutCart(customerId,customerDTO,cartItemIds));
     }
-
-
 }
