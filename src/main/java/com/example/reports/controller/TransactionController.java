@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class TransactionController {
     private final TransactionNotificationService transactionNotificationService;
 
@@ -31,7 +32,7 @@ public class TransactionController {
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}/history")
+    @GetMapping("/api/v1/user/{userId}/history")
     public ResponseEntity<?> userHistory(@PathVariable long userId){
         List<Transaction> transactionList = transactionServiceImpl.createOrderHistory(userId);
         return new ResponseEntity<>(transactionList, HttpStatus.OK);

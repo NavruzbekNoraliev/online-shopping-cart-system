@@ -31,7 +31,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 @RestController
-@RequestMapping("/reports/")
+@RequestMapping("/api/v1/reports")
 public class ReportsController {
 
     @Autowired

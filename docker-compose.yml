@@ -1,0 +1,45 @@
+#version: '3.8'
+#
+#services:
+#  app:
+#    build: .
+#    restart: always
+#    ports:
+#      - "8088:8084"
+#    depends_on:
+#      - db
+#  db:
+#    platform: linux/x86_64
+#    image: "mysql:5.7"
+#    restart: always
+#    ports:
+#      - 3307:3306
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: transactions-db
+#      MYSQL_USER: report-test
+#      MYSQL_PASSWORD: test
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/transactions-db?useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: report-test
+#      SPRING_DATASOURCE_PASSWORD: test
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+  app:
+    build: .
+    ports:
+      - "8088:8084"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/transactions-db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: report-test
+      SPRING_DATASOURCE_PASSWORD: test
