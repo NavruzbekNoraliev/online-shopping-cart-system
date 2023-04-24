@@ -21,7 +21,7 @@ export abstract class CoreHTTPService {
   }
 
   protected put(relativeURL: string, body: any) {
-    return this.http.put(this.baseURL + relativeURL + "/", body);
+    return this.http.put(this.baseURL + relativeURL, body);
   }
 
   protected patch(relativeURL: string, body: any) {

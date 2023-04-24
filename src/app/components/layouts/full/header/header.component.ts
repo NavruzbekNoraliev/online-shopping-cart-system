@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit{
   ) {
 
   }
+  role = this.authService.roleType;
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),

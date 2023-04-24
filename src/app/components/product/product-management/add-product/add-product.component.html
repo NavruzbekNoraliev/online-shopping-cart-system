@@ -1,0 +1,81 @@
+<mat-card>
+  <mat-card-content>
+    <h2 class="mb-1">{{id ? 'Update product':'Add new product'}}</h2>
+    <code *ngIf="!id">The product you added is not visible until they are not approved by admin</code>
+    <div class="mt-5">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div fxFlexLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
+          <div fxFlex="100">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Iphone 14 Pro" type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Quantity</mat-label>
+              <input matInput placeholder="4600 0009 9990 3434" type="tel" formControlName="quantity">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlexLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Price</mat-label>
+              <input matInput placeholder="4600 0009 9990 3434" type="tel" formControlName="price">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Color</mat-label>
+              <input matInput placeholder="Phantom Black" type="tel" formControlName="color">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlexLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="5px">
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Image Url</mat-label>
+              <input matInput placeholder="https://apple.com/iphone-14pro.jpg" type="text" formControlName="imageUrl">
+              <mat-icon matSuffix>link</mat-icon>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="categoryId">
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div fxFlex="50">
+            <mat-checkbox class="example-margin" [checked]="form.controls['available'].value" [disabled]="!form.controls['available'].value">Available</mat-checkbox>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label>Description</mat-label>
+              <textarea matInput
+                placeholder="Experience unparalleled performance, stunning photos, and 5G connectivity with the iPhone 14 Pro's A18 Bionic chip, triple-camera system, and range of finishes"
+                formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+         
+        </div>
+        <div>
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+            <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit"
+              [disabled]="!form.valid"> {{id? 'Update product': 'Add Product'}}</button>
+          </div>
+        </div>
+        
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-container *ngIf="request$ | async"></ng-container>
+<ng-container *ngIf="getProduct$ | async"></ng-container>

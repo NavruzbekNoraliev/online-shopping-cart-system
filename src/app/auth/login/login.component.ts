@@ -11,15 +11,12 @@ import { AuthService } from "../auth.service";
   styleUrls: ["./login.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   request$?: Observable<any>;
   private requesting: BehaviorSubject<any> = new BehaviorSubject(false);
   requesting$: Observable<boolean> = this.requesting.asObservable();
 
   form: FormGroup;
-
-  // "username": "arda@gmail.com",
-  // "password": "Aa@12345"
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -31,21 +28,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   onSubmit() {
     const values = this.form.value;
     this.requesting.next(true);
     this.request$ = this.authAPI.login(values.email, values.password).pipe(
-      tap(
-        (_) => {
-          this.requesting.next(false);
-          this.router.navigate(["/"]);
-        },
-        (_) => {
-          this.requesting.next(false);
-        }
-      )
+      tap((_) => {
+        this.requesting.next(false);
+        this.router.navigate(["/"]);
+      })
     );
   }
 }

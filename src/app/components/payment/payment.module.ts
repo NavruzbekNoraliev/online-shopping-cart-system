@@ -5,18 +5,22 @@ import { OnetimePaymentComponent } from './onetime-payment/onetime-payment.compo
 import { paymentRoutes } from './payment.routing';
 import { PaymentComponent } from './payment.component';
 import { PaymentConfirmComponent } from 'src/app/pages/payment-confirm/payment-confirm.component';
-import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
+import { AllMaterialModule } from 'src/app/shared/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(paymentRoutes),
-    NgxSandCreditCardsModule,
+    AllMaterialModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
   ],
   declarations: [
-    // OnetimePaymentComponent,
-    // PaymentComponent,
+    PaymentComponent,
     PaymentConfirmComponent,
+    OnetimePaymentComponent,
   ],
 })
 

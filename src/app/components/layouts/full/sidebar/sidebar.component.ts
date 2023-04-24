@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MenuItems } from 'src/app/shared/menu-items';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -10,10 +12,12 @@ import { MenuItems } from 'src/app/shared/menu-items';
 })
 export class SidebarComponent {
   mobileQuery: MediaQueryList;
-  
+
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public menuItems: MenuItems) {
+  constructor(
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public menuItems: MenuItems) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -22,5 +26,13 @@ export class SidebarComponent {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
- 
+
+  openRoute(state: string) {
+    if (state.includes('/')) {
+      let newState = state.split('/')
+      console.log(newState)
+      this.router.navigate(['/', ...newState])
+    } else this.router.navigate(['/', state])
+  }
+
 }
