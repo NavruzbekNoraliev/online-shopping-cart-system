@@ -147,7 +147,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Page<Product> getAllProductsSortedByPriceDesc(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("price").descending());
-        return productRepository.findAll(pageable);
+        return productRepository.findAllByAvailable(pageable, true);
     }
 
 
