@@ -14,17 +14,8 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableFeignClients
 @Import(CorsConfig.class)
-public class OrderApplication implements CommandLineRunner {
-    @Autowired
-    GetVendorService vendorService;
+public class OrderApplication{
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        VendorDTO vendorDTO= vendorService.getById(Long.valueOf(1));
-        System.out.println(vendorDTO.getName());
-
     }
 }
