@@ -1,3 +1,33 @@
-<p>
-  product-details works!
-</p>
+<mat-card class="product-card">
+  <mat-card-header>
+    <div mat-card-avatar class="product-image">
+      <img src="https://example.com/product-image.jpg" alt="Product Image">
+    </div>
+    <mat-card-title>Product Title</mat-card-title>
+    <mat-card-subtitle>Product Subtitle</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Product description goes here.</p>
+    <div class="product-details">
+      <div class="product-price">
+        <span class="currency">$</span>
+        <span class="price">49.99</span>
+      </div>
+      <div class="product-rating">
+        <mat-icon class="star-icon">star</mat-icon>
+        <mat-icon class="star-icon">star</mat-icon>
+        <mat-icon class="star-icon">star</mat-icon>
+        <mat-icon class="star-icon">star</mat-icon>
+        <mat-icon class="star-icon">star_half</mat-icon>
+        <span class="rating">(4.5)</span>
+      </div>
+    </div>
+    <div class="product-options">
+      <mat-form-field class="product-quantity">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" placeholder="1" min="1" max="10">
+      </mat-form-field>
+      <button mat-raised-button class="product-add-to-cart">Add to Cart</button>
+    </div>
+  </mat-card-content>
+</mat-card>

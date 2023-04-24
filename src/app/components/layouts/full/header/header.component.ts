@@ -22,7 +22,15 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private cartService: CartService
   ) {
-    this.totalItem = this.cartService.totalItems;
+   
+    // this.cartService.getCartProducts().subscribe(res => {
+    //   let total = 0;
+    //     res.cartItems.forEach((item: any) => {
+    //       total += item.quantity;
+    //     });
+    //   this.totalItem = total
+    // })
+
   }
   role = this.authService.roleType;
   ngOnInit() {
@@ -30,6 +38,12 @@ export class HeaderComponent implements OnInit {
       startWith(""),
       map((value) => this._filter(value || ""))
     );
+    this.cartService.getCartProducts().subscribe();
+    this.request$ =this.cartService.totalItems.pipe(tap(res => {
+      this.totalItem = res
+    }))
+
+  
   }
 
   redirectToCart() {

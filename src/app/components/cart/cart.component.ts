@@ -22,10 +22,11 @@ export class CartComponent implements OnInit {
   constructor(private route: Router, private cartService: CartService) {}
 
   ngOnInit() {
-    // this.cartService.getProducts().subscribe((res) => {
-    //   this.productsInCart = res;
-    //   this.grandTotal = this.cartService.getTotalPrice();
-    // });
+    this.cartService.getCartProducts().subscribe((res) => {
+      console.log(res)
+      this.productsInCart = res.cartItems;
+      this.grandTotal = res.totalPrice;
+    });
   }
 
   removeItem(item: any) {

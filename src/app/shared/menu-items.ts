@@ -69,7 +69,7 @@ export class MenuItems {
     } else if (this.authService.roleType == "CUSTOMER") {
       MENUITEMS.push(
         {
-          state: "order_history",
+          state: "report/order-history",
           name: "Order History",
           type: "link",
           icon: "history",

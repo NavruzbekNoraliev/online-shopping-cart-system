@@ -11,8 +11,6 @@ import { ProductService } from "src/app/core/services/products.service";
 })
 export class ProductListComponent implements OnInit {
   public productList!: any[];
-  // public filterCategory: any;
-  // public searchKey: string = "";
   request$?: Observable<any>;
 
   constructor(
@@ -38,15 +36,7 @@ export class ProductListComponent implements OnInit {
       product: event,
       quantity: 1,
     };
-    this.request$ = this.cartService.addToCart(body).pipe(
-      tap((res) => {
-        this.cartService.totalItems = 0;
-        let total = 0;
-        res.cartItems.forEach((item: any) => {
-          total += item.quantity;
-        });
-        this.cartService.totalItems = total;
-      })
-    );
+    this.request$ = this.cartService.addToCart(body);
+    
   }
 }

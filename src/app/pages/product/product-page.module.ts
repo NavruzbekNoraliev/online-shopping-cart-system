@@ -5,6 +5,7 @@ import { AllMaterialModule } from 'src/app/shared/material.module';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 
 @NgModule({
@@ -16,11 +17,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   declarations: [
     ProductCardComponent,
     StarRatingComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductDetailsComponent
   ],
   exports: [
     ProductCardComponent,
-    ProductListComponent
+    ProductListComponent, 
+    ProductDetailsComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

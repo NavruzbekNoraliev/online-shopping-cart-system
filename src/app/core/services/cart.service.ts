@@ -11,28 +11,37 @@ import { tap } from "rxjs";
 export class CartService extends CoreHTTPService {
   public cartItemList: any = new BehaviorSubject<any>([]);
   public search = new BehaviorSubject<string>("");
+  public totalItems = new BehaviorSubject<number>(0)
 
   constructor(protected override http: HttpClient, private router: Router) {
     super(http);
+    this.getCartProducts();
   }
+
+
 
   setProduct(product: any) {
     this.cartItemList.push(...product);
   }
 
   addToCart(product: any) {
-    return this.post("cart", product);
+    return this.post("cart", product).pipe(tap(res => {
+      let total = 0;
+      res.cartItems.forEach((item: any) => {
+        total += item.quantity;
+      });
+      this.totalItems.next(total)
+    }))
   }
 
-  set totalItems(value: any | null) {
-    if (value === null) {
-      value = "";
-    }
-    localStorage.setItem("cartItemsNumber", value);
-  }
-
-  get totalItems(): any | null {
-    return localStorage.getItem("cartItemsNumber");
+  getCartProducts() {
+    return this.get("cart").pipe(tap(res => {
+      let total = 0;
+      res.cartItems.forEach((item: any) => {
+        total += item.quantity;
+      });
+      this.totalItems.next(total)
+    }))
   }
 
   getTotalPrice(): number {

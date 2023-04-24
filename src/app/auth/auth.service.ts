@@ -16,10 +16,10 @@ export class AuthService extends CoreHTTPService {
     return this.post("auth", { email, password }).pipe(
       tap((result) => {
         this.token = result.bearerToken;
-        this.email = result.user.email;
+        this.email = result.user.account.email;
         this.roleId = result.user.account.roles[0].id;
         this.roleType = result.user.account.roles[0].roleType;
-
+        this.id = result.user.id
       })
     );
   }
@@ -49,6 +49,17 @@ export class AuthService extends CoreHTTPService {
         this.vendorId = result.id;
       })
     );
+  }
+
+  set id(value: any | null) {
+    if (value === null) {
+      value = "";
+    }
+    localStorage.setItem("id", value);
+  }
+
+  get id(): any | null {
+    return localStorage.getItem("id");
   }
 
   set vendorId(value: any | null) {

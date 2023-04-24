@@ -21,6 +21,5 @@ import { ListProductComponent } from "./product-management/list-product/list-pro
     RouterModule.forChild(productRoutes),
   ],
   declarations: [AddProductComponent,ApproveProductComponent, ListProductComponent, ProductListComponent],
-  exports: [ProductListComponent],
 })
 export class ProductModule {}

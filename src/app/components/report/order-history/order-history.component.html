@@ -1,0 +1,67 @@
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+        *ngFor="let order of orders">
+        <mat-expansion-panel-header style="width:100%">
+            <mat-panel-title>
+                <div fxLayout="row wrap">
+                    <div fxFlex="35">
+                        Order placed
+                        {{order.date| date}}
+                    </div>
+                    <div fxFlex="25">
+                        Ship for: {{order.userName}}
+                    </div>
+
+                </div>
+            </mat-panel-title>
+            <mat-panel-description>
+                Total {{order.transactionAmount | currency}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+
+        <table mat-table [dataSource]="order.productSales">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef> Category </th>
+                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descriptions">
+                <th mat-header-cell *matHeaderCellDef> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vendorName">
+                <th mat-header-cell *matHeaderCellDef> Vendor </th>
+                <td mat-cell *matCellDef="let element"> {{element.vendorName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pricePerUnit">
+                <th mat-header-cell *matHeaderCellDef> Price per unit </th>
+                <td mat-cell *matCellDef="let element"> {{element.pricePerUnit | currency}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef> Total </th>
+                <td mat-cell *matCellDef="let element"> {{element.total | currency}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+    </mat-expansion-panel>
+</mat-accordion>
+
+<ng-container *ngIf="request$ | async"></ng-container>

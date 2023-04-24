@@ -14,6 +14,7 @@ export const routes: Routes = [
           { path: 'product', loadChildren: () => import('./components/product/product.module').then(m=>m.ProductModule)}, 
           { path: 'payment', loadChildren: () => import('./components/payment/payment.module').then(m => m.PaymentModule)},
           { path: "cart",    loadChildren: () => import('./components/cart/cart.module').then(m=>m.CartModule)},
+          { path: "report",    loadChildren: () => import('./components/report/report.module').then(m=>m.ReportModule)},
         ]},
         { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
         { path: '404', component: PageNotFoundComponent},
