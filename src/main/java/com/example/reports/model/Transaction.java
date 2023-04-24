@@ -6,6 +6,7 @@ import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,7 @@ public class Transaction {
     private Date date;
     private long userId;
     private String userName;
+    private BigDecimal transactionAmount;
 
     public List<Report> createReport(){
         List<Report> reports = new ArrayList<>();

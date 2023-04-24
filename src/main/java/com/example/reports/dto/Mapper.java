@@ -42,6 +42,7 @@ public class Mapper {
                 .userName(dto.getCustomerName())
                 .userId(dto.getCustomerId())
                 .date(dto.getDate())
+                .transactionAmount(dto.getTransactionAmount())
                 .build();
         List<OrderItemDto> orderItems = dto.getOrderItem();
         List<ProductSales> productSalesList = new ArrayList<>();
