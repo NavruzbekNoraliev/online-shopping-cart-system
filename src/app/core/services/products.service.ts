@@ -29,4 +29,7 @@ export class ProductService extends CoreHTTPService{
   approveProductAvailability(id: string) {
     return this.put('product/updateAvailable/'+id, { available: true})
   }
+  getAllProducts():Observable<any>{
+    return this.get('product/all')
+  }
 }

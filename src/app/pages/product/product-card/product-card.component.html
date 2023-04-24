@@ -5,18 +5,20 @@
       <img
         mat-card-image
         class="image-container"
-        src="https://static.swappa.com/images/cache/c1/06/c106fe1fc6fd57180ce4432a1f2ab581.png"
+        [src]="product.imageUrl"
+        height="250"
+        width="200"
         alt="Photo of a Shiba Inu"
       />
     </div>
     <div class="px-3">
       <div style="display: grid">
         <strong>
-          <span style="float: left">AirPods Max</span>
-          <span style="float: right">$559<sup>.00</sup></span>
+          <span style="float: left">{{product.name}}</span>
+          <span style="float: right">{{product.price | currency}}</span>
         </strong>
       </div>
-      <div>A perfect balace of high-fidelity audio</div>
+      <div>{{product.description}}</div>
       <div class="rating"><star-rating></star-rating>(121)</div>
     </div>
   </mat-card-content>

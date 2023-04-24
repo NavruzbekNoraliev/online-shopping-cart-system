@@ -1,0 +1,8 @@
+<ng-container *ngIf="request$ | async"></ng-container>
+<div fxlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10">
+  <div fxFlex.gt-md="20" fxFlex="20" *ngFor="let product of productList" class="mt-10">
+
+      <app-product-card [product]="product"
+      (addToCart)="addProductToCart()"></app-product-card>
+  </div>
+</div>

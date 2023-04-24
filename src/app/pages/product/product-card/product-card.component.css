@@ -11,7 +11,13 @@
   object-fit: contain;
   margin-left: auto;
   margin-right: auto;
+  background-size: cover;
   margin-bottom: 10%;
+}
+mat-card img{
+  object-fit: cover; /*this makes the image in src fit to the size specified below*/
+  width: 200px; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 250px;
 }
 .f-right {
     float: right;
