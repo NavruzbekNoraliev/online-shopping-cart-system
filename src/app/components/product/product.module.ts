@@ -9,12 +9,14 @@ import { AllMaterialModule } from "src/app/shared/material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ApproveProductComponent } from "./product-management/approve-product/approve-product.component";
+import { ProductPageModule } from "src/app/pages/product/product-page.module";
 
 @NgModule({
   imports: [
     CommonModule,
     AllMaterialModule,
     ReactiveFormsModule,
+    ProductPageModule,
     FlexLayoutModule,
     RouterModule.forChild(productRoutes),
   ],
@@ -24,5 +26,8 @@ import { ApproveProductComponent } from "./product-management/approve-product/ap
     ApproveProductComponent,
     ListProductComponent,
   ],
+  exports: [
+    ProductListComponent
+  ]
 })
 export class ProductModule {}
