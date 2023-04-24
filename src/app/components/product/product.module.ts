@@ -24,6 +24,7 @@ import { ProductPageModule } from "src/app/pages/product/product-page.module";
     AddProductComponent,
     ApproveProductComponent,
     ListProductComponent,
+    ProductListComponent
   ],
   exports: [
     ProductListComponent

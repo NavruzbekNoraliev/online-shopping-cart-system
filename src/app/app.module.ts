@@ -24,6 +24,7 @@ import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
     FullComponent,
     SidebarComponent,
     HeaderComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -32,7 +33,7 @@ import { NgxSandCreditCardsModule } from 'ngx-sand-credit-cards';
     FlexLayoutModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    MainModule, 
     NgxSandCreditCardsModule,
     AllMaterialModule,
     RouterModule.forRoot(routes)

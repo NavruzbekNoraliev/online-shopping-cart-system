@@ -16,6 +16,6 @@ import { ProductListComponent } from "./product/product-list/product-list.compon
     FlexLayoutModule,
 
   ],
-  declarations: [MainComponent, PageNotFoundComponent, ProductListComponent]
+  declarations: [MainComponent, PageNotFoundComponent]
 })
 export class MainModule {}
