@@ -9,7 +9,7 @@
         <button mat-icon-button class="m-r-5" (click)="redirectToCart()" *ngIf="role=='CUSTOMER'"> <mat-icon matbadge="15" matbadgecolor="warn"
                 class="mat-icon notranslate mat-badge mat-badge-warn material-icons mat-icon-no-color mat-badge-overlap mat-badge-above mat-badge-after mat-badge-medium">
                 shopping_cart
-                <span id="mat-badge-content-2" aria-hidden="true" class="mat-badge-content mat-badge-active">15</span>
+                <span id="mat-badge-content-2" aria-hidden="true" class="mat-badge-content mat-badge-active">{{ totalItem }}</span>
             </mat-icon></button>
         <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <mat-icon>person</mat-icon></button>
         <mat-menu #profile="matMenu" class="mymegamenu">
@@ -26,3 +26,6 @@
         </mat-menu>
     </div>
 </section>
+
+
+<ng-container *ngIf="request$ | async"></ng-container>

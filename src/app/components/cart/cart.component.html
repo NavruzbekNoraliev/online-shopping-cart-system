@@ -1,68 +1,86 @@
 <ng-container *ngIf="productsInCart.length != 0">
-    <div class="container">
-        <h2>MY CART</h2>
-        <div class="card-table">
-            <div class="cart-product">
-                <table class="table table-responsive">
-                    <thead>
-                        <tr>
-                            <th>S.N</th>
-                            <th>Product Name</th>
-                            <th>Product Image</th>
-                            <th>Product Description</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of productsInCart; let i = index">
-                            <td>{{ i+1 }}</td>
-                            <td>{{ item.title }}</td>
-                            <td class="item-image"><img src="{{ item.image }}" alt="img"></td>
-                            <td class="item-description">{{ item.description }}</td>
-                            <td class="item-price">{{ item.price }}</td>
-                            <td class="item-quantity">{{ item.quantity }}</td>
-                            <td class="item-total">{{ item.total }}</td>
-                            <td>
-                                <button (click)="removeItem(item)" class="btn">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"></td>
-                            <td>
-                                <button (click)="emptyCart()" class="btn">Empty cart</button>
-                            </td>
-                            <td>
-                                <button (click)="navigateToMain()" class="btn">Shop more</button>
-                            </td>
-                            <td>
-                                <button routerLink="/payment" class="btn">Checkout</button>
-                            </td>
-                            <td>Grand Total: ${{ grandTotal }}</td>
 
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  {{productsInCart | json }}
+  <div class="container">
+    <h2>MY CART</h2>
+    <div class="card-table">
+      <div class="cart-product">
+        <table mat-table [dataSource]="productsInCart" class="mat-elevation-z8">
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Prduct name</th>
+            <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef>Image</th>
+            <td mat-cell *matCellDef="let element">{{ element.imageUrl }}</td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description/th></th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantity</th>
+            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.price * element.quantity }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button (click)="removeItem(element.id)" class="btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <button (click)="emptyCart()" class="btn">Empty cart</button>
+        <button (click)="navigateToMain()" class="btn">Shop more</button>
+        <button routerLink="/payment" class="btn">Checkout</button>
+        Grand Total: ${{ grandTotal }}
+      </div>
     </div>
-
+  </div>
 </ng-container>
-
 
 <!-- Screen to show if cart is empty -->
 <ng-container *ngIf="productsInCart.length == 0">
-    <div>
-        <div class="center">
-            <div class="container">
-                <img src="/assets/images/empty-cart.png" alt="">
-                <button mat-stroked-button color="primary" (click)="navigateToMain()">Shop now</button>
-            </div>
-           
-        </div>
+  <div>
+    <div class="center">
+      <div class="container">
+        <img src="/assets/images/empty-cart.png" alt="" />
+        <button mat-stroked-button color="primary" (click)="navigateToMain()">
+          Shop now
+        </button>
+      </div>
     </div>
+  </div>
 </ng-container>

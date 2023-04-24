@@ -15,4 +15,8 @@ export class ProductService extends CoreHTTPService {
   getAllProducts(): Observable<any> {
     return this.get("product/all");
   }
+
+  addToCart(productId: any) {
+    return this.get("cart/" + productId);
+  }
 }

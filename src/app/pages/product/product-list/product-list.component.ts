@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { ApiService } from 'src/app/core/services/api.service';
-import { CartService } from 'src/app/core/services/cart.service';
-import { ProductService } from 'src/app/core/services/products.service';
+import { Component, OnInit } from "@angular/core";
+import { Observable, tap } from "rxjs";
+import { ApiService } from "src/app/core/services/api.service";
+import { CartService } from "src/app/core/services/cart.service";
+import { ProductService } from "src/app/core/services/products.service";
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  selector: "app-product-list",
+  templateUrl: "./product-list.component.html",
+  styleUrls: ["./product-list.component.css"],
 })
 export class ProductListComponent implements OnInit {
   public productList!: any[];
@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
     private apiService: ApiService,
     private cartService: CartService
   ) {}
-  
+
   ngOnInit() {
     this.getAllProducts();
   }
@@ -28,13 +28,25 @@ export class ProductListComponent implements OnInit {
   getAllProducts() {
     this.request$ = this.productAPI.getAllProducts().pipe(
       tap((res) => {
-        this.productList = res.content
+        this.productList = res.content;
       })
     );
   }
 
-  addProductToCart(){
-
+  addProductToCart(event: any) {
+    const body = {
+      product: event,
+      quantity: 1,
+    };
+    this.request$ = this.cartService.addToCart(body).pipe(
+      tap((res) => {
+        this.cartService.totalItems = 0;
+        let total = 0;
+        res.cartItems.forEach((item: any) => {
+          total += item.quantity;
+        });
+        this.cartService.totalItems = total;
+      })
+    );
   }
-
 }
