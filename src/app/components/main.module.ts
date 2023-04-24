@@ -6,16 +6,14 @@ import { AllMaterialModule } from "../shared/material.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ProductModule } from "./product/product.module";
-import { ProductListComponent } from "./product/product-list/product-list.component";
-
 @NgModule({
   imports: [
     CommonModule,
     ProductPageModule,
     AllMaterialModule,
     FlexLayoutModule,
-
+    ProductModule,
   ],
-  declarations: [MainComponent, PageNotFoundComponent]
+  declarations: [MainComponent, PageNotFoundComponent],
 })
 export class MainModule {}

@@ -33,13 +33,13 @@ export class MenuItems {
     if (this.authService.roleType == "ADMIN") {
       MENUITEMS.push(
         {
-          state: "vendor/approve",
+          state: "vendor",
           name: "Approve Vendor",
           type: "link",
           icon: "how_to_reg",
         },
         {
-          state: "product/management/approve",
+          state: "approve_product",
           name: "Approve Product",
           type: "link",
           icon: "inventory",
@@ -51,16 +51,10 @@ export class MenuItems {
           icon: "bar_chart_4_bars",
         }
       );
-    } else if (this.authService.roleType == "VENDOR_ADMIN") {
+    } else if (this.authService.roleType == "VENDOR") {
       MENUITEMS.push(
         {
-          state: "product/management",
-          name: "Products",
-          type: "link",
-          icon: "storefront",
-        },
-        {
-          state: "payment/onetime",
+          state: "payment",
           name: "One-time payment",
           type: "link",
           icon: "attach_money",
