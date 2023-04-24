@@ -30,3 +30,11 @@
   </div>
 </div>
  -->
+
+<ng-container *ngIf="request$ | async"></ng-container>
+<div *ngFor="let product of productList">
+  <app-product-card
+    [product]="product"
+    (addToCart)="addProductToCart()"
+  ></app-product-card>
+</div>

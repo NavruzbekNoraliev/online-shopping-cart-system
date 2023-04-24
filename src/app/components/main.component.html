@@ -1,13 +1,15 @@
 <div class="container-fluid">
-    <mat-chip-listbox aria-label="Fish selection">
-        <mat-chip-option>One fish</mat-chip-option>
-        <mat-chip-option>Two fish</mat-chip-option>
-        <mat-chip-option color="accent" selected>Accent fish</mat-chip-option>
-        <mat-chip-option color="warn">Warn fish</mat-chip-option>
-      </mat-chip-listbox>
-    <div fxlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10">
+  <!-- <mat-chip-listbox aria-label="Fish selection">
+    <mat-chip-option>One fish</mat-chip-option>
+    <mat-chip-option>Two fish</mat-chip-option>
+    <mat-chip-option color="accent" selected>Accent fish</mat-chip-option>
+    <mat-chip-option color="warn">Warn fish</mat-chip-option>
+  </mat-chip-listbox> -->
+  <app-product-list></app-product-list>
+  <!-- <div fxlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10">
         <div fxFlex.gt-md="20" fxFlex="20" *ngFor="let i of [1,2,3,4,5,6,7,8,9]" class="mt-10">
+
             <app-product-card></app-product-card>
         </div>
-    </div>
+    </div> -->
 </div>

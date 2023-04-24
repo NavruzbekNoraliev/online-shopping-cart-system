@@ -9,7 +9,7 @@ import { CartService } from 'src/app/core/services/cart.service';
 })
 export class CartComponent implements OnInit {
 
-  public productsInCart: any = [1];
+  public productsInCart: any = [];
   public grandTotal: number = 0;
 
   constructor(private route: Router, private cartService: CartService) { }
