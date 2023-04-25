@@ -29,11 +29,13 @@ export class CartComponent implements OnInit {
     });
   }
 
-  removeItem(item: any) {
-    this.cartService.removeCartItem(item);
+  removeItem(cartItemId: any) {
+    // this.cartService.removeCartItem(item);
+    this.cartService.removeCartItem(cartItemId);
   }
 
   emptyCart() {
+    // this.cartService.removeAllCartItems();
     this.cartService.removeAllCartItems();
   }
 

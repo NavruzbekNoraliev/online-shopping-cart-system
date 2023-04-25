@@ -52,15 +52,21 @@ export class CartService extends CoreHTTPService {
     return grandTotal;
   }
 
-  removeCartItem(product: any) {
-    this.cartItemList.map((a: any, index: any) => {
-      if (product.id === a.id) {
-        this.cartItemList.splice(index, 1);
-      }
-    });
+  removeCartItem(productId: any) {
+    // this.cartItemList.map((a: any, index: any) => {
+    //   if (product.id === a.id) {
+    //     this.cartItemList.splice(index, 1);
+    //   }
+    // });
+    this.http.delete("cart/" + productId).subscribe(res => {
+      console.log(res);
+    })
   }
 
   removeAllCartItems() {
-    this.cartItemList = [];
+    // this.cartItemList = [];
+    this.http.delete("cart").subscribe(res => {
+      console.log(res);
+    })
   }
 }
