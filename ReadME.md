@@ -1,4 +1,4 @@
-Project Scope:
+# Project Scope:
 
 This project is seeking to develop an e-commerce platform that will facilitate online sales transactions using Visa and Mastercard payment methods. The platform will offer a diverse range of products from various vendors, with each vendor being responsible for maintaining their respective product listings. To ensure efficient management of the platform, a reporting module will be incorporated to enable vendors and management to monitor the status of sales in terms of products and dollar value.
 
