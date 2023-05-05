@@ -35,7 +35,7 @@ server:
   port: ${SPRING_LOCAL_PORT}
 
 
-eureka:
-  client:
-    serverUrl:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    serverUrl:
+#      defaultZone: http://localhost:8761/eureka/
