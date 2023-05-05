@@ -17,6 +17,5 @@ public class OrderItemDto {
     private int quantity;
     private double price;
     private Long vendorId;
-    private String categoryId;
     private Long productId;
 }
