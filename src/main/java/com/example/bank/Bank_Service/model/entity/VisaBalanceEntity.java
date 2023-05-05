@@ -3,7 +3,9 @@ package com.example.bank.Bank_Service.model.entity;
 
 import com.example.bank.Bank_Service.model.TransactionStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "visa_balance")
 public class VisaBalanceEntity {
     @Id

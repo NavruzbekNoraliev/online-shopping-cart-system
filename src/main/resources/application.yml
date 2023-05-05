@@ -9,10 +9,10 @@ spring:
     url: jdbc:mysql://localhost:${MYSQLDB_LOCAL_PORT}/${MYSQLDB_DATABASE}
     username: ${MYSQLDB_USER}
     password: ${MYSQLDB_ROOT_PASSWORD}
-    jpa:
-      hibernate.ddl-auto: create
-      generate-ddl: true
-      show-sql: true
+  jpa:
+    hibernate.ddl-auto: create
+    generate-ddl: true
+    show-sql: true
 
   kafka:
     bootstrap-servers: localhost:9092

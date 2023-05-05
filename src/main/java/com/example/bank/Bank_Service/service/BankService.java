@@ -24,13 +24,18 @@ import java.util.*;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class BankService {
 
 
     private final VisaBalanceRepository visaBalanceRepository;
     private final MasterBalanceRepository masterBalanceRepository;
 
+
+    @Autowired
+    public BankService(VisaBalanceRepository visaBalanceRepository, MasterBalanceRepository masterBalanceRepository) {
+        this.visaBalanceRepository = visaBalanceRepository;
+        this.masterBalanceRepository = masterBalanceRepository;
+    }
 
     @Autowired
     private PaymentClient paymentClient;

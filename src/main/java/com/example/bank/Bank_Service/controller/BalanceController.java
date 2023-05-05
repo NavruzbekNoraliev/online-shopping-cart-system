@@ -70,7 +70,7 @@ public class BalanceController {
     public ResponseEntity getVisaBalances(Pageable pageable) {
         return ResponseEntity.ok(bankService.readVisaBalances(pageable));
     }
-    @GetMapping("master")
+    @GetMapping("/master")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity getMasterBalances(Pageable pageable) {
         return ResponseEntity.ok(bankService.readMasterBalances(pageable));
