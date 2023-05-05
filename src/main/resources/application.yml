@@ -1,2 +1,23 @@
 server:
-  port: 8082
+  port: ${SPRING_LOCAL_PORT}
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:${MYSQLDB_LOCAL_PORT}/${MYSQLDB_DATABASE}
+    username: ${MYSQLDB_USER}
+    password: ${MYSQLDB_ROOT_PASSWORD}
+    jpa:
+      hibernate.ddl-auto: create
+      generate-ddl: true
+      show-sql: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: mygroup2
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
